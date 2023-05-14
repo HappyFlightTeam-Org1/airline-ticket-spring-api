@@ -1,6 +1,7 @@
 package com.fsoft.happflight.entities.dat_cho;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fsoft.happflight.entities.chuyen_bay.MayBay;
 
@@ -21,6 +22,7 @@ public class Ghe {
 
     @JoinColumn(name = "ma_may_bay", referencedColumnName = "ma_may_bay")
     @ManyToOne(targetEntity = MayBay.class)
+    @JsonBackReference
     private MayBay mayBay;
 
     @JoinColumn(name = "ma_loai_ghe", referencedColumnName = "ma_loai_ghe")

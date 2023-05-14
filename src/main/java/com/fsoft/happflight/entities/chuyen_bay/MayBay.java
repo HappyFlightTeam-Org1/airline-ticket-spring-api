@@ -31,8 +31,7 @@ public class MayBay {
     Set<ChuyenBay> chuyenBays;
 
     @OneToMany(mappedBy = "mayBay", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonIgnore
-    Set<Ghe> ghes;
+    List<Ghe> ghes;
 
     public MayBay() {
         super();
@@ -48,7 +47,7 @@ public class MayBay {
     }
 
     public MayBay(Long maMayBay, String tenMayBay, Integer sLGhePhoThong, Integer sLGheThuongGia,
-                  Set<ChuyenBay> chuyenBays, Set<Ghe> ghes) {
+                  Set<ChuyenBay> chuyenBays, List<Ghe> ghes) {
         super();
         this.maMayBay = maMayBay;
         this.tenMayBay = tenMayBay;
@@ -98,11 +97,11 @@ public class MayBay {
         this.chuyenBays = chuyenBays;
     }
 
-    public Set<Ghe> getGhes() {
+    public List<Ghe> getGhes() {
         return ghes;
     }
 
-    public void setGhes(Set<Ghe> ghes) {
+    public void setGhes(List<Ghe> ghes) {
         this.ghes = ghes;
     }
 

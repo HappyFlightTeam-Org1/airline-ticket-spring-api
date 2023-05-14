@@ -36,7 +36,6 @@ public class NguoiDung {
 
     @JoinColumn(name = "ma_quoc_tich", referencedColumnName = "ma_quoc_tich")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
     private QuocTich quocTich;
 
     @JoinColumn(name = "ten_tai_khoan", referencedColumnName = "ten_tai_khoan")
