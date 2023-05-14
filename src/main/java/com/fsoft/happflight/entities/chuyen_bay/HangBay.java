@@ -1,8 +1,10 @@
 package com.fsoft.happflight.entities.chuyen_bay;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,7 +19,7 @@ public class HangBay {
 
     @OneToMany(mappedBy = "hangBay", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonBackReference
-    Set<ChuyenBay> chuyenBays;
+    List<ChuyenBay> chuyenBays;
 
     public HangBay() {
         super();
@@ -30,7 +32,7 @@ public class HangBay {
         this.tenHangBay = tenHangBay;
     }
 
-    public HangBay(String maHangBay, String tenHangBay, Set<ChuyenBay> chuyenBays) {
+    public HangBay(String maHangBay, String tenHangBay, List<ChuyenBay> chuyenBays) {
         super();
         this.maHangBay = maHangBay;
         this.tenHangBay = tenHangBay;
@@ -53,11 +55,11 @@ public class HangBay {
         this.tenHangBay = tenHangBay;
     }
 
-    public Set<ChuyenBay> getChuyenBays() {
+    public List<ChuyenBay> getChuyenBays() {
         return chuyenBays;
     }
 
-    public void setChuyenBays(Set<ChuyenBay> chuyenBays) {
+    public void setChuyenBays(List<ChuyenBay> chuyenBays) {
         this.chuyenBays = chuyenBays;
     }
 

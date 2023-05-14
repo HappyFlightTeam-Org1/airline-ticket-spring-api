@@ -1,8 +1,13 @@
 package com.fsoft.happflight.entities.nguoi_dung;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fsoft.happflight.entities.dat_cho.Ghe;
+import com.fsoft.happflight.entities.hoa_don.HoaDon;
 import com.fsoft.happflight.entities.tai_khoan.TaiKhoan;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class NguoiDung {
@@ -31,6 +36,7 @@ public class NguoiDung {
 
     @JoinColumn(name = "ma_quoc_tich", referencedColumnName = "ma_quoc_tich")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private QuocTich quocTich;
 
     @JoinColumn(name = "ten_tai_khoan", referencedColumnName = "ten_tai_khoan")
@@ -39,6 +45,10 @@ public class NguoiDung {
 
     @Column(name = "trang_thai_xoa")
     private Integer trangThaiXoa;
+
+    @OneToMany(mappedBy = "nguoiDung")
+    @JsonManagedReference
+    List<HoaDon> hoaDons;
 
     public NguoiDung() {
         super();
@@ -152,6 +162,14 @@ public class NguoiDung {
 
     public void setTaiKhoan(TaiKhoan taiKhoan) {
         this.taiKhoan = taiKhoan;
+    }
+
+    public List<HoaDon> getHoaDons() {
+        return hoaDons;
+    }
+
+    public void setHoaDons(List<HoaDon> hoaDons) {
+        this.hoaDons = hoaDons;
     }
 
     @Override

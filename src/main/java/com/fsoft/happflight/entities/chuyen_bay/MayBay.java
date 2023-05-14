@@ -1,9 +1,12 @@
 package com.fsoft.happflight.entities.chuyen_bay;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fsoft.happflight.entities.dat_cho.Ghe;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,7 +31,7 @@ public class MayBay {
     Set<ChuyenBay> chuyenBays;
 
     @OneToMany(mappedBy = "mayBay", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonIgnore
     Set<Ghe> ghes;
 
     public MayBay() {

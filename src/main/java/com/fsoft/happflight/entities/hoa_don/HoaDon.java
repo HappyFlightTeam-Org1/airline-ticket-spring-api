@@ -1,9 +1,13 @@
 package com.fsoft.happflight.entities.hoa_don;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,31 +25,22 @@ public class HoaDon {
 
     @JoinColumn(name = "email", referencedColumnName = "email")
     @ManyToOne(fetch = FetchType.LAZY)
-    private NguoiDung user;
+    private NguoiDung nguoiDung;
 
     @OneToMany(mappedBy = "hoaDon", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    Set<VeMayBay> veMayBays;
+    @JsonIgnore
+    List<VeMayBay> veMayBays;
 
     public HoaDon() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-    public HoaDon(String maHoaDon, String ngayTao, Float tongTien, NguoiDung user) {
-        super();
+    public HoaDon(String maHoaDon, String ngayTao, Float tongTien, NguoiDung nguoiDung) {
         this.maHoaDon = maHoaDon;
         this.ngayTao = ngayTao;
         this.tongTien = tongTien;
-        this.user = user;
-    }
-
-    public HoaDon(String maHoaDon, String ngayTao, Float tongTien, NguoiDung user, Set<VeMayBay> veMayBays) {
-        super();
-        this.maHoaDon = maHoaDon;
-        this.ngayTao = ngayTao;
-        this.tongTien = tongTien;
-        this.user = user;
-        this.veMayBays = veMayBays;
+        this.nguoiDung = nguoiDung;
     }
 
     public String getMaHoaDon() {
@@ -72,26 +67,29 @@ public class HoaDon {
         this.tongTien = tongTien;
     }
 
-    public NguoiDung getUser() {
-        return user;
+    public NguoiDung getNguoiDung() {
+        return nguoiDung;
     }
 
-    public void setUser(NguoiDung user) {
-        this.user = user;
+    public void setNguoiDung(NguoiDung nguoiDung) {
+        this.nguoiDung = nguoiDung;
     }
 
-    public Set<VeMayBay> getVeMayBays() {
+    public List<VeMayBay> getVeMayBays() {
         return veMayBays;
     }
 
-    public void setVeMayBays(Set<VeMayBay> veMayBays) {
+    public void setVeMayBays(List<VeMayBay> veMayBays) {
         this.veMayBays = veMayBays;
     }
 
     @Override
     public String toString() {
-        return "HoaDon [maChuyenBay=" + maHoaDon + ", ngayTao=" + ngayTao + ", tongTien=" + tongTien + ", user=" + user
-                + "]";
+        return "HoaDon{" +
+                "maHoaDon='" + maHoaDon + '\'' +
+                ", ngayTao='" + ngayTao + '\'' +
+                ", tongTien=" + tongTien +
+                ", nguoiDung=" + nguoiDung +
+                '}';
     }
-
 }

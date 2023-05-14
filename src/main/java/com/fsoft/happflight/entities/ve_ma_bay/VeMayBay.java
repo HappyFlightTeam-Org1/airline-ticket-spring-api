@@ -1,5 +1,6 @@
 package com.fsoft.happflight.entities.ve_ma_bay;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fsoft.happflight.entities.dat_cho.DatCho;
 import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
@@ -30,6 +31,7 @@ public class VeMayBay {
 
     @JoinColumn(name = "ma_hoa_don", referencedColumnName = "ma_hoa_don")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private HoaDon hoaDon;
 
     public VeMayBay() {

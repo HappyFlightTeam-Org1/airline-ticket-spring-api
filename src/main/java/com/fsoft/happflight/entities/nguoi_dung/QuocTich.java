@@ -1,6 +1,9 @@
 package com.fsoft.happflight.entities.nguoi_dung;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,7 +18,8 @@ public class QuocTich {
     private String tenQuocTich;
 
     @OneToMany(mappedBy = "quocTich", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    Set<NguoiDung> users;
+    @JsonManagedReference
+    List<NguoiDung> nguoiDungs;
 
     public QuocTich() {
         super();
@@ -26,13 +30,6 @@ public class QuocTich {
         super();
         this.maQuocTich = maQuocTich;
         this.tenQuocTich = tenQuocTich;
-    }
-
-    public QuocTich(Long maQuocTich, String tenQuocTich, Set<NguoiDung> users) {
-        super();
-        this.maQuocTich = maQuocTich;
-        this.tenQuocTich = tenQuocTich;
-        this.users = users;
     }
 
     public Long getMaQuocTich() {
@@ -51,12 +48,12 @@ public class QuocTich {
         this.tenQuocTich = tenQuocTich;
     }
 
-    public Set<NguoiDung> getUsers() {
-        return users;
+    public List<NguoiDung> getNguoiDungs() {
+        return nguoiDungs;
     }
 
-    public void setUsers(Set<NguoiDung> users) {
-        this.users = users;
+    public void setNguoiDungs(List<NguoiDung> nguoiDungs) {
+        this.nguoiDungs = nguoiDungs;
     }
 
     @Override

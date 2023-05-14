@@ -1,11 +1,14 @@
 package com.fsoft.happflight.entities.chuyen_bay;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fsoft.happflight.entities.dat_cho.DatCho;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -56,7 +59,8 @@ public class ChuyenBay {
     private HangBay hangBay;
 
     @OneToMany(mappedBy = "chuyenBay")
-    Set<DatCho> datChos;
+    @JsonBackReference
+    List<DatCho> datChos;
 
     public ChuyenBay() {
         super();
@@ -84,7 +88,7 @@ public class ChuyenBay {
 
     public ChuyenBay(String maChuyenBay, String diemDi, String diemDen, String ngayKhoiHanh, LocalTime gioKhoiHanh,
                      LocalTime gioHaCanh, String thoiGianBay, String giaVe, String kLHanhLy, String trangThaiVanHanh,
-                     Integer trangThaiXoa, MayBay mayBay, HangBay hangBay, Set<DatCho> datChos) {
+                     Integer trangThaiXoa, MayBay mayBay, HangBay hangBay, List<DatCho> datChos) {
         super();
         this.maChuyenBay = maChuyenBay;
         this.diemDi = diemDi;
@@ -206,11 +210,11 @@ public class ChuyenBay {
         this.hangBay = hangBay;
     }
 
-    public Set<DatCho> getDatChos() {
+    public List<DatCho> getDatChos() {
         return datChos;
     }
 
-    public void setDatChos(Set<DatCho> datChos) {
+    public void setDatChos(List<DatCho> datChos) {
         this.datChos = datChos;
     }
 

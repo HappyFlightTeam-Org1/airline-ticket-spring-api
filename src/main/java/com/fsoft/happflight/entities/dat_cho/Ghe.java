@@ -1,8 +1,11 @@
 package com.fsoft.happflight.entities.dat_cho;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fsoft.happflight.entities.chuyen_bay.MayBay;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -25,7 +28,8 @@ public class Ghe {
     private LoaiGhe loaiGhe;
 
     @OneToMany(mappedBy = "ghe")
-    Set<DatCho> datChos;
+    @JsonBackReference
+    List<DatCho> datChos;
 
     public Ghe() {
         super();
@@ -72,11 +76,11 @@ public class Ghe {
         this.loaiGhe = loaiGhe;
     }
 
-    public Set<DatCho> getDatChos() {
+    public List<DatCho> getDatChos() {
         return datChos;
     }
 
-    public void setDatChos(Set<DatCho> datChos) {
+    public void setDatChos(List<DatCho> datChos) {
         this.datChos = datChos;
     }
 

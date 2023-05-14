@@ -1,5 +1,6 @@
 package com.fsoft.happflight.entities.dat_cho;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
 
 import javax.persistence.*;
