@@ -29,4 +29,9 @@ public class MayBayServiceImpl implements IMayBayService {
         return mayBayRepository.findAll();
     }
 
+    @Override
+    public MayBay findById(Long maMayBay) {
+        return mayBayRepository.findById(maMayBay).orElse(null);
+    }
+
 }

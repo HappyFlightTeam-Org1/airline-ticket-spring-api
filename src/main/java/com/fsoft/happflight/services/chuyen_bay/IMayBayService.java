@@ -8,4 +8,6 @@ public interface IMayBayService {
 
     List<MayBay> findAll();
 
+    MayBay findById(Long maMayBay);
+
 }

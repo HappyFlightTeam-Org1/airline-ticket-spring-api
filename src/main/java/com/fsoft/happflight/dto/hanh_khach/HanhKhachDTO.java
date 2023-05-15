@@ -42,14 +42,6 @@ public class HanhKhachDTO {
         this.hoChieu = hoChieu;
     }
 
-//	public LocalDate getNgaySinh() {
-//		return ngaySinh;
-//	}
-//
-//	public void setNgaySinh(LocalDate ngaySinh) {
-//		this.ngaySinh = ngaySinh;
-//	}
-
     public String getSoDienThoai() {
         return soDienThoai;
     }
@@ -90,16 +82,19 @@ public class HanhKhachDTO {
         this.ngaySinh = ngaySinh;
     }
 
+    public Integer getTrangThaiXoa() {
+        return trangThaiXoa;
+    }
+
+    public void setTrangThaiXoa(Integer trangThaiXoa) {
+        this.trangThaiXoa = trangThaiXoa;
+    }
+
     @Override
     public String toString() {
         return "HanhKhachDTO [tenHanhKhach=" + tenHanhKhach + ", soDienThoai=" + soDienThoai + ", gioiTinh=" + gioiTinh
                 + ", loaiHanhKhach=" + loaiHanhKhach + ", hoChieu=" + hoChieu + "]";
     }
 
-//	@Override
-//	public String toString() {
-//		return "HanhKhachDTO [tenHanhKhach=" + tenHanhKhach + ", ngaySinh=" + ngaySinh + ", soDienThoai=" + soDienThoai
-//				+ ", gioiTinh=" + gioiTinh + ", loaiHanhKhach=" + loaiHanhKhach + ", hoChieu=" + hoChieu + "]";
-//	}
 
 }
