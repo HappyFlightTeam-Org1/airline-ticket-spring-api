@@ -52,12 +52,10 @@ public class ChuyenBay {
 
     @JoinColumn(name = "ma_may_bay", referencedColumnName = "ma_may_bay")
     @ManyToOne(targetEntity = MayBay.class)
-    @JsonBackReference
     private MayBay mayBay;
 
     @JoinColumn(name = "ma_hang_bay", referencedColumnName = "ma_hang_bay")
     @ManyToOne(targetEntity = HangBay.class)
-    @JsonBackReference
     private HangBay hangBay;
 
     @OneToMany(mappedBy = "chuyenBay")
