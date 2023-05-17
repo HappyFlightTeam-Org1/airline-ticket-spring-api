@@ -10,6 +10,6 @@ public interface IChuyenBayService {
 
     List<ChuyenBay> finAll();
     
-    
+    ChuyenBay findById(String maChuyenBay);
 
 }

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,10 +31,13 @@ import com.fsoft.happflight.services.chuyen_bay.ISanBayService;
 public class ChuyenBayController {
 	@Autowired
 	IChuyenBayService chuyenBayService;
+	
 	@Autowired
 	IMayBayService mayBayService;
+	
 	@Autowired
 	IHangBayService hangBayService;
+	
 	@Autowired
 	ISanBayService sanBayService;
 	
@@ -58,6 +62,12 @@ public class ChuyenBayController {
 			return new ResponseEntity<>(chuyenBays, HttpStatus.OK);
 		}
 	}
+	
+	   @GetMapping("/findById/{id}")
+	    public ResponseEntity<ChuyenBay> findByID(@PathVariable("id") String maChuyenBay){
+			return new ResponseEntity<>(chuyenBayService.findById(maChuyenBay),HttpStatus.OK);
+	    }
+
 
 	@PostMapping("/save")
 	public ResponseEntity<String> saveChuyenBayOk(@RequestBody ChuyenBayDTO chuyenBayDTO) {
@@ -67,7 +77,6 @@ public class ChuyenBayController {
 			ChuyenBay chuyenBay = ModelMapperClass.convertToChuyenBay(chuyenBayDTO);
 			chuyenBay.setMayBay(mayBay);
 			chuyenBay.setHangBay(hangBay);
-			chuyenBay.setTrangThaiXoa(0);
 			System.out.println(chuyenBay.toString());
 			chuyenBayService.save(chuyenBay);
 			return ResponseEntity.ok("Thêm thành công!");

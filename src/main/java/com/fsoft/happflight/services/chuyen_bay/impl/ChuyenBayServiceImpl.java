@@ -30,6 +30,12 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 		return chuyenBayRepository.findAll();
 	}
 
+	@Override
+	public ChuyenBay findById(String maChuyenBay) {
+		// TODO Auto-generated method stub
+		return chuyenBayRepository.findById(maChuyenBay).orElse(null);
+	}
+
 
 
 }
