@@ -30,13 +30,6 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 		return chuyenBayRepository.findAll();
 	}
 
-//	@Override
-//	public void insertChuyenBay(String maChuyenBay, String diemDi, String diemDen, LocalDate ngayKhoiHanh,
-//			LocalTime gioKhoiHanh, LocalTime gioHaCanh, String thoiGianBay, String giaVe, String KLHanhLy,
-//			String trangThaiVanHanh, Long maMayBay, String maHangBay) {
-//		System.out.println("INSERT");
-//		chuyenBayRepository.insertChuyenBay(maChuyenBay, diemDi, diemDen, ngayKhoiHanh, gioKhoiHanh, gioHaCanh,
-//				thoiGianBay, giaVe, KLHanhLy, trangThaiVanHanh, maMayBay, maHangBay);
-//	}
+
 
 }
