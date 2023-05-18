@@ -10,4 +10,6 @@ public interface IHanhKhachService {
 
     void saveHanhKhach(List<HanhKhachDTO> hanhKhachDTOs);
 
+    List<HanhKhach> findAll();
+    List<HanhKhach> findByName(String name);
 }

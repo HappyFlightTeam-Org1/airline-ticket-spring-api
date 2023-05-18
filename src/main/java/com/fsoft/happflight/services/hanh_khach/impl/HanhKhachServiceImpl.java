@@ -33,5 +33,15 @@ public class HanhKhachServiceImpl implements IHanhKhachService {
         });
     }
 
+    @Override
+    public List<HanhKhach> findAll() {
+        return hanhKhachRepository.findAll();
+    }
+
+    @Override
+    public List<HanhKhach> findByName(String tenHanhKhach) {
+        return hanhKhachRepository.findByTenHanhKhachContainingIgnoreCase(tenHanhKhach);
+    }
+
 
 }
