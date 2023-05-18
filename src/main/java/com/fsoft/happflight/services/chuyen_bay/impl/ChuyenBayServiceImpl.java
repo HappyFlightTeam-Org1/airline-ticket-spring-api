@@ -69,41 +69,41 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	        return chuyenBayRepository.findAll(spec, pageableWithSort);
 	    }
 	
-//	@Override
-//	public Page<ChuyenBay> searchChuyenBay(String diemDi, String diemDen, String ngayKhoiHanh,
-//	        Direction sortDirection, String sortBy, Pageable pageable) {
-//	    Specification<ChuyenBay> spec = Specification.where(null);
-//
-//	    if (diemDi != null && !diemDi.trim().isEmpty()) {
-//	        spec = spec.and((root, query, builder) ->
-//	                builder.equal(root.get("diemDi"), diemDi));
-//	    }
-//
-//	    if (diemDen != null && !diemDen.trim().isEmpty()) {
-//	        spec = spec.and((root, query, builder) ->
-//	                builder.equal(root.get("diemDen"), diemDen));
-//	    }
-//
-//	    if (ngayKhoiHanh != null && !ngayKhoiHanh.trim().isEmpty()) {
-//	        spec = spec.and((root, query, builder) ->
-//	                builder.equal(root.get("ngayKhoiHanh"), ngayKhoiHanh));
-//	    }
-//
-//	    Pageable pageableWithSort = pageable;
-//	    if (sortBy != null && !sortBy.trim().isEmpty()) {
-//	        Sort sort = Sort.by(sortDirection, sortBy);
-//	        pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-//	    }
-//
-//	    Page<ChuyenBay> result;
-//	    if (spec.isSatisfiedBy(null)) {
-//	        result = chuyenBayRepository.findAll(pageableWithSort);
-//	    } else {
-//	        result = chuyenBayRepository.findAll(spec, pageableWithSort);
-//	    }
-//
-//	    return result;
-//	}
+	@Override
+	public Page<ChuyenBay> searchChuyenBayAdmin(String diemDi, String diemDen, String ngayKhoiHanh,
+	        Direction sortDirection, String sortBy, Pageable pageable) {
+	    Specification<ChuyenBay> spec = Specification.where(null);
+
+	    if (diemDi != null && !diemDi.trim().isEmpty()) {
+	        spec = spec.and((root, query, builder) ->
+	                builder.equal(root.get("diemDi"), diemDi));
+	    }
+
+	    if (diemDen != null && !diemDen.trim().isEmpty()) {
+	        spec = spec.and((root, query, builder) ->
+	                builder.equal(root.get("diemDen"), diemDen));
+	    }
+
+	    if (ngayKhoiHanh != null && !ngayKhoiHanh.trim().isEmpty()) {
+	        spec = spec.and((root, query, builder) ->
+	                builder.equal(root.get("ngayKhoiHanh"), ngayKhoiHanh));
+	    }
+
+	    Pageable pageableWithSort = pageable;
+	    if (sortBy != null && !sortBy.trim().isEmpty()) {
+	        Sort sort = Sort.by(sortDirection, sortBy);
+	        pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+	    }
+
+	    Page<ChuyenBay> result;
+	    if (spec.equals(Specification.where(null))) {
+	        result = chuyenBayRepository.findAll(pageableWithSort);
+	    } else {
+	        result = chuyenBayRepository.findAll(spec, pageableWithSort);
+	    }
+	    return result;
+	}
+
 
 
 }
