@@ -14,7 +14,7 @@ public class DatCho {
     private Long maDatCho;
 
     @Column(name = "trang_thai", columnDefinition = "nvarchar(50)")
-    private String trangThai;
+    private String trangThai = "available";
 
     @JoinColumn(name = "ma_ghe", referencedColumnName = "ma_ghe")
     @ManyToOne(targetEntity = Ghe.class)
@@ -33,6 +33,12 @@ public class DatCho {
     public DatCho(Long maDatCho, String trangThai, Ghe ghe, ChuyenBay chuyenBay) {
         super();
         this.maDatCho = maDatCho;
+        this.trangThai = trangThai;
+        this.ghe = ghe;
+        this.chuyenBay = chuyenBay;
+    }
+
+    public DatCho(String trangThai, Ghe ghe, ChuyenBay chuyenBay) {
         this.trangThai = trangThai;
         this.ghe = ghe;
         this.chuyenBay = chuyenBay;
