@@ -33,5 +33,11 @@ public class HanhKhachServiceImpl implements IHanhKhachService {
         });
     }
 
+	@Override
+	public List<HanhKhach> findAll() {
+		// TODO Auto-generated method stub
+		return hanhKhachRepository.findAll();
+	}
+
 
 }

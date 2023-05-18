@@ -1,13 +1,19 @@
 package com.fsoft.happflight.entities.nguoi_dung;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fsoft.happflight.entities.dat_cho.Ghe;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
 import com.fsoft.happflight.entities.tai_khoan.TaiKhoan;
-
-import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class NguoiDung {

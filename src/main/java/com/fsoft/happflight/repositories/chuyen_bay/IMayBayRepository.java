@@ -8,6 +8,6 @@ import javax.transaction.Transactional;
 
 @Repository
 @Transactional
-public interface IMayBayRepository extends JpaRepository<MayBay, String> {
+public interface IMayBayRepository extends JpaRepository<MayBay, Long> {
 
 }

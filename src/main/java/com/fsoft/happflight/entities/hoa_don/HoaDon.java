@@ -1,14 +1,19 @@
 package com.fsoft.happflight.entities.hoa_don;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
-
-import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 public class HoaDon {
