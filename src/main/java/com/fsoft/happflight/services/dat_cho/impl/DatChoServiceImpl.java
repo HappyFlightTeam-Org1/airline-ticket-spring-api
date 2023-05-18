@@ -33,4 +33,9 @@ public class DatChoServiceImpl implements IDatChoService {
         this.datChoRepository.save(datCho);
     }
 
+    @Override
+    public List<DatCho> getAllByChuyenBayId(String id) {
+        return datChoRepository.getAllByChuyenBayId(id);
+    }
+
 }
