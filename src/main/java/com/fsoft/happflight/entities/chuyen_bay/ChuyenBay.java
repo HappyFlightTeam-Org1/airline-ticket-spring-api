@@ -1,15 +1,17 @@
 package com.fsoft.happflight.entities.chuyen_bay;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fsoft.happflight.entities.dat_cho.DatCho;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fsoft.happflight.entities.dat_cho.DatCho;
 
 @Entity
 public class ChuyenBay {
