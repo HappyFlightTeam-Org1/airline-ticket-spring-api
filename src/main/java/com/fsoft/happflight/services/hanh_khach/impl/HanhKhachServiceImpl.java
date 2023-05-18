@@ -33,6 +33,7 @@ public class HanhKhachServiceImpl implements IHanhKhachService {
         });
     }
 
+
     @Override
     public List<HanhKhach> findAll() {
         return hanhKhachRepository.findAll();
