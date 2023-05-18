@@ -34,7 +34,7 @@ public class MayBay {
     @JsonBackReference
     Set<ChuyenBay> chuyenBays;
 
-    @OneToMany(mappedBy = "mayBay", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mayBay")
     List<Ghe> ghes;
 
     public MayBay() {
