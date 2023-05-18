@@ -6,8 +6,12 @@ import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import java.util.List;
 
 public interface IHanhKhachService {
+	
+	List<HanhKhach> findAll();
     void saveHanhKhach(HanhKhach hanhKhach);
 
     void saveHanhKhach(List<HanhKhachDTO> hanhKhachDTOs);
 
+
+    List<HanhKhach> findByName(String name);
 }

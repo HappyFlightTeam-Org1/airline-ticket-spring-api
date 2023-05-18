@@ -19,14 +19,8 @@ public class HanhKhach {
     @Column(name = "ngay_sinh")
     private String ngaySinh;
 
-    @Column(name = "so_dien_thoai", columnDefinition = "nvarchar(20)")
-    private String soDienThoai;
-
     @Column(name = "gioi_tinh", columnDefinition = "nvarchar(20)")
     private String gioiTinh;
-
-    @Column(name = "ho_chieu", columnDefinition = "nvarchar(20)")
-    private String hoChieu;
 
     @Column(name = "trang_thai_xoa")
     private Integer trangThaiXoa;
@@ -36,16 +30,12 @@ public class HanhKhach {
         // TODO Auto-generated constructor stub
     }
 
-    public HanhKhach(Long maHanhKhach, String loaiHanhKhach, String tenHanhKhach, String ngaySinh,
-                     String soDienThoai, String gioiTinh, String hoChieu, Integer trangThaiXoa) {
-        super();
+    public HanhKhach(Long maHanhKhach, String loaiHanhKhach, String tenHanhKhach, String ngaySinh, String gioiTinh, Integer trangThaiXoa) {
         this.maHanhKhach = maHanhKhach;
         this.loaiHanhKhach = loaiHanhKhach;
         this.tenHanhKhach = tenHanhKhach;
         this.ngaySinh = ngaySinh;
-        this.soDienThoai = soDienThoai;
         this.gioiTinh = gioiTinh;
-        this.hoChieu = hoChieu;
         this.trangThaiXoa = trangThaiXoa;
     }
 
@@ -81,28 +71,12 @@ public class HanhKhach {
         this.ngaySinh = ngaySinh;
     }
 
-    public String getSoDienThoai() {
-        return soDienThoai;
-    }
-
-    public void setSoDienThoai(String soDienThoai) {
-        this.soDienThoai = soDienThoai;
-    }
-
     public String getGioiTinh() {
         return gioiTinh;
     }
 
     public void setGioiTinh(String gioiTinh) {
         this.gioiTinh = gioiTinh;
-    }
-
-    public String getHoChieu() {
-        return hoChieu;
-    }
-
-    public void setHoChieu(String hoChieu) {
-        this.hoChieu = hoChieu;
     }
 
     public Integer getTrangThaiXoa() {
@@ -115,9 +89,13 @@ public class HanhKhach {
 
     @Override
     public String toString() {
-        return "HanhKhach [maHanhKhach=" + maHanhKhach + ", loaiHanhKhach=" + loaiHanhKhach + ", tenHanhKhach="
-                + tenHanhKhach + ", ngaySinh=" + ngaySinh + ", soDienThoai=" + soDienThoai + ", gioiTinh=" + gioiTinh
-                + ", hoChieu=" + hoChieu + ", trangThaiXoa=" + trangThaiXoa + "]";
+        return "HanhKhach{" +
+                "maHanhKhach=" + maHanhKhach +
+                ", loaiHanhKhach='" + loaiHanhKhach + '\'' +
+                ", tenHanhKhach='" + tenHanhKhach + '\'' +
+                ", ngaySinh='" + ngaySinh + '\'' +
+                ", gioiTinh='" + gioiTinh + '\'' +
+                ", trangThaiXoa=" + trangThaiXoa +
+                '}';
     }
-
 }

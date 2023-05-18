@@ -1,36 +1,33 @@
 package com.fsoft.happflight.controllers;
 
-import com.fsoft.happflight.dto.hanh_khach.HanhKhachDTO;
-import com.fsoft.happflight.services.hanh_khach.IHanhKhachService;
-import org.modelmapper.ModelMapper;
+import com.fsoft.happflight.entities.chuyen_bay.MayBay;
+import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
+import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/VeMayBay")
-
 public class VeMayBayController {
 
     @Autowired
-    private IHanhKhachService hanhKhachService;
+    private IVeMayBayService veMayBayService;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @PostMapping("")
-    public ResponseEntity<String> saveHanhHanh(@RequestBody List<HanhKhachDTO> hanhKhachDTOs) {
-        try {
-            hanhKhachService.saveHanhKhach(hanhKhachDTOs);
-            return ResponseEntity.ok("Lưu hành khách thành công");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lưu hành khách thất bại");
+    @GetMapping("/list")
+    public ResponseEntity<List<VeMayBay>> showListMayBay() {
+        List<VeMayBay> veMayBays = veMayBayService.findAll();
+        if (veMayBays.isEmpty()) {
+            return new ResponseEntity<>(veMayBays, HttpStatus.NO_CONTENT);
         }
-
+        return new ResponseEntity<>(veMayBays, HttpStatus.OK);
     }
 
 }

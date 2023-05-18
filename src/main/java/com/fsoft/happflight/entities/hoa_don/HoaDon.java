@@ -1,14 +1,19 @@
 package com.fsoft.happflight.entities.hoa_don;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
-
-import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 public class HoaDon {
@@ -23,6 +28,12 @@ public class HoaDon {
     @Column(name = "tong_tien")
     private Float tongTien;
 
+    @Column(name = "tt_thanh_toan")
+    private Integer trangThaiThanhToan = 0;
+
+    @Column(name = "tt_xoa")
+    private Integer trangThaiXoa = 0;
+
     @JoinColumn(name = "email", referencedColumnName = "email")
     @ManyToOne(fetch = FetchType.LAZY)
     private NguoiDung nguoiDung;
@@ -36,10 +47,12 @@ public class HoaDon {
         // TODO Auto-generated constructor stub
     }
 
-    public HoaDon(String maHoaDon, String ngayTao, Float tongTien, NguoiDung nguoiDung) {
+    public HoaDon(String maHoaDon, String ngayTao, Float tongTien, Integer trangThaiThanhToan, Integer trangThaiXoa, NguoiDung nguoiDung) {
         this.maHoaDon = maHoaDon;
         this.ngayTao = ngayTao;
         this.tongTien = tongTien;
+        this.trangThaiThanhToan = trangThaiThanhToan;
+        this.trangThaiXoa = trangThaiXoa;
         this.nguoiDung = nguoiDung;
     }
 
@@ -75,6 +88,22 @@ public class HoaDon {
         this.nguoiDung = nguoiDung;
     }
 
+    public Integer getTrangThaiThanhToan() {
+        return trangThaiThanhToan;
+    }
+
+    public void setTrangThaiThanhToan(Integer trangThaiThanhToan) {
+        this.trangThaiThanhToan = trangThaiThanhToan;
+    }
+
+    public Integer getTrangThaiXoa() {
+        return trangThaiXoa;
+    }
+
+    public void setTrangThaiXoa(Integer trangThaiXoa) {
+        this.trangThaiXoa = trangThaiXoa;
+    }
+
     public List<VeMayBay> getVeMayBays() {
         return veMayBays;
     }
@@ -89,6 +118,8 @@ public class HoaDon {
                 "maHoaDon='" + maHoaDon + '\'' +
                 ", ngayTao='" + ngayTao + '\'' +
                 ", tongTien=" + tongTien +
+                ", trangThaiThanhToan=" + trangThaiThanhToan +
+                ", trangThaiXoa=" + trangThaiXoa +
                 ", nguoiDung=" + nguoiDung +
                 '}';
     }
