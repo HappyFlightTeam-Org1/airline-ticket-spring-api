@@ -36,13 +36,22 @@ import java.util.List;
 
         }
 
-        @PostMapping("/search")
-        public ResponseEntity<List<HanhKhach>> FindListHanhKhachByTenHanhKhach(@RequestBody SearchCriteria criteria) {
-            List<HanhKhach> hanhKhachList = hanhKhachService.findByName(criteria.getTenHanhKhach());
-            if (hanhKhachList.isEmpty()) {
-                return new ResponseEntity<>(hanhKhachList, HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(hanhKhachList, HttpStatus.OK);
+//        @PostMapping("/search")
+//        public ResponseEntity<List<HanhKhach>> FindListHanhKhachByTenHanhKhach(@RequestBody SearchCriteria criteria) {
+//            List<HanhKhach> hanhKhachList = hanhKhachService.findByName(criteria.getTenHanhKhach());
+//            if (hanhKhachList.isEmpty()) {
+//                return new ResponseEntity<>(hanhKhachList, HttpStatus.NO_CONTENT);
+//            }
+//            return new ResponseEntity<>(hanhKhachList, HttpStatus.OK);
+//        }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<HanhKhach>> FindListHanhKhachByName(@RequestParam(name="tenHanhKhach") String tenHanhKhach) {
+        List<HanhKhach> hanhKhachList = hanhKhachService.findByName(tenHanhKhach);
+        if (hanhKhachList.isEmpty()) {
+            return new ResponseEntity<>(hanhKhachList, HttpStatus.NO_CONTENT);
         }
+        return new ResponseEntity<>(hanhKhachList, HttpStatus.OK);
+    }
     }
 
