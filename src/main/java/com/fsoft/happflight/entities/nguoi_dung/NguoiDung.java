@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
 import com.fsoft.happflight.entities.tai_khoan.TaiKhoan;
@@ -40,8 +41,8 @@ public class NguoiDung {
     @Column(name = "gioi_tinh", columnDefinition = "nvarchar(20)")
     private String gioiTinh;
 
+    @ManyToOne
     @JoinColumn(name = "ma_quoc_tich", referencedColumnName = "ma_quoc_tich")
-    @ManyToOne(fetch = FetchType.LAZY)
     private QuocTich quocTich;
 
     @JoinColumn(name = "ten_tai_khoan", referencedColumnName = "ten_tai_khoan")
@@ -52,7 +53,7 @@ public class NguoiDung {
     private Integer trangThaiXoa;
 
     @OneToMany(mappedBy = "nguoiDung")
-    @JsonManagedReference
+    @JsonBackReference
     List<HoaDon> hoaDons;
 
     public NguoiDung() {
