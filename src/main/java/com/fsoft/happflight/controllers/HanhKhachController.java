@@ -56,12 +56,16 @@ public class HanhKhachController {
 //        }
 
 	@GetMapping("/search")
-	public ResponseEntity<List<HanhKhach>> FindListHanhKhachByName(
-			@RequestParam(name = "tenHanhKhach") String tenHanhKhach) {
-		List<HanhKhach> hanhKhachList = hanhKhachService.findByName(tenHanhKhach);
-		if (hanhKhachList.isEmpty()) {
-			return new ResponseEntity<>(hanhKhachList, HttpStatus.NO_CONTENT);
+	public Page<HanhKhach> FindListHanhKhachByName(
+			@RequestParam(name = "tenHanhKhach") String tenHanhKhach,@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		Page<HanhKhach> hanhKhachList;
+		if(tenHanhKhach!=""){
+		hanhKhachList = hanhKhachService.findByName(pageable,tenHanhKhach);}
+		else {
+			hanhKhachList = hanhKhachService.findWithPageAble(pageable);
 		}
-		return new ResponseEntity<>(hanhKhachList, HttpStatus.OK);
+		return hanhKhachList;
 	}
 }
