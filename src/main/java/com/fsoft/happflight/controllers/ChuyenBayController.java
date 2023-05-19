@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fsoft.happflight.config.ModelMapperClass;
+import com.fsoft.happflight.dto.DataChuyenBayFindById;
 import com.fsoft.happflight.dto.DataChuyenBaySearch;
 import com.fsoft.happflight.dto.DataResponse;
 import com.fsoft.happflight.dto.chuyen_bay.ChuyenBayDTO;
@@ -60,19 +61,16 @@ public class ChuyenBayController {
 
 	@GetMapping("/listPageHaiChieu")
 	public ResponseEntity<?> searchChuyenBays(@RequestParam(required = false) String diemDi,
-			@RequestParam(required = false) String diemDen,
-			@RequestParam(required = false) String ngayDi,
-			@RequestParam(required = false) String ngayDiKh,
-			@RequestParam(defaultValue = "ASC") String sortDirection,
-			@RequestParam(defaultValue = "giaVe") String sortBy, 
-			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(required = false) String diemDen, @RequestParam(required = false) String ngayDi,
+			@RequestParam(required = false) String ngayDiKh, @RequestParam(defaultValue = "ASC") String sortDirection,
+			@RequestParam(defaultValue = "giaVe") String sortBy, @RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "5") int size) {
 		Sort.Direction direction = sortDirection.equalsIgnoreCase("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
 		PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
-		Page<ChuyenBay> chuyenBay1Chieu = chuyenBayService.searchChuyenBay(diemDi, diemDen, ngayDi, direction,
-				sortBy, pageable);
-		Page<ChuyenBay> chuyenBayKhuHoi = chuyenBayService.searchChuyenBay(diemDen, diemDi, ngayDiKh, direction,
-				sortBy, pageable);
+		Page<ChuyenBay> chuyenBay1Chieu = chuyenBayService.searchChuyenBay(diemDi, diemDen, ngayDi, direction, sortBy,
+				pageable);
+		Page<ChuyenBay> chuyenBayKhuHoi = chuyenBayService.searchChuyenBay(diemDen, diemDi, ngayDiKh, direction, sortBy,
+				pageable);
 		DataChuyenBaySearch dataChuyenBaySearch = new DataChuyenBaySearch();
 		dataChuyenBaySearch.setChuyenBay1Chieu(chuyenBay1Chieu);
 		dataChuyenBaySearch.setChuyenBayKhuHoi(chuyenBayKhuHoi);
@@ -80,7 +78,7 @@ public class ChuyenBayController {
 	}
 
 	@GetMapping("/listPage")
-	public ResponseEntity<Page<ChuyenBay>> searchChuyenBay(@RequestParam(required = false) String diemDi,
+	public ResponseEntity<?> searchChuyenBay(@RequestParam(required = false) String diemDi,
 			@RequestParam(required = false) String diemDen, @RequestParam(required = false) String ngayKhoiHanh,
 			@RequestParam(defaultValue = "ASC") String sortDirection,
 			@RequestParam(defaultValue = "giaVe") String sortBy, @RequestParam(defaultValue = "0") int page,
@@ -92,8 +90,19 @@ public class ChuyenBayController {
 		return new ResponseEntity<>(chuyenBays, HttpStatus.OK);
 	}
 
+	@GetMapping("/findBy2Id")
+	public ResponseEntity<?> findBy2ID(@RequestParam String idChuyenBayDi,
+			@RequestParam String idChuyenBayKhuHoi) {
+		ChuyenBay chuyenBay1Chieu = chuyenBayService.findById(idChuyenBayDi);
+		ChuyenBay chuyenBayKhuHoi = chuyenBayService.findById(idChuyenBayKhuHoi);
+		DataChuyenBayFindById dataChuyenBayFindById = new DataChuyenBayFindById();
+		dataChuyenBayFindById.setChuyenBay1(chuyenBay1Chieu);
+		dataChuyenBayFindById.setChuyenBay2(chuyenBayKhuHoi);
+		return new ResponseEntity<>(dataChuyenBayFindById, HttpStatus.OK);
+	}
+
 	@GetMapping("/list")
-	public ResponseEntity<List<ChuyenBay>> listChuyenBay() {
+	public ResponseEntity<?> listChuyenBay() {
 		List<ChuyenBay> chuyenBays = chuyenBayService.finAll();
 		if (chuyenBays.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -103,7 +112,7 @@ public class ChuyenBayController {
 	}
 
 	@GetMapping("/findById/{id}")
-	public ResponseEntity<ChuyenBay> findByID(@PathVariable("id") String maChuyenBay) {
+	public ResponseEntity<?> findByID(@PathVariable("id") String maChuyenBay) {
 		return new ResponseEntity<>(chuyenBayService.findById(maChuyenBay), HttpStatus.OK);
 	}
 
