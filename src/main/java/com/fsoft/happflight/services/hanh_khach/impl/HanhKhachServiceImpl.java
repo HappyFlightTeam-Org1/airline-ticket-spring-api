@@ -42,8 +42,8 @@ public class HanhKhachServiceImpl implements IHanhKhachService {
     }
 
     @Override
-    public List<HanhKhach> findByName(String tenHanhKhach) {
-        return hanhKhachRepository.findByTenHanhKhachContainingIgnoreCase(tenHanhKhach);
+    public Page<HanhKhach> findByName(Pageable pageable,String tenHanhKhach) {
+        return hanhKhachRepository.findByTenHanhKhachContainingIgnoreCase(pageable,tenHanhKhach);
     }
 
     @Override
