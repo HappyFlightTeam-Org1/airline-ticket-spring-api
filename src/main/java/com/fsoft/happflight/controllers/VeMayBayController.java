@@ -1,6 +1,5 @@
 package com.fsoft.happflight.controllers;
 
-import com.fsoft.happflight.entities.chuyen_bay.MayBay;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +23,9 @@ public class VeMayBayController {
     @GetMapping(value = "/list")
     public ResponseEntity<?> showListMayBay() {
         List<VeMayBay> veMayBays = veMayBayService.findAll();
-        veMayBays.stream().forEach(item->{
+        veMayBays.stream().forEach(item -> {
             System.out.println(item.toString());
         });
-        System.out.println("YEARRRRR");
         if (veMayBays.isEmpty()) {
             return new ResponseEntity<>(veMayBays, HttpStatus.NO_CONTENT);
         }

@@ -35,11 +35,10 @@ public class HoaDon {
     private Integer trangThaiXoa = 0;
 
     @JoinColumn(name = "email", referencedColumnName = "email")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private NguoiDung nguoiDung;
 
     @OneToMany(mappedBy = "hoaDon", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonIgnore
     List<VeMayBay> veMayBays;
 
     public HoaDon() {
