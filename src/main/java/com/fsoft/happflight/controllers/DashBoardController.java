@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
 import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
+import com.fsoft.happflight.entities.hoa_don.HoaDon;
 import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
 import com.fsoft.happflight.repositories.chuyen_bay.IChuyenBayRepository;
 import com.fsoft.happflight.repositories.chuyen_bay.IHangBayRepository;
 import com.fsoft.happflight.repositories.hanh_khach.IHanhKhachRepository;
+import com.fsoft.happflight.repositories.hoa_don.IHoaDonRepository;
 import com.fsoft.happflight.repositories.nguoi_dung.INguoiDungRepository;
 
 @RequestMapping(value = "/dashboard")
@@ -32,8 +34,11 @@ public class DashBoardController {
 	@Autowired
 	private INguoiDungRepository iNguoiDungRepository;
 	
+	@Autowired
+	private IHoaDonRepository iHoaDonRepository;
+	
 	@GetMapping("/total")
-	public ResponseEntity<List<ChuyenBay>>getAllUser(){
+	public ResponseEntity<List<ChuyenBay>>getChuyenBay(){
 		
 		return new ResponseEntity<>(iChuyenBayRepository.findAll(),HttpStatus.OK);
 	}
@@ -48,5 +53,11 @@ public class DashBoardController {
 	public ResponseEntity<List<NguoiDung>>getNguoiDung(){
 		
 		return new ResponseEntity<>(iNguoiDungRepository.findAll(),HttpStatus.OK);
+	}
+	
+	@GetMapping("/hoadon")
+	public ResponseEntity<List<HoaDon>>getHoaDon(){
+		
+		return new ResponseEntity<>(iHoaDonRepository.findAll(),HttpStatus.OK);
 	}
 }
