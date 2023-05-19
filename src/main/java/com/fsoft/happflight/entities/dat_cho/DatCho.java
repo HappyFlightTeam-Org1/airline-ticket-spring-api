@@ -23,7 +23,6 @@ public class DatCho {
 
     @JoinColumn(name = "ma_chuyen_bay", referencedColumnName = "ma_chuyen_bay")
     @ManyToOne(targetEntity = ChuyenBay.class)
-    @JsonBackReference
     private ChuyenBay chuyenBay;
 
     @OneToOne(mappedBy = "datCho")
