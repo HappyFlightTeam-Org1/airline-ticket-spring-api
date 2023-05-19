@@ -38,4 +38,9 @@ public class DatChoServiceImpl implements IDatChoService {
         return datChoRepository.getAllByChuyenBayId(id);
     }
 
+    @Override
+    public DatCho findById(Long id) {
+        return datChoRepository.findById(id).orElse(null);
+    }
+
 }

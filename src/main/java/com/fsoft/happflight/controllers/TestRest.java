@@ -1,16 +1,10 @@
 package com.fsoft.happflight.controllers;
 
-import com.fsoft.happflight.config.ModelMapperClass;
-import com.fsoft.happflight.dto.chuyen_bay.ChuyenBayDTO;
-import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
-import com.fsoft.happflight.entities.chuyen_bay.HangBay;
-import com.fsoft.happflight.entities.chuyen_bay.MayBay;
 import com.fsoft.happflight.entities.dat_cho.Ghe;
 import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
-import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
+import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import com.fsoft.happflight.repositories.nguoi_dung.INguoiDungRepository;
-import com.fsoft.happflight.services.chuyen_bay.IMayBayService;
 import com.fsoft.happflight.services.dat_cho.IDatChoService;
 import com.fsoft.happflight.services.dat_cho.IGheService;
 import com.fsoft.happflight.services.hanh_khach.IHanhKhachService;
@@ -27,8 +21,8 @@ import java.util.List;
 @RequestMapping(value = "/test")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TestRest {
-
-    private IMayBayService mayBayService;
+//    @Autowired
+//    private IMayBayService mayBayService;
 
     @Autowired
     private IVeMayBayService veMayBayService;
@@ -37,30 +31,30 @@ public class TestRest {
     private INguoiDungRepository nguoiDungRepository;
 
     @Autowired
-    private IHanhKhachService hanhKhachService;
-
-    @Autowired
     private IDatChoService datChoService;
 
     @Autowired
     private IHoaDonService hoaDonService;
 
     @Autowired
-    private IGheService gheService;
+    private IHanhKhachService hanhKhachService;
 
     @Autowired
-    public TestRest(IMayBayService mayBayService) {
-        this.mayBayService = mayBayService;
-    }
+    private IGheService gheService;
 
-    @GetMapping("/list")
-    public ResponseEntity<List<MayBay>> showListMayBay() {
-        List<MayBay> mayBayList = mayBayService.findAll();
-        if (mayBayList.isEmpty()) {
-            return new ResponseEntity<>(mayBayList, HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(mayBayList, HttpStatus.OK);
-    }
+//    @Autowired
+//    public TestRest(IMayBayService mayBayService) {
+//        this.mayBayService = mayBayService;
+//    }
+
+//    @GetMapping("/list")
+//    public ResponseEntity<List<MayBay>> showListMayBay() {
+//        List<MayBay> mayBayList = mayBayService.findAll();
+//        if (mayBayList.isEmpty()) {
+//            return new ResponseEntity<>(mayBayList, HttpStatus.NO_CONTENT);
+//        }
+//        return new ResponseEntity<>(mayBayList, HttpStatus.OK);
+//    }
 
     @GetMapping("/ghes")
     public ResponseEntity<List<Ghe>> showListGhe() {
@@ -72,13 +66,24 @@ public class TestRest {
     }
 
     @PostMapping("/saveVeMayBay")
-    public ResponseEntity<String> saveTicket(@RequestBody ChuyenBayDTO chuyenBayDTO) {
+    public ResponseEntity<String> saveTicket() {
         try {
-//        NguoiDung nguoiDung = nguoiDungRepository.findById("admin@gmail.com").orElse(null);
-            HoaDon hoaDon = hoaDonService.findById("OD23JS524");
-//        HanhKhach hanhKhach = hanhKhachService.saveHanhKhach()
-            return ResponseEntity.ok("Thêm thành công!");
+            HoaDon hoaDon = hoaDonService.findById("OD1019279");
+            System.out.println(hoaDon.toString());
+            List<HanhKhach> hanhKhachs = hanhKhachService.findAll();
+            for (int i = 1; i <= hanhKhachs.size(); i++) {
+                System.out.println(i);
+                String id = "TK00" + i;
+                HanhKhach hanhKhach = hanhKhachs.get(i - 1);
+                System.out.println(hanhKhach.toString());
+                VeMayBay veMayBay = new VeMayBay(id, datChoService.findById(Long.parseLong(String.valueOf(i))).getGhe().getLoaiGhe().getTenLoaiGhe(), 2000000L, 0, hanhKhach, datChoService.findById(Long.parseLong(String.valueOf(i))), hoaDon);
+                System.out.println(veMayBay.toString());
+                veMayBayService.create(veMayBay);
+            }
+            return null;
         } catch (Exception e) {
+            System.out.println("ERROR");
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Thêm thất bại!");
         }
     }
