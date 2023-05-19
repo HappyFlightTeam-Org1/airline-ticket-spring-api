@@ -22,16 +22,16 @@ public class VeMayBay {
     @Column(name = "trang_thai_xoa")
     private Integer trangThaiXoa;
 
+    @OneToOne
     @JoinColumn(name = "ma_hanh_khach", referencedColumnName = "ma_hanh_khach")
-    @OneToOne(fetch = FetchType.LAZY)
     private HanhKhach hanhKhach;
 
+    @OneToOne
     @JoinColumn(name = "ma_dat_cho", referencedColumnName = "ma_dat_cho")
-    @OneToOne(fetch = FetchType.LAZY)
     private DatCho datCho;
 
     @JoinColumn(name = "ma_hoa_don", referencedColumnName = "ma_hoa_don")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private HoaDon hoaDon;
 
     public VeMayBay() {

@@ -21,9 +21,13 @@ public class VeMayBayController {
     @Autowired
     private IVeMayBayService veMayBayService;
 
-    @GetMapping("/list")
-    public ResponseEntity<List<VeMayBay>> showListMayBay() {
+    @GetMapping(value = "/list")
+    public ResponseEntity<?> showListMayBay() {
         List<VeMayBay> veMayBays = veMayBayService.findAll();
+        veMayBays.stream().forEach(item->{
+            System.out.println(item.toString());
+        });
+        System.out.println("YEARRRRR");
         if (veMayBays.isEmpty()) {
             return new ResponseEntity<>(veMayBays, HttpStatus.NO_CONTENT);
         }

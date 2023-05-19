@@ -46,7 +46,7 @@ public class NguoiDung {
     private QuocTich quocTich;
 
     @JoinColumn(name = "ten_tai_khoan", referencedColumnName = "ten_tai_khoan")
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     private TaiKhoan taiKhoan;
 
     @Column(name = "trang_thai_xoa")
