@@ -41,35 +41,6 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	}
 
 	@Override
-	public Page<ChuyenBay> searchChuyenBay(String diemDi, String diemDen, String ngayKhoiHanh,
-			Direction sortDirection, String sortBy, Pageable pageable) {
-		 Specification<ChuyenBay> spec = Specification.where(null);
-
-	        if (diemDi != null && !diemDi.isEmpty()) {
-	            spec = spec.and((root, query, builder) ->
-	                    builder.equal(root.get("diemDi"), diemDi));
-	        }
-
-	        if (diemDen != null && !diemDen.isEmpty()) {
-	            spec = spec.and((root, query, builder) ->
-	                    builder.equal(root.get("diemDen"), diemDen));
-	        }
-
-	        if (ngayKhoiHanh != null) {
-	            spec = spec.and((root, query, builder) ->
-	                    builder.equal(root.get("ngayKhoiHanh"), ngayKhoiHanh));
-	        }
-
-	        Pageable pageableWithSort = pageable;
-	        if (sortBy != null && !sortBy.isEmpty()) {
-	            Sort sort = Sort.by(sortDirection, sortBy);
-	            pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-	        }
-
-	        return chuyenBayRepository.findAll(spec, pageableWithSort);
-	    }
-	
-	@Override
 	public Page<ChuyenBay> searchChuyenBayAdmin(String diemDi, String diemDen, String ngayKhoiHanh,
 	        Direction sortDirection, String sortBy, Pageable pageable) {
 	    Specification<ChuyenBay> spec = Specification.where(null);
@@ -103,6 +74,34 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	    }
 	    return result;
 	}
+
+	@Override
+	public Page<ChuyenBay> searchChuyenBay(String diemDi, String diemDen, String ngayKhoiHanh,
+			Direction sortDirection, String sortBy, Pageable pageable) {
+		 Specification<ChuyenBay> spec = Specification.where(null);
+
+	        if (diemDi != null && !diemDi.isEmpty()) {
+	            spec = spec.and((root, query, builder) ->
+	                    builder.equal(root.get("diemDi"), diemDi));
+	        }
+
+	        if (diemDen != null && !diemDen.isEmpty()) {
+	            spec = spec.and((root, query, builder) ->
+	                    builder.equal(root.get("diemDen"), diemDen));
+	        }
+
+	        if (ngayKhoiHanh != null) {
+	            spec = spec.and((root, query, builder) ->
+	                    builder.equal(root.get("ngayKhoiHanh"), ngayKhoiHanh));
+	        }
+
+	        Pageable pageableWithSort = pageable;
+	        if (sortBy != null && !sortBy.isEmpty()) {
+	            Sort sort = Sort.by(sortDirection, sortBy);
+	            pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+	        }
+	        return chuyenBayRepository.findAll(spec, pageableWithSort);
+	    }
 
 
 

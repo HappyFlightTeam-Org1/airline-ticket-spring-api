@@ -16,10 +16,11 @@ public interface IChuyenBayService {
 	List<ChuyenBay> finAll();
 
 	ChuyenBay findById(String maChuyenBay);
-
-	Page<ChuyenBay> searchChuyenBay(String diemDi, String diemDen, String ngayKhoiHanh,
-			Sort.Direction sortDirection, String sortBy, Pageable pageable);
 	
+	Page<ChuyenBay> searchChuyenBay(String diemDi, String diemDen, String ngayKhoiHanh,
+	        Direction sortDirection, String sortBy, Pageable pageable);
+
+
 	Page<ChuyenBay> searchChuyenBayAdmin(String diemDi, String diemDen, String ngayKhoiHanh,
 	        Direction sortDirection, String sortBy, Pageable pageable);
 
