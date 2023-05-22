@@ -3,6 +3,7 @@ package com.fsoft.happflight.services.dat_cho.impl;
 import com.fsoft.happflight.entities.dat_cho.DatCho;
 import com.fsoft.happflight.repositories.dat_cho.IDatChoRepository;
 import com.fsoft.happflight.services.dat_cho.IDatChoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class DatChoServiceImpl implements IDatChoService {
 
     private IDatChoRepository datChoRepository;
 
+    @Autowired
     public DatChoServiceImpl(IDatChoRepository datChoRepository) {
         this.datChoRepository = datChoRepository;
     }
@@ -29,6 +31,16 @@ public class DatChoServiceImpl implements IDatChoService {
     @Override
     public void update(DatCho datCho) {
         this.datChoRepository.save(datCho);
+    }
+
+    @Override
+    public List<DatCho> getAllByChuyenBayId(String id) {
+        return datChoRepository.getAllByChuyenBayId(id);
+    }
+
+    @Override
+    public DatCho findById(Long id) {
+        return datChoRepository.findById(id).orElse(null);
     }
 
 }

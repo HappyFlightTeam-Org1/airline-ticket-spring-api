@@ -12,4 +12,7 @@ public interface IDatChoService {
 
     void update(DatCho datCho);
 
+    List<DatCho> getAllByChuyenBayId(String id);
+
+    DatCho findById(Long id);
 }

@@ -1,6 +1,6 @@
 package com.fsoft.happflight.entities.ve_ma_bay;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fsoft.happflight.entities.dat_cho.DatCho;
 import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
@@ -11,27 +11,29 @@ import javax.persistence.*;
 public class VeMayBay {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ma_ve")
-    private Long maVe;
+    private String maVe;
 
     @Column(name = "hang_ve", columnDefinition = "nvarchar(50)")
     private String hangVe;
 
+    @Column(name = "gia_ve")
+    private Long giaVe;
+
     @Column(name = "trang_thai_xoa")
     private Integer trangThaiXoa;
 
+    @OneToOne
     @JoinColumn(name = "ma_hanh_khach", referencedColumnName = "ma_hanh_khach")
-    @OneToOne(fetch = FetchType.LAZY)
     private HanhKhach hanhKhach;
 
+    @OneToOne
     @JoinColumn(name = "ma_dat_cho", referencedColumnName = "ma_dat_cho")
-    @OneToOne(fetch = FetchType.LAZY)
     private DatCho datCho;
 
     @JoinColumn(name = "ma_hoa_don", referencedColumnName = "ma_hoa_don")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
+    @ManyToOne
+    @JsonIgnore
     private HoaDon hoaDon;
 
     public VeMayBay() {
@@ -39,21 +41,28 @@ public class VeMayBay {
         // TODO Auto-generated constructor stub
     }
 
-    public VeMayBay(Long maVe, String hangVe, Integer trangThaiXoa, HanhKhach hanhKhach, DatCho datCho, HoaDon hoaDon) {
-        super();
+    public VeMayBay(String maVe, String hangVe, Long giaVe, Integer trangThaiXoa) {
         this.maVe = maVe;
         this.hangVe = hangVe;
+        this.giaVe = giaVe;
+        this.trangThaiXoa = trangThaiXoa;
+    }
+
+    public VeMayBay(String maVe, String hangVe, Long giaVe, Integer trangThaiXoa, HanhKhach hanhKhach, DatCho datCho, HoaDon hoaDon) {
+        this.maVe = maVe;
+        this.hangVe = hangVe;
+        this.giaVe = giaVe;
         this.trangThaiXoa = trangThaiXoa;
         this.hanhKhach = hanhKhach;
         this.datCho = datCho;
         this.hoaDon = hoaDon;
     }
 
-    public Long getMaVe() {
+    public String getMaVe() {
         return maVe;
     }
 
-    public void setMaVe(Long maVe) {
+    public void setMaVe(String maVe) {
         this.maVe = maVe;
     }
 
@@ -63,6 +72,14 @@ public class VeMayBay {
 
     public void setHangVe(String hangVe) {
         this.hangVe = hangVe;
+    }
+
+    public Long getGiaVe() {
+        return giaVe;
+    }
+
+    public void setGiaVe(Long giaVe) {
+        this.giaVe = giaVe;
     }
 
     public Integer getTrangThaiXoa() {
@@ -99,8 +116,14 @@ public class VeMayBay {
 
     @Override
     public String toString() {
-        return "VeMayBay [maVe=" + maVe + ", hangVe=" + hangVe + ", trangThaiXoa=" + trangThaiXoa + ", hanhKhach="
-                + hanhKhach + ", datCho=" + datCho + ", hoaDon=" + hoaDon + "]";
+        return "VeMayBay{" +
+                "maVe='" + maVe + '\'' +
+                ", hangVe='" + hangVe + '\'' +
+                ", giaVe=" + giaVe +
+                ", trangThaiXoa=" + trangThaiXoa +
+                ", hanhKhach=" + hanhKhach +
+                ", datCho=" + datCho +
+                ", hoaDon=" + hoaDon +
+                '}';
     }
-
 }
