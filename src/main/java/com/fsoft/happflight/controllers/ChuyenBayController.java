@@ -46,7 +46,7 @@ public class ChuyenBayController {
 
 	@Autowired
 	ISanBayService sanBayService;
-
+//Lay du lieu các bảng liên quan
 	@GetMapping("/listSelectOption")
 	public ResponseEntity<?> listSelectOption() {
 		List<SanBay> sanBays = sanBayService.findAll();
@@ -59,8 +59,9 @@ public class ChuyenBayController {
 		return new ResponseEntity<>(dataResponse, HttpStatus.OK);
 	}
 
-	@GetMapping("/listPageHaiChieu")
-	public ResponseEntity<?> searchChuyenBays(@RequestParam(required = false) String diemDi,
+	//List cho user
+	@GetMapping("/listPageUser")
+	public ResponseEntity<?> searchChuyenBayUser(@RequestParam(required = false) String diemDi,
 			@RequestParam(required = false) String diemDen, @RequestParam(required = false) String ngayDi,
 			@RequestParam(required = false) String ngayDiKh, @RequestParam(defaultValue = "ASC") String sortDirection,
 			@RequestParam(defaultValue = "giaVe") String sortBy, @RequestParam(defaultValue = "0") int page,
@@ -76,20 +77,22 @@ public class ChuyenBayController {
 		dataChuyenBaySearch.setChuyenBayKhuHoi(chuyenBayKhuHoi);
 		return new ResponseEntity<>(dataChuyenBaySearch, HttpStatus.OK);
 	}
-
-	@GetMapping("/listPage")
-	public ResponseEntity<?> searchChuyenBay(@RequestParam(required = false) String diemDi,
+    //List cho admin 
+	@GetMapping("/listPageAdmin")
+	public ResponseEntity<?> searchChuyenBayAdmin(@RequestParam(required = false) String diemDi,
 			@RequestParam(required = false) String diemDen, @RequestParam(required = false) String ngayKhoiHanh,
 			@RequestParam(defaultValue = "ASC") String sortDirection,
 			@RequestParam(defaultValue = "giaVe") String sortBy, @RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "5") int size) {
 		Sort.Direction direction = sortDirection.equalsIgnoreCase("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
 		PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
-		Page<ChuyenBay> chuyenBays = chuyenBayService.searchChuyenBay(diemDi, diemDen, ngayKhoiHanh, direction, sortBy,
+		Page<ChuyenBay> chuyenBays = chuyenBayService.searchChuyenBayAdmin(diemDi, diemDen, ngayKhoiHanh, direction, sortBy,
 				pageable);
 		return new ResponseEntity<>(chuyenBays, HttpStatus.OK);
 	}
 
+	
+	//Thông tin chuyến bay được chọn 1 chiều/ khứ hồi
 	@GetMapping("/findBy2Id")
 	public ResponseEntity<?> findBy2ID(@RequestParam String idChuyenBayDi,
 			@RequestParam String idChuyenBayKhuHoi) {
@@ -101,21 +104,14 @@ public class ChuyenBayController {
 		return new ResponseEntity<>(dataChuyenBayFindById, HttpStatus.OK);
 	}
 
-	@GetMapping("/list")
-	public ResponseEntity<?> listChuyenBay() {
-		List<ChuyenBay> chuyenBays = chuyenBayService.finAll();
-		if (chuyenBays.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} else {
-			return new ResponseEntity<>(chuyenBays, HttpStatus.OK);
-		}
-	}
-
+	
+    //Thông tin chuyến bay cần chỉnh sửa
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<?> findByID(@PathVariable("id") String maChuyenBay) {
 		return new ResponseEntity<>(chuyenBayService.findById(maChuyenBay), HttpStatus.OK);
 	}
 
+	//Lưu và cập nhật
 	@PostMapping("/save")
 	public ResponseEntity<String> saveChuyenBayOk(@RequestBody ChuyenBayDTO chuyenBayDTO) {
 		MayBay mayBay = mayBayService.findById(chuyenBayDTO.getMaMayBay());

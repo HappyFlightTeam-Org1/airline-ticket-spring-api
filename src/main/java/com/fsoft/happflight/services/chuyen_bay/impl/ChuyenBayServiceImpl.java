@@ -90,7 +90,7 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	                    builder.equal(root.get("diemDen"), diemDen));
 	        }
 
-	        if (ngayKhoiHanh != null) {
+	        if (ngayKhoiHanh != null ) {
 	            spec = spec.and((root, query, builder) ->
 	                    builder.equal(root.get("ngayKhoiHanh"), ngayKhoiHanh));
 	        }
