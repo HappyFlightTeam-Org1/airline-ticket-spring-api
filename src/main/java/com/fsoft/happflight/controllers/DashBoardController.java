@@ -8,14 +8,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
+import com.fsoft.happflight.entities.chuyen_bay.ChuyenBayThongKe;
 import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
+import com.fsoft.happflight.entities.hoa_don.HoaDonThongKe;
 import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
 import com.fsoft.happflight.repositories.chuyen_bay.IChuyenBayRepository;
-import com.fsoft.happflight.repositories.chuyen_bay.IHangBayRepository;
 import com.fsoft.happflight.repositories.hanh_khach.IHanhKhachRepository;
 import com.fsoft.happflight.repositories.hoa_don.IHoaDonRepository;
 import com.fsoft.happflight.repositories.nguoi_dung.INguoiDungRepository;
@@ -36,6 +38,7 @@ public class DashBoardController {
 	
 	@Autowired
 	private IHoaDonRepository iHoaDonRepository;
+	
 	
 	@GetMapping("/total")
 	public ResponseEntity<List<ChuyenBay>>getChuyenBay(){
@@ -60,4 +63,41 @@ public class DashBoardController {
 		
 		return new ResponseEntity<>(iHoaDonRepository.findAll(),HttpStatus.OK);
 	}
+	
+	@GetMapping("/chuyenbaythongke")
+	public ResponseEntity<List<ChuyenBayThongKe>>getChuyenBayThongKe(){
+		
+		return new ResponseEntity<>(iChuyenBayRepository.getAll(),HttpStatus.OK);
+	}
+	
+	@GetMapping("/hoadonthongke")
+	public ResponseEntity<List<HoaDonThongKe>>getHoaDonThongKe(){
+		
+		return new ResponseEntity<>(iHoaDonRepository.getHoaDonThongKe(),HttpStatus.OK);
+	}
+	
+	@GetMapping("/tongtien")
+    public Float tinhTongTienHoaDon() {
+        List<HoaDon> danhSachHoaDon = iHoaDonRepository.findAll();
+        Float tongTien = 0.0f;
+
+        for (HoaDon hoaDon : danhSachHoaDon) {
+            tongTien += hoaDon.getTongTien();
+        }
+
+        return tongTien;
+    }
+	
+    @GetMapping("/listchuyenbay")
+    public ResponseEntity<List<ChuyenBay>> searchChuyenBay(
+            @RequestParam(required = false) String firstDay,
+            @RequestParam(required = false) String lastDay) {
+    	List<ChuyenBay> chuyenBays;
+    	if (firstDay != null && lastDay != null) {
+            chuyenBays = iChuyenBayRepository.search(firstDay, lastDay);
+        } else {
+            chuyenBays = iChuyenBayRepository.findAll(); 
+        }
+        return new ResponseEntity<>(chuyenBays, HttpStatus.OK);
+    }
 }
