@@ -1,7 +1,7 @@
 package com.fsoft.happflight.dto.nguoi_dung;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class DangKyDTO {
     @NotBlank(message = "Trường này là bắt buộc")
@@ -31,7 +31,7 @@ public class DangKyDTO {
     @NotBlank(message = "Trường này là bắt buộc")
     private String diaChi;
 
-    @NotEmpty
+    @NotNull
     private Integer quocTich;
 
     public DangKyDTO() {

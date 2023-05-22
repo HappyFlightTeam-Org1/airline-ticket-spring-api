@@ -13,7 +13,7 @@ public interface ITaiKhoanService {
 
     TaiKhoan getByUsername(String username);
 
-    boolean validatePassword(String password);
+    boolean validatePassword(String username, String password);
 
     void savePasswordChange(String newPassword, String username);
 }

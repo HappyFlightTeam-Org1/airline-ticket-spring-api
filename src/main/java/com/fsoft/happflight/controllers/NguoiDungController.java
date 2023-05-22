@@ -67,10 +67,10 @@ public class NguoiDungController {
     @PostMapping("/thay-doi-mat-khau")
     public ResponseEntity<?> thayDoiMatKhau(@Validated @ModelAttribute ThayDoiMatKhauDTO thayDoiMatKhauDTO,
                                             @CookieValue(value = "jwt", defaultValue = "") String jwtToken) {
-        if (taiKhoanService.validatePassword(thayDoiMatKhauDTO.getMatKhauHienTai())
+        if (taiKhoanService.validatePassword(JwtProvider.getUsernameFromToken(jwtToken), thayDoiMatKhauDTO.getMatKhauHienTai())
                 && thayDoiMatKhauDTO.getMatKhauMoi().equals(thayDoiMatKhauDTO.getXacNhanMatKhauMoi())
                 && JwtProvider.validateToken(jwtToken)) {
-            taiKhoanService.savePasswordChange(thayDoiMatKhauDTO.getMatKhauMoi(), "test");
+            taiKhoanService.savePasswordChange(thayDoiMatKhauDTO.getMatKhauMoi(), JwtProvider.getUsernameFromToken(jwtToken));
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
