@@ -2,9 +2,12 @@ package com.fsoft.happflight.controllers;
 
 import com.fsoft.happflight.config.vnpay.VnpayConfig;
 import com.fsoft.happflight.dto.hoa_don.HoaDonDTO;
+import com.fsoft.happflight.entities.hoa_don.HoaDon;
+import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
+import com.fsoft.happflight.services.hoa_don.IHoaDonService;
 import com.fsoft.happflight.services.nguoi_dung.INguoiDungService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,20 +20,26 @@ import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping(value = "/api/vnpay")
+@RequestMapping(value = "/thanh-toan")
 public class VNPayController {
 
     @Autowired
     private HttpServletRequest req;
 
     @Autowired
+    private HttpServletResponse resp;
+
+    @Autowired
     private INguoiDungService nguoiDungService;
 
     @Autowired
-    private HttpServletResponse resp;
+    private ModelMapper modelMapper;
 
-    @PostMapping("/make-order")
-    public String test(@RequestBody HoaDonDTO hoaDonDTO) throws UnsupportedEncodingException {
+    @Autowired
+    private IHoaDonService hoaDonService;
+
+    @PostMapping("/vnpay/make-order")
+    public String createPaymentVNPay(@RequestBody HoaDonDTO hoaDonDTO) throws UnsupportedEncodingException {
         System.out.println("HERREEE");
         System.out.println(hoaDonDTO.toString());
         String vnp_Version = "2.1.0";
@@ -77,31 +86,18 @@ public class VNPayController {
         String vnp_ExpireDate = formatter.format(cld.getTime());
         //Add Params of 2.0.1 Version
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
+
         //Billing
         vnp_Params.put("vnp_Bill_Mobile", req.getParameter("txt_billing_mobile"));
         vnp_Params.put("vnp_Bill_Email", req.getParameter("txt_billing_email"));
-//        String fullName = (req.getParameter("txt_billing_fullname")).trim();
-//        String fullName = req.getParameter("txt_billing_fullname");
-//        if (fullName != null) {
-//            fullName = fullName.trim();
-//        } else {
-//            fullName = "";
-//        }
 
-//        if (fullName != null && !fullName.isEmpty()) {
-//            int idx = fullName.indexOf(' ');
-//            String firstName = fullName.substring(0, idx);
-//            String lastName = fullName.substring(fullName.lastIndexOf(' ') + 1);
-//            vnp_Params.put("vnp_Bill_FirstName", firstName);
-//            vnp_Params.put("vnp_Bill_LastName", lastName);
-
-//        }
         vnp_Params.put("vnp_Bill_Address", req.getParameter("txt_inv_addr1"));
         vnp_Params.put("vnp_Bill_City", req.getParameter("txt_bill_city"));
         vnp_Params.put("vnp_Bill_Country", req.getParameter("txt_bill_country"));
         if (req.getParameter("txt_bill_state") != null && !req.getParameter("txt_bill_state").isEmpty()) {
             vnp_Params.put("vnp_Bill_State", req.getParameter("txt_bill_state"));
         }
+
         // Invoice
         vnp_Params.put("vnp_Inv_Phone", req.getParameter("txt_inv_mobile"));
         vnp_Params.put("vnp_Inv_Email", req.getParameter("txt_inv_email"));
@@ -134,17 +130,19 @@ public class VNPayController {
                 }
             }
         }
+
+        //thêm mới hóa đơn
+        NguoiDung nguoiDung = nguoiDungService.findById(hoaDonDTO.getEmailNguoiDung());
+        System.out.println(nguoiDung.toString());
+        HoaDon hoaDon = modelMapper.map(hoaDonDTO, HoaDon.class);
+        hoaDon.setNguoiDung(nguoiDung);
+        System.out.println("HOA DON1230" + hoaDon.toString());
+        hoaDonService.create(hoaDon);
+
         String queryUrl = query.toString();
         String vnp_SecureHash = VnpayConfig.hmacSHA512(VnpayConfig.vnp_HashSecret, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = VnpayConfig.vnp_PayUrl + "?" + queryUrl;
         return paymentUrl;
     }
-
-//    @GetMapping("success")
-//    public String success(Model model) {
-//        String amount = req.getParameter("vnp_Amount");
-//        model.addAttribute("vnp_Amount", amount);
-//        return "success";
-//    }
 }
