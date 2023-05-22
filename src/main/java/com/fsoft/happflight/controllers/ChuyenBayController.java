@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.fsoft.happflight.config.ModelMapperClass;
 import com.fsoft.happflight.dto.DataChuyenBayFindById;
 import com.fsoft.happflight.dto.DataChuyenBaySearch;
@@ -30,11 +29,11 @@ import com.fsoft.happflight.services.chuyen_bay.IChuyenBayService;
 import com.fsoft.happflight.services.chuyen_bay.IHangBayService;
 import com.fsoft.happflight.services.chuyen_bay.IMayBayService;
 import com.fsoft.happflight.services.chuyen_bay.ISanBayService;
-
 @RestController
 @RequestMapping(value = "/chuyen-bay")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ChuyenBayController {
+
 	@Autowired
 	IChuyenBayService chuyenBayService;
 
@@ -58,6 +57,8 @@ public class ChuyenBayController {
 		dataResponse.setSanBays(sanBays);
 		return new ResponseEntity<>(dataResponse, HttpStatus.OK);
 	}
+
+ 
 
 	//List cho user
 	@GetMapping("/listPageUser")
@@ -91,7 +92,7 @@ public class ChuyenBayController {
 		return new ResponseEntity<>(chuyenBays, HttpStatus.OK);
 	}
 
-	
+
 	//Thông tin chuyến bay được chọn 1 chiều/ khứ hồi
 	@GetMapping("/findBy2Id")
 	public ResponseEntity<?> findBy2ID(@RequestParam String idChuyenBayDi,

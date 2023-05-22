@@ -1,5 +1,8 @@
 package com.fsoft.happflight.entities.hanh_khach;
 
+import com.fsoft.happflight.entities.dat_cho.DatCho;
+import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
+
 import javax.persistence.*;
 
 @Entity
@@ -24,6 +27,9 @@ public class HanhKhach {
 
     @Column(name = "trang_thai_xoa")
     private Integer trangThaiXoa;
+
+    @OneToOne(mappedBy = "hanhKhach")
+    private VeMayBay veMayBay;
 
     public HanhKhach() {
         super();

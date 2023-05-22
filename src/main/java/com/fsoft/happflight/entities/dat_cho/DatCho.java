@@ -2,6 +2,7 @@ package com.fsoft.happflight.entities.dat_cho;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
+import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 
 import javax.persistence.*;
 
@@ -14,7 +15,7 @@ public class DatCho {
     private Long maDatCho;
 
     @Column(name = "trang_thai", columnDefinition = "nvarchar(50)")
-    private String trangThai;
+    private String trangThai = "available";
 
     @JoinColumn(name = "ma_ghe", referencedColumnName = "ma_ghe")
     @ManyToOne(targetEntity = Ghe.class)
@@ -22,8 +23,10 @@ public class DatCho {
 
     @JoinColumn(name = "ma_chuyen_bay", referencedColumnName = "ma_chuyen_bay")
     @ManyToOne(targetEntity = ChuyenBay.class)
-    @JsonBackReference
     private ChuyenBay chuyenBay;
+
+    @OneToOne(mappedBy = "datCho")
+    private VeMayBay veMayBay;
 
     public DatCho() {
         super();
@@ -33,6 +36,12 @@ public class DatCho {
     public DatCho(Long maDatCho, String trangThai, Ghe ghe, ChuyenBay chuyenBay) {
         super();
         this.maDatCho = maDatCho;
+        this.trangThai = trangThai;
+        this.ghe = ghe;
+        this.chuyenBay = chuyenBay;
+    }
+
+    public DatCho(String trangThai, Ghe ghe, ChuyenBay chuyenBay) {
         this.trangThai = trangThai;
         this.ghe = ghe;
         this.chuyenBay = chuyenBay;
