@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 
 @Repository
 @Transactional
-public interface INguoiDungRepository extends JpaRepository<NguoiDung, Long> {
+public interface INguoiDungRepository extends JpaRepository<NguoiDung, String> {
     @Query(value = "SELECT * FROM nguoi_dung WHERE email=:email", nativeQuery = true)
     NguoiDung getNguoiDungByEmail(@Param("email") String email);
 }

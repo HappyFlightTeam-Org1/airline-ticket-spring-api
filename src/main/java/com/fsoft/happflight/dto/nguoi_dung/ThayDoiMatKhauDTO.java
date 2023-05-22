@@ -1,10 +1,15 @@
 package com.fsoft.happflight.dto.nguoi_dung;
 
+import javax.validation.constraints.NotBlank;
+
 public class ThayDoiMatKhauDTO {
+    @NotBlank(message = "Trường này là bắt buộc")
     private String matKhauHienTai;
 
+    @NotBlank(message = "Trường này là bắt buộc")
     private String matKhauMoi;
 
+    @NotBlank(message = "Trường này là bắt buộc")
     private String xacNhanMatKhauMoi;
 
     public ThayDoiMatKhauDTO() {}

@@ -1,53 +1,33 @@
 package com.fsoft.happflight.dto.nguoi_dung;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-
-public class DangKyDTO {
-    @NotBlank(message = "Trường này là bắt buộc")
+public class ThayDoiThongTinNguoiDungDTO {
     private String diaChiEmail;
 
-    @NotBlank(message = "Trường này là bắt buộc")
-    private String tenTaiKhoan;
-
-    @NotBlank(message = "Trường này là bắt buộc")
     private String soDienThoai;
 
-    @NotBlank(message = "Trường này là bắt buộc")
-    private String matKhau;
+    private int quocTich;
 
-    @NotBlank(message = "Trường này là bắt buộc")
     private String gioiTinh;
 
-    @NotBlank(message = "Trường này là bắt buộc")
     private String hoVaTen;
 
-    @NotBlank(message = "Trường này là bắt buộc")
     private String ngaySinh;
 
-    @NotBlank(message = "Trường này là bắt buộc")
     private String hoChieu;
 
-    @NotBlank(message = "Trường này là bắt buộc")
     private String diaChi;
 
-    @NotEmpty
-    private Integer quocTich;
+    public ThayDoiThongTinNguoiDungDTO() {}
 
-    public DangKyDTO() {
-    }
-
-    public DangKyDTO(String diaChiEmail, String tenTaiKhoan, String soDienThoai, String matKhau, String gioiTinh, String hoVaTen, String ngaySinh, String hoChieu, String diaChi, Integer quocTich) {
+    public ThayDoiThongTinNguoiDungDTO(String diaChiEmail, String soDienThoai, int quocTich, String gioiTinh, String hoVaTen, String ngaySinh, String hoChieu, String diaChi) {
         this.diaChiEmail = diaChiEmail;
-        this.tenTaiKhoan = tenTaiKhoan;
         this.soDienThoai = soDienThoai;
-        this.matKhau = matKhau;
+        this.quocTich = quocTich;
         this.gioiTinh = gioiTinh;
         this.hoVaTen = hoVaTen;
         this.ngaySinh = ngaySinh;
         this.hoChieu = hoChieu;
         this.diaChi = diaChi;
-        this.quocTich = quocTich;
     }
 
     public String getDiaChiEmail() {
@@ -58,14 +38,6 @@ public class DangKyDTO {
         this.diaChiEmail = diaChiEmail;
     }
 
-    public String getTenTaiKhoan() {
-        return tenTaiKhoan;
-    }
-
-    public void setTenTaiKhoan(String tenTaiKhoan) {
-        this.tenTaiKhoan = tenTaiKhoan;
-    }
-
     public String getSoDienThoai() {
         return soDienThoai;
     }
@@ -74,12 +46,12 @@ public class DangKyDTO {
         this.soDienThoai = soDienThoai;
     }
 
-    public String getMatKhau() {
-        return matKhau;
+    public int getQuocTich() {
+        return quocTich;
     }
 
-    public void setMatKhau(String matKhau) {
-        this.matKhau = matKhau;
+    public void setQuocTich(int quocTich) {
+        this.quocTich = quocTich;
     }
 
     public String getGioiTinh() {
@@ -120,13 +92,5 @@ public class DangKyDTO {
 
     public void setDiaChi(String diaChi) {
         this.diaChi = diaChi;
-    }
-
-    public Integer getQuocTich() {
-        return quocTich;
-    }
-
-    public void setQuocTich(Integer quocTich) {
-        this.quocTich = quocTich;
     }
 }

@@ -1,6 +1,7 @@
 package com.fsoft.happflight.services.nguoi_dung.impl;
 
 import com.fsoft.happflight.dto.nguoi_dung.DangKyDTO;
+import com.fsoft.happflight.dto.nguoi_dung.ThayDoiThongTinNguoiDungDTO;
 import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
 import com.fsoft.happflight.repositories.nguoi_dung.INguoiDungRepository;
 import com.fsoft.happflight.services.nguoi_dung.INguoiDungService;
@@ -39,6 +40,21 @@ public class NguoiDungServiceImpl implements INguoiDungService {
         nguoiDung.setTrangThaiXoa(TrangThaiXoaConsts.ACTIVE);
         nguoiDung.setQuocTich(quocTichService.getById(dangKyDTO.getQuocTich()));
         nguoiDung.setTaiKhoan(taiKhoanService.getByUsername(dangKyDTO.getTenTaiKhoan()));
+        nguoiDungRepository.save(nguoiDung);
+    }
+
+    @Override
+    public void saveThayDoiNguoiDung(ThayDoiThongTinNguoiDungDTO thayDoiThongTinNguoiDungDTO) {
+        NguoiDung nguoiDung = nguoiDungRepository.getReferenceById(thayDoiThongTinNguoiDungDTO.getDiaChiEmail());
+
+        nguoiDung.setSoDienThoai(thayDoiThongTinNguoiDungDTO.getSoDienThoai());
+        nguoiDung.setHoVaTen(thayDoiThongTinNguoiDungDTO.getHoVaTen());
+        nguoiDung.setNgaySinh(thayDoiThongTinNguoiDungDTO.getNgaySinh());
+        nguoiDung.setDiaChi(thayDoiThongTinNguoiDungDTO.getDiaChi());
+        nguoiDung.setHoChieu(thayDoiThongTinNguoiDungDTO.getHoChieu());
+        nguoiDung.setGioiTinh(thayDoiThongTinNguoiDungDTO.getGioiTinh());
+        nguoiDung.setQuocTich(quocTichService.getById(thayDoiThongTinNguoiDungDTO.getQuocTich()));
+
         nguoiDungRepository.save(nguoiDung);
     }
 }
