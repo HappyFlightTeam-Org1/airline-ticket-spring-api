@@ -1,5 +1,6 @@
 package com.fsoft.happflight.entities.ve_ma_bay;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fsoft.happflight.entities.dat_cho.DatCho;
 import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
@@ -22,16 +23,17 @@ public class VeMayBay {
     @Column(name = "trang_thai_xoa")
     private Integer trangThaiXoa;
 
+    @OneToOne
     @JoinColumn(name = "ma_hanh_khach", referencedColumnName = "ma_hanh_khach")
-    @OneToOne(fetch = FetchType.LAZY)
     private HanhKhach hanhKhach;
 
+    @OneToOne
     @JoinColumn(name = "ma_dat_cho", referencedColumnName = "ma_dat_cho")
-    @OneToOne(fetch = FetchType.LAZY)
     private DatCho datCho;
 
     @JoinColumn(name = "ma_hoa_don", referencedColumnName = "ma_hoa_don")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JsonIgnore
     private HoaDon hoaDon;
 
     public VeMayBay() {

@@ -2,6 +2,7 @@ package com.fsoft.happflight.entities.dat_cho;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
+import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 
 import javax.persistence.*;
 
@@ -22,8 +23,10 @@ public class DatCho {
 
     @JoinColumn(name = "ma_chuyen_bay", referencedColumnName = "ma_chuyen_bay")
     @ManyToOne(targetEntity = ChuyenBay.class)
-    @JsonBackReference
     private ChuyenBay chuyenBay;
+
+    @OneToOne(mappedBy = "datCho")
+    private VeMayBay veMayBay;
 
     public DatCho() {
         super();

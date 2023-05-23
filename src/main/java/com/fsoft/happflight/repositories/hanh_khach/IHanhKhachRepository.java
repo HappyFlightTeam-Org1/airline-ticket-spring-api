@@ -15,7 +15,7 @@ import java.util.List;
 @Transactional
 public interface IHanhKhachRepository extends JpaRepository<HanhKhach, Long> {
 
-    List<HanhKhach> findByTenHanhKhachContainingIgnoreCase(String tenHanhkhach);
+    Page<HanhKhach> findByTenHanhKhachContainingIgnoreCase(Pageable pageable,String tenHanhkhach);
 
     Page<HanhKhach> findAll(Pageable pageable);
 

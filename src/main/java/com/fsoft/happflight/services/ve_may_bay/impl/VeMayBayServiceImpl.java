@@ -20,6 +20,7 @@ public class VeMayBayServiceImpl implements IVeMayBayService {
 
     @Override
     public List<VeMayBay> findAll() {
+        System.out.println("SERRVICCCCEE !");
         return veMayBayRepository.findAll();
     }
 
