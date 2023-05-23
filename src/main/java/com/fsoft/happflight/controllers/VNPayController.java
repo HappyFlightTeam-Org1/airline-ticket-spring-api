@@ -164,7 +164,7 @@ public class VNPayController {
                 DatCho datCho = datChoService.findById(maDatChos.get(i));
                 String maVe = "TK" + datCho.getGhe().getTenGhe() + datCho.getChuyenBay().getMaChuyenBay() + datCho.getMaDatCho();
                 String hangVe = datCho.getGhe().getLoaiGhe().getTenLoaiGhe();
-                Long giaVe = Long.parseLong(datCho.getChuyenBay().getGiaVe());
+                Long giaVe = datCho.getChuyenBay().getGiaVe();
                 HanhKhach hanhKhach = modelMapper.map(hanhKhachDTOS.get(j), HanhKhach.class);
                 HanhKhach hanhKhach1 = hanhKhachService.saveHanhKhach(hanhKhach);
                 veMayBayService.create(new VeMayBay(maVe, hangVe, giaVe, 0, hanhKhach1, datCho, hoaDon1));
