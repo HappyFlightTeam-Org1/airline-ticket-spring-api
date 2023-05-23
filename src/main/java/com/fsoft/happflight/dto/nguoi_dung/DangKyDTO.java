@@ -1,37 +1,48 @@
 package com.fsoft.happflight.dto.nguoi_dung;
 
+import com.fsoft.happflight.utils.consts.RegexPatterns;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 public class DangKyDTO {
     @NotBlank(message = "Trường này là bắt buộc")
+    @Pattern(regexp = RegexPatterns.EMAIL_PATTERN, message = "Định dạng email không hợp lệ")
     private String diaChiEmail;
 
     @NotBlank(message = "Trường này là bắt buộc")
+    @Pattern(regexp = RegexPatterns.TEN_TAI_KHOAN_PATTERN, message = "Định dạng tên tài khoản không hợp lệ")
     private String tenTaiKhoan;
 
     @NotBlank(message = "Trường này là bắt buộc")
+    @Pattern(regexp = RegexPatterns.SO_DIEN_THOAI_PATTERN, message = "Định dạng số điện thoại không hợp lệ")
     private String soDienThoai;
 
     @NotBlank(message = "Trường này là bắt buộc")
     private String matKhau;
 
     @NotBlank(message = "Trường này là bắt buộc")
+    @Pattern(regexp = RegexPatterns.GIOI_TINH_PATTERN, message = "Định dạng giới tính không hợp lệ")
     private String gioiTinh;
 
     @NotBlank(message = "Trường này là bắt buộc")
+    @Pattern(regexp = RegexPatterns.HO_TEN_PATTERN, message = "Định dạng họ tên không hợp lệ")
     private String hoVaTen;
 
     @NotBlank(message = "Trường này là bắt buộc")
+    @Pattern(regexp = RegexPatterns.NGAY_SINH_PATTERN, message = "Định dạng ngày sinh không hợp lệ")
     private String ngaySinh;
 
     @NotBlank(message = "Trường này là bắt buộc")
+    @Pattern(regexp = RegexPatterns.HO_CHIEU_PATTERN, message = "Định dạng hộ chiếu không hợp lệ")
     private String hoChieu;
 
     @NotBlank(message = "Trường này là bắt buộc")
+    @Pattern(regexp = RegexPatterns.DIA_CHI_PATTERN, message = "Định dạng địa chỉ không hơợp lệ")
     private String diaChi;
 
-    @NotNull
+    @NotNull(message = "Trường này là bắt buộc")
     private Integer quocTich;
 
     public DangKyDTO() {

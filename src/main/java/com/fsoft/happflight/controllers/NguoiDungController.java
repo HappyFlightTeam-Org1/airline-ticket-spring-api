@@ -21,13 +21,6 @@ import java.util.HashMap;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/nguoi-dung")
 public class NguoiDungController {
-    /*
-    * Dang ky
-    * Dang nhap
-    * Quen mat khau
-    * Thay doi mat khau
-    * Thay doi thong tin nguoi dung
-    * */
 
     @Autowired
     private TaiKhoanServiceImpl taiKhoanService;
@@ -40,49 +33,60 @@ public class NguoiDungController {
 
     @PostMapping("/dang-nhap")
     public ResponseEntity<?> dangNhap(@Validated @ModelAttribute DangNhapDTO dangNhapDTO) {
+        HashMap<String, String> responseBody = new HashMap<>();
         if (taiKhoanService.validateLogin(dangNhapDTO)) {
-            HashMap<String, String> responseBody = new HashMap<>();
             responseBody.put("jwt", JwtProvider.generateToken(dangNhapDTO.getTenTaiKhoan()));
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        responseBody.put("message", "Sai tên tài khoản hoặc mật khẩu");
+        return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
 
     @Transactional
     @PostMapping("/dang-ky")
     public ResponseEntity<?> dangKy(@Validated @ModelAttribute DangKyDTO dangKyDTO) {
+        HashMap<String, String> responseBody = new HashMap<>();
         if (!taiKhoanService.validateTenTaiKhoan(dangKyDTO.getTenTaiKhoan())
                 && !nguoiDungService.validateEmail(dangKyDTO.getDiaChiEmail())) {
             taiKhoanService.saveNewTaiKhoan(dangKyDTO);
             roleService.saveTaiKhoanWithUserRole(dangKyDTO.getTenTaiKhoan());
             nguoiDungService.saveNguoiDung(dangKyDTO);
-            return new ResponseEntity<>(HttpStatus.OK);
+            responseBody.put("message", "Đăng ký thành công");
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
         }
+        responseBody.put("message", "Tên tài khoản hoặc email bị trùng lăp");
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     //quen mat khau
 
+
     @Transactional
     @PostMapping("/thay-doi-mat-khau")
     public ResponseEntity<?> thayDoiMatKhau(@Validated @ModelAttribute ThayDoiMatKhauDTO thayDoiMatKhauDTO,
                                             @CookieValue(value = "jwt", defaultValue = "") String jwtToken) {
+        HashMap<String, String> responseBody = new HashMap<>();
         if (taiKhoanService.validatePassword(JwtProvider.getUsernameFromToken(jwtToken), thayDoiMatKhauDTO.getMatKhauHienTai())
                 && thayDoiMatKhauDTO.getMatKhauMoi().equals(thayDoiMatKhauDTO.getXacNhanMatKhauMoi())
                 && JwtProvider.validateToken(jwtToken)) {
             taiKhoanService.savePasswordChange(thayDoiMatKhauDTO.getMatKhauMoi(), JwtProvider.getUsernameFromToken(jwtToken));
-            return new ResponseEntity<>(HttpStatus.OK);
+            responseBody.put("message", "Thay đổi mật khẩu thành công");
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        responseBody.put("message", "Mật khẩu hiện tại không trùng khớp");
+        return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/thay-doi-thong-tin-nguoi-dung")
     public ResponseEntity<?> thayDoiThongTinNguoiDung(@Validated @ModelAttribute ThayDoiThongTinNguoiDungDTO thayDoiThongTinNguoiDungDTO,
                                                       @CookieValue(value = "jwt", defaultValue = "") String jwtToken) {
+        HashMap<String, String> responseBody = new HashMap<>();
         if (JwtProvider.validateToken(jwtToken)) {
             nguoiDungService.saveThayDoiNguoiDung(thayDoiThongTinNguoiDungDTO);
-            return new ResponseEntity<>(HttpStatus.OK);
+            responseBody.put("message", "Thay đổi thông tin người dùng thành công;");
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        responseBody.put("message", "Thay đổi thông tin người dùng không thành công");
+        return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
 }
