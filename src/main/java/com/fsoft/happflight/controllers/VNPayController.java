@@ -1,11 +1,18 @@
 package com.fsoft.happflight.controllers;
 
 import com.fsoft.happflight.config.vnpay.VnpayConfig;
-import com.fsoft.happflight.dto.hoa_don.HoaDonDTO;
+import com.fsoft.happflight.dto.hanh_khach.HanhKhachDTO;
+import com.fsoft.happflight.dto.ve_may_bay.VeMayBayDTO;
+import com.fsoft.happflight.entities.dat_cho.DatCho;
+import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
 import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
+import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
+import com.fsoft.happflight.services.dat_cho.IDatChoService;
+import com.fsoft.happflight.services.hanh_khach.IHanhKhachService;
 import com.fsoft.happflight.services.hoa_don.IHoaDonService;
 import com.fsoft.happflight.services.nguoi_dung.INguoiDungService;
+import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,25 +40,34 @@ public class VNPayController {
     private INguoiDungService nguoiDungService;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private IDatChoService datChoService;
 
     @Autowired
     private IHoaDonService hoaDonService;
 
+    @Autowired
+    private IHanhKhachService hanhKhachService;
+
+    @Autowired
+    private IVeMayBayService veMayBayService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
     @PostMapping("/vnpay/make-order")
-    public String createPaymentVNPay(@RequestBody HoaDonDTO hoaDonDTO) throws UnsupportedEncodingException {
+    public String createPaymentVNPay(@RequestBody VeMayBayDTO veMayBayDTO) throws UnsupportedEncodingException {
         System.out.println("HERREEE");
-        System.out.println(hoaDonDTO.toString());
+        System.out.println(veMayBayDTO.toString());
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String vnp_OrderInfo = "Hoa don ve may bay";
         String orderType = "other";
 //        String vnp_TxnRef = Config.getRandomNumber(8);
-        String vnp_TxnRef = hoaDonDTO.getMaHoaDon();
+        String vnp_TxnRef = veMayBayDTO.getHoaDonDTO().getMaHoaDon();
 //        String vnp_IpAddr = Config.getIpAddress(req);
         String vnp_IpAddr = "118.69.35.214";
         String vnp_TmnCode = VnpayConfig.vnp_TmnCode;
-        Long amount = hoaDonDTO.getTongTien() != null ? hoaDonDTO.getTongTien() * 100 : 1000000;
+        Long amount = veMayBayDTO.getHoaDonDTO().getTongTien() != null ? veMayBayDTO.getHoaDonDTO().getTongTien() * 100 : 1000000;
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", vnp_Version);
         vnp_Params.put("vnp_Command", vnp_Command);
@@ -74,6 +90,8 @@ public class VNPayController {
         } else {
             vnp_Params.put("vnp_Locale", "vn");
         }
+        System.out.println("MA DAT CHO");
+        System.out.println(Arrays.toString(veMayBayDTO.getMaDatChos()));
         vnp_Params.put("vnp_ReturnUrl", VnpayConfig.vnp_Returnurl);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
@@ -132,12 +150,28 @@ public class VNPayController {
         }
 
         //thêm mới hóa đơn
-        NguoiDung nguoiDung = nguoiDungService.findById(hoaDonDTO.getEmailNguoiDung());
+        NguoiDung nguoiDung = nguoiDungService.findById(veMayBayDTO.getHoaDonDTO().getEmailNguoiDung());
         System.out.println(nguoiDung.toString());
-        HoaDon hoaDon = modelMapper.map(hoaDonDTO, HoaDon.class);
+        HoaDon hoaDon = modelMapper.map(veMayBayDTO.getHoaDonDTO(), HoaDon.class);
         hoaDon.setNguoiDung(nguoiDung);
         System.out.println("HOA DON1230" + hoaDon.toString());
-        hoaDonService.create(hoaDon);
+        HoaDon hoaDon1 = hoaDonService.create(hoaDon);
+
+        List<Long> maDatChos = Arrays.asList(veMayBayDTO.getMaDatChos());
+        List<HanhKhachDTO> hanhKhachDTOS = veMayBayDTO.getHanhKhachDTOs();
+        for (int i = 0; i < maDatChos.size(); i++) {
+            for (int j = 0; j < hanhKhachDTOS.size(); j++) {
+                DatCho datCho = datChoService.findById(maDatChos.get(i));
+                String maVe = "TK" + datCho.getGhe().getTenGhe() + datCho.getChuyenBay().getMaChuyenBay() + datCho.getMaDatCho();
+                String hangVe = datCho.getGhe().getLoaiGhe().getTenLoaiGhe();
+                Long giaVe = Long.parseLong(datCho.getChuyenBay().getGiaVe());
+                HanhKhach hanhKhach = modelMapper.map(hanhKhachDTOS.get(j), HanhKhach.class);
+                HanhKhach hanhKhach1 = hanhKhachService.saveHanhKhach(hanhKhach);
+                veMayBayService.create(new VeMayBay(maVe, hangVe, giaVe, 0, hanhKhach1, datCho, hoaDon1));
+            }
+
+
+        }
 
         String queryUrl = query.toString();
         String vnp_SecureHash = VnpayConfig.hmacSHA512(VnpayConfig.vnp_HashSecret, hashData.toString());

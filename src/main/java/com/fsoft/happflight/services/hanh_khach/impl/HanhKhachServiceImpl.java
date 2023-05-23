@@ -22,9 +22,8 @@ public class HanhKhachServiceImpl implements IHanhKhachService {
     private ModelMapper modelMapper;
 
     @Override
-    public void saveHanhKhach(HanhKhach hanhKhach) {
-        hanhKhachRepository.save(hanhKhach);
-
+    public HanhKhach saveHanhKhach(HanhKhach hanhKhach) {
+       return hanhKhachRepository.save(hanhKhach);
     }
 
     @Override

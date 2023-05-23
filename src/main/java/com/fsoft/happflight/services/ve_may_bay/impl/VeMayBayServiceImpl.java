@@ -4,6 +4,8 @@ import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import com.fsoft.happflight.repositories.ve_may_bay.IVeMayBayRepository;
 import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,9 +21,9 @@ public class VeMayBayServiceImpl implements IVeMayBayService {
     }
 
     @Override
-    public List<VeMayBay> findAll() {
+    public Page<VeMayBay> findAll(Pageable pageable) {
         System.out.println("SERRVICCCCEE !");
-        return veMayBayRepository.findAll();
+        return veMayBayRepository.findAll(pageable);
     }
 
     @Override
@@ -32,5 +34,10 @@ public class VeMayBayServiceImpl implements IVeMayBayService {
     @Override
     public VeMayBay delete(VeMayBay veMayBay) {
         return veMayBayRepository.save(veMayBay);
+    }
+
+    @Override
+    public List<VeMayBay> findByOrderCode(String maHoaDon) {
+        return veMayBayRepository.findByOrderCode(maHoaDon);
     }
 }
