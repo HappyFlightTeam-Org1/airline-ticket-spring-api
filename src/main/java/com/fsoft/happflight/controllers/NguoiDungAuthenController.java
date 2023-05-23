@@ -4,7 +4,7 @@ import com.fsoft.happflight.dto.nguoi_dung.DangKyDTO;
 import com.fsoft.happflight.dto.nguoi_dung.DangNhapDTO;
 import com.fsoft.happflight.dto.nguoi_dung.ThayDoiMatKhauDTO;
 import com.fsoft.happflight.dto.nguoi_dung.ThayDoiThongTinNguoiDungDTO;
-import com.fsoft.happflight.services.nguoi_dung.impl.NguoiDungServiceImpl;
+import com.fsoft.happflight.services.nguoi_dung.impl.NguoiDungAuthenServiceImpl;
 import com.fsoft.happflight.services.tai_khoan.impl.RoleServiceImpl;
 import com.fsoft.happflight.services.tai_khoan.impl.TaiKhoanServiceImpl;
 import com.fsoft.happflight.utils.jwt.JwtProvider;
@@ -20,13 +20,13 @@ import java.util.HashMap;
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/nguoi-dung")
-public class NguoiDungController {
+public class NguoiDungAuthenController {
 
     @Autowired
     private TaiKhoanServiceImpl taiKhoanService;
 
     @Autowired
-    private NguoiDungServiceImpl nguoiDungService;
+    private NguoiDungAuthenServiceImpl nguoiDungService;
 
     @Autowired
     private RoleServiceImpl roleService;

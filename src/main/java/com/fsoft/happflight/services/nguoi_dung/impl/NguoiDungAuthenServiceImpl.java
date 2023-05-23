@@ -3,18 +3,17 @@ package com.fsoft.happflight.services.nguoi_dung.impl;
 import com.fsoft.happflight.dto.nguoi_dung.DangKyDTO;
 import com.fsoft.happflight.dto.nguoi_dung.ThayDoiThongTinNguoiDungDTO;
 import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
-import com.fsoft.happflight.repositories.nguoi_dung.INguoiDungRepository;
-import com.fsoft.happflight.services.nguoi_dung.INguoiDungService;
-import com.fsoft.happflight.services.nguoi_dung.IQuocTichService;
+import com.fsoft.happflight.repositories.nguoi_dung.INguoiDungAuthenRepository;
+import com.fsoft.happflight.services.nguoi_dung.INguoiDungAuthenService;
 import com.fsoft.happflight.services.tai_khoan.impl.TaiKhoanServiceImpl;
 import com.fsoft.happflight.utils.consts.TrangThaiXoaConsts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NguoiDungServiceImpl implements INguoiDungService {
+public class NguoiDungAuthenServiceImpl implements INguoiDungAuthenService {
     @Autowired
-    private INguoiDungRepository nguoiDungRepository;
+    private INguoiDungAuthenRepository nguoiDungRepository;
 
     @Autowired
     private QuocTichServiceImpl quocTichService;

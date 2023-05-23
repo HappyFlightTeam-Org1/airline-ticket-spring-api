@@ -3,7 +3,7 @@ package com.fsoft.happflight.services.nguoi_dung;
 import com.fsoft.happflight.dto.nguoi_dung.DangKyDTO;
 import com.fsoft.happflight.dto.nguoi_dung.ThayDoiThongTinNguoiDungDTO;
 
-public interface INguoiDungService {
+public interface INguoiDungAuthenService {
     boolean validateEmail(String email);
 
     void saveNguoiDung(DangKyDTO dangKyDTO);
