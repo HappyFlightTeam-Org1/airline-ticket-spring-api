@@ -1,8 +1,6 @@
 package com.fsoft.happflight.controllers;
 
-import com.fsoft.happflight.entities.chuyen_bay.MayBay;
 import com.fsoft.happflight.entities.dat_cho.DatCho;
-import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import com.fsoft.happflight.services.dat_cho.IDatChoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
