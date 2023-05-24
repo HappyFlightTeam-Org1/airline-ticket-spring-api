@@ -1,37 +1,27 @@
 package com.fsoft.happflight.services.chuyen_bay.impl;
 
-import com.fsoft.happflight.entities.chuyen_bay.MayBay;
-import com.fsoft.happflight.repositories.chuyen_bay.IMayBayRepository;
-import com.fsoft.happflight.services.chuyen_bay.IMayBayService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.fsoft.happflight.entities.chuyen_bay.MayBay;
+import com.fsoft.happflight.repositories.chuyen_bay.IMayBayRepository;
+import com.fsoft.happflight.services.chuyen_bay.IMayBayService;
 
 @Service
 public class MayBayServiceImpl implements IMayBayService {
+	@Autowired
+	IMayBayRepository mayBayRepository;
 
-    private IMayBayRepository mayBayRepository;
+	@Override
+	public List<MayBay> findAll() {
+		return mayBayRepository.findAll();
+	}
 
-    public MayBayServiceImpl() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-    @Autowired
-    public MayBayServiceImpl(IMayBayRepository mayBayRepository) {
-        super();
-        this.mayBayRepository = mayBayRepository;
-    }
-
-    @Override
-    public List<MayBay> findAll() {
-        return mayBayRepository.findAll();
-    }
-
-    @Override
-    public MayBay findById(Long maMayBay) {
-        return mayBayRepository.findById(maMayBay).orElse(null);
-    }
+	@Override
+	public MayBay findById(Long maMayBay) {
+		return mayBayRepository.findById(maMayBay).orElse(null);
+	}
 
 }
