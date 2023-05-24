@@ -3,12 +3,11 @@ package com.fsoft.happflight.controllers;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,8 +20,23 @@ public class VeMayBayController {
     private IVeMayBayService veMayBayService;
 
     @GetMapping(value = "/list")
-    public ResponseEntity<?> showListMayBay() {
-        List<VeMayBay> veMayBays = veMayBayService.findAll();
+    public ResponseEntity<?> showListVeMayBay(@RequestParam(defaultValue = "0") int page,
+                                              @RequestParam(defaultValue = "5") int size) {
+
+        Page<VeMayBay> pageVeMayBays = veMayBayService.findAll(PageRequest.of(page, size));
+        List<VeMayBay> veMayBays = pageVeMayBays.getContent();
+        veMayBays.stream().forEach(item -> {
+            System.out.println(item.toString());
+        });
+        if (veMayBays.isEmpty()) {
+            return new ResponseEntity<>(veMayBays, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(veMayBays, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/list/{maHoaDon}")
+    public ResponseEntity<?> showListFromOrderCode(@PathVariable("maHoaDon") String maHoaDon) {
+        List<VeMayBay> veMayBays = veMayBayService.findByOrderCode(maHoaDon);
         veMayBays.stream().forEach(item -> {
             System.out.println(item.toString());
         });

@@ -6,7 +6,7 @@ public interface IHoaDonService {
 
 	HoaDon create(HoaDon hoaDon);
 
-	void update(HoaDon hoaDon);
+	HoaDon update(HoaDon hoaDon);
 
 	HoaDon findById(String maHoaDon);
 
