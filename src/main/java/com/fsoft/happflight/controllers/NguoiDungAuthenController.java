@@ -1,12 +1,10 @@
 package com.fsoft.happflight.controllers;
 
-import com.fsoft.happflight.dto.nguoi_dung.DangKyDTO;
-import com.fsoft.happflight.dto.nguoi_dung.DangNhapDTO;
-import com.fsoft.happflight.dto.nguoi_dung.ThayDoiMatKhauDTO;
-import com.fsoft.happflight.dto.nguoi_dung.ThayDoiThongTinNguoiDungDTO;
+import com.fsoft.happflight.dto.nguoi_dung.*;
 import com.fsoft.happflight.services.nguoi_dung.impl.NguoiDungAuthenServiceImpl;
 import com.fsoft.happflight.services.tai_khoan.impl.RoleServiceImpl;
 import com.fsoft.happflight.services.tai_khoan.impl.TaiKhoanServiceImpl;
+import com.fsoft.happflight.utils.email.EmailService;
 import com.fsoft.happflight.utils.jwt.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +28,9 @@ public class NguoiDungAuthenController {
 
     @Autowired
     private RoleServiceImpl roleService;
+
+    @Autowired
+    private EmailService emailService;
 
     @PostMapping("/dang-nhap")
     public ResponseEntity<?> dangNhap(@Validated @ModelAttribute DangNhapDTO dangNhapDTO) {
@@ -55,11 +56,35 @@ public class NguoiDungAuthenController {
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         }
         responseBody.put("message", "Tên tài khoản hoặc email bị trùng lăp");
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
 
     //quen mat khau
+    @PostMapping("/email-dat-lai-mat-khau")
+    public ResponseEntity<?> emailDatLaiMatKhau(@Validated @ModelAttribute EmailDatLaiMatKhauDTO emailDatLaiMatKhauDTO) {
+        HashMap<String, String> responseBody = new HashMap<>();
+        if (nguoiDungService.validateEmail(emailDatLaiMatKhauDTO.getEmail())) {
+            emailService.sendResetEmail(emailDatLaiMatKhauDTO.getEmail(),
+                    JwtProvider.generateResetToken(nguoiDungService.getUsernameFromNguoiDung(emailDatLaiMatKhauDTO.getEmail())));
+            responseBody.put("message", "Gửi email thành công");
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        }
+        responseBody.put("message", "Email không tồn tại");
+        return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+    }
 
+    @PostMapping("/dat-lai-mat-khau")
+    public ResponseEntity<?> datLaiMatKhau(@Validated @ModelAttribute DatLaiMatKhauDTO datLaiMatKhauDTO) {
+        HashMap<String, String> responseBody = new HashMap<>();
+        if (JwtProvider.validateToken(datLaiMatKhauDTO.getResetToken())) {
+            taiKhoanService.savePasswordChange(datLaiMatKhauDTO.getMatKhauMoi(),
+                    JwtProvider.getUsernameFromToken(datLaiMatKhauDTO.getResetToken()));
+            responseBody.put("message", "Đặt lại mật khẩu thành công");
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        }
+        responseBody.put("message", "Đặt lại mật khẩu không thành công");
+        return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+    }
 
     @Transactional
     @PostMapping("/thay-doi-mat-khau")
