@@ -45,7 +45,8 @@ public class ChuyenBayController {
 
 	@Autowired
 	ISanBayService sanBayService;
-//Lay du lieu các bảng liên quan
+	
+   //DucNH66 Lấy dữ liệu các bảng liên quan
 	@GetMapping("/listSelectOption")
 	public ResponseEntity<?> listSelectOption() {
 		List<SanBay> sanBays = sanBayService.findAll();
@@ -59,8 +60,7 @@ public class ChuyenBayController {
 	}
 
  
-
-	//List cho user
+	//DucNH66 List cho user
 	@GetMapping("/listPageUser")
 	public ResponseEntity<?> searchChuyenBayUser(@RequestParam(required = false) String diemDi,
 			@RequestParam(required = false) String diemDen, @RequestParam(required = false) String ngayDi,
@@ -78,7 +78,8 @@ public class ChuyenBayController {
 		dataChuyenBaySearch.setChuyenBayKhuHoi(chuyenBayKhuHoi);
 		return new ResponseEntity<>(dataChuyenBaySearch, HttpStatus.OK);
 	}
-    //List cho admin 
+	
+    //DucNH66 List cho Admin 
 	@GetMapping("/listPageAdmin")
 	public ResponseEntity<?> searchChuyenBayAdmin(@RequestParam(required = false) String diemDi,
 			@RequestParam(required = false) String diemDen, @RequestParam(required = false) String ngayKhoiHanh,
@@ -93,7 +94,7 @@ public class ChuyenBayController {
 	}
 
 
-	//Thông tin chuyến bay được chọn 1 chiều/ khứ hồi
+	//DucNH66 Thông tin chuyến bay được chọn 1 chiều/ khứ hồi
 	@GetMapping("/findBy2Id")
 	public ResponseEntity<?> findBy2ID(@RequestParam String idChuyenBayDi,
 			@RequestParam String idChuyenBayKhuHoi) {
@@ -106,13 +107,13 @@ public class ChuyenBayController {
 	}
 
 	
-    //Thông tin chuyến bay cần chỉnh sửa
+    //DucNH66 Thông tin chuyến bay cần chỉnh sửa/xem chi tiết
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<?> findByID(@PathVariable("id") String maChuyenBay) {
 		return new ResponseEntity<>(chuyenBayService.findById(maChuyenBay), HttpStatus.OK);
 	}
 
-	//Lưu và cập nhật
+	//DucNH66 Lưu và cập nhật chuyến bay
 	@PostMapping("/save")
 	public ResponseEntity<String> saveChuyenBayOk(@RequestBody ChuyenBayDTO chuyenBayDTO) {
 		MayBay mayBay = mayBayService.findById(chuyenBayDTO.getMaMayBay());

@@ -3,7 +3,7 @@ package com.fsoft.happflight.dto;
 import org.springframework.data.domain.Page;
 
 import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
-
+//DucNH66 lấy chuyến bay được tìm thấy 
 public class DataChuyenBaySearch {
 	private Page<ChuyenBay> chuyenBay1Chieu;
 	private Page<ChuyenBay> chuyenBayKhuHoi;

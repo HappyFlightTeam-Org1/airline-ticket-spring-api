@@ -1,7 +1,7 @@
 package com.fsoft.happflight.dto;
 
 import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
-
+//DucNH66 lấy chuyến bay vừa được chọn
 public class DataChuyenBayFindById {
 	ChuyenBay chuyenBay1;
 	ChuyenBay chuyenBay2;

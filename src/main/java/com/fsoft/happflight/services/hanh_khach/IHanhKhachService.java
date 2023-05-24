@@ -14,7 +14,6 @@ public interface IHanhKhachService {
 
     void saveHanhKhach(List<HanhKhachDTO> hanhKhachDTOs);
 
-
     Page<HanhKhach> findByName(Pageable pageable,String name);
 
     Page<HanhKhach> findWithPageAble(Pageable pageable);
