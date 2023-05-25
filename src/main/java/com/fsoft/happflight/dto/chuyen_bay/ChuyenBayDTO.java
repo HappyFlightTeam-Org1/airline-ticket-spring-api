@@ -2,7 +2,9 @@ package com.fsoft.happflight.dto.chuyen_bay;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.Errors;
@@ -10,23 +12,30 @@ import org.springframework.validation.Validator;
 
 public class ChuyenBayDTO implements Validator {
 	private String maChuyenBay;
+	@NotBlank(message =  " không được để trống!")
 	private String diemDi;
+	@NotBlank(message =  " không được để trống!")
 	private String diemDen;
 	private String ngayKhoiHanh;
+	@NotNull(message = " không được để trống")
 	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime gioKhoiHanh;
 	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime gioHaCanh;
 	private String thoiGianBay;
-	private String giaVe;
+	private Long giaVe;
+	@NotBlank(message =  " không được để trống!")
 	private String kLHanhLy;
+	@NotBlank(message =  " không được để trống!")
 	private String trangThaiVanHanh;
+	@NotNull(message = " không được để trống")
 	private Long maMayBay;
+	@NotBlank(message =  " không được để trống!")
 	private String maHangBay;
 	private Integer trangThaiXoa = 0;
 
 	public ChuyenBayDTO(String maChuyenBay, String diemDi, String diemDen, String ngayKhoiHanh, LocalTime gioKhoiHanh,
-			LocalTime gioHaCanh, String thoiGianBay, String giaVe, String kLHanhLy, String trangThaiVanHanh,
+			LocalTime gioHaCanh, String thoiGianBay, Long giaVe, String kLHanhLy, String trangThaiVanHanh,
 			Long maMayBay, String maHangBay, Integer trangThaiXoa) {
 		this.maChuyenBay = maChuyenBay;
 		this.diemDi = diemDi;
@@ -99,11 +108,11 @@ public class ChuyenBayDTO implements Validator {
 		this.thoiGianBay = thoiGianBay;
 	}
 
-	public String getGiaVe() {
+	public Long getGiaVe() {
 		return giaVe;
 	}
 
-	public void setGiaVe(String giaVe) {
+	public void setGiaVe(Long giaVe) {
 		this.giaVe = giaVe;
 	}
 
@@ -158,7 +167,6 @@ public class ChuyenBayDTO implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -166,31 +174,43 @@ public class ChuyenBayDTO implements Validator {
 	public void validate(Object target, Errors errors) {
 		ChuyenBayDTO chuyenBayDTO = (ChuyenBayDTO) target;
 		if (chuyenBayDTO.getMaChuyenBay() == null || chuyenBayDTO.getMaChuyenBay() == "") {
-			errors.rejectValue("maChuyenBay", "", "Không được để trống!");
-		} else if (!chuyenBayDTO.getMaHangBay().matches("^CB[0-9]{5}$")) {
-			errors.rejectValue("maChuyenBay", "", "Nhập đúng định dạng CBxxxxx với (x*5) là số nguyên dương!");
-		}
-
+			errors.rejectValue("maChuyenBay", "", " không được để trống!");
+	} 
+	//		else if (!chuyenBayDTO.getMaHangBay().matches("^CB\\d{5}$")) {
+//			errors.rejectValue("maChuyenBay", "", " nhập đúng định dạng CBxxxxx với x là số nguyên dương!");
+//		}
+		
+		
 		if (chuyenBayDTO.getNgayKhoiHanh() == null || chuyenBayDTO.getNgayKhoiHanh() == "") {
-			errors.rejectValue("ngayKhoiHanh", "", "Không được để trống!");
+			errors.rejectValue("ngayKhoiHanh", "", " không được để trống!");
 		} else {
 			LocalDate currentDate = LocalDate.now();
 			LocalDate ngayKhoiHanh=LocalDate.parse(chuyenBayDTO.getNgayKhoiHanh());
 			LocalDate conditionDate=currentDate.plusDays(7);
 			if(ngayKhoiHanh.isBefore(conditionDate)) {
-				errors.rejectValue("ngayKhoiHanh", "", "Ngày khởi hành phải cách ngày hiện tại ít nhất 7 ngày!");
+				errors.rejectValue("ngayKhoiHanh", "", " phải cách ngày hiện tại ít nhất 7 ngày!");
 			}
 		}
 		
-		if (chuyenBayDTO.getGioKhoiHanh() == null || chuyenBayDTO.getGioHaCanh() == null) {
-		    errors.rejectValue("gioKhoiHanh", "", "Không được để trống!");
-		} else {
-		    LocalTime gioKhoiHanh = chuyenBayDTO.getGioKhoiHanh();
-		    LocalTime gioHaCanh = chuyenBayDTO.getGioHaCanh();
-		    LocalTime conditionTime=gioKhoiHanh.plusHours(1);
-		    if (gioHaCanh.isBefore(conditionTime)) {
-		        errors.rejectValue("gioHaCanh", "", "Giờ khởi hành phải lớn hơn giờ hạ cánh ít nhất 1h!");
-		    }
+	
+		if (chuyenBayDTO.getGioHaCanh() == null ) {
+		    errors.rejectValue("gioHaCanh", "", " không được để trống!");
+		} 
+//		else {
+//		    LocalTime gioKhoiHanh = chuyenBayDTO.getGioKhoiHanh();
+//		    LocalTime gioHaCanh = chuyenBayDTO.getGioHaCanh();
+//		    LocalTime conditionTime=gioKhoiHanh.plusHours(0);
+//		    if (gioHaCanh.isBefore(conditionTime)) {
+//		        errors.rejectValue("gioHaCanh", "", " phải lớn hơn giờ khởi hành ít nhất 1h!");
+//		    }
+		
+		
+		if(chuyenBayDTO.getGiaVe()==null) {
+			errors.rejectValue("giaVe", "", " không được để trống!");
+			
+		
+		}else if (chuyenBayDTO.getGiaVe()<0 ) {
+			errors.rejectValue("giaVe", "", " không được nhỏ hơn 0!");
 		}
 
 	}

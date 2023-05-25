@@ -1,6 +1,10 @@
 package com.fsoft.happflight.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.fsoft.happflight.config.ModelMapperClass;
 import com.fsoft.happflight.dto.DataChuyenBayFindById;
 import com.fsoft.happflight.dto.DataChuyenBaySearch;
@@ -113,20 +120,28 @@ public class ChuyenBayController {
 		return new ResponseEntity<>(chuyenBayService.findById(maChuyenBay), HttpStatus.OK);
 	}
 
-	//DucNH66 Lưu và cập nhật chuyến bay
 	@PostMapping("/save")
-	public ResponseEntity<String> saveChuyenBayOk(@RequestBody ChuyenBayDTO chuyenBayDTO) {
+	public ResponseEntity<?> saveChuyenBayOk( @Valid
+		@RequestBody ChuyenBayDTO chuyenBayDTO,BindingResult bindingResult) {
+		chuyenBayDTO.validate(chuyenBayDTO, bindingResult);
+		   if (bindingResult.hasErrors()) {
+		        Map<String, String> errorMessages = new HashMap<>();
+		        for (FieldError error : bindingResult.getFieldErrors()) {
+		            errorMessages.put(error.getField(), error.getDefaultMessage());
+		        }
+		        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
+		    }
+
 		MayBay mayBay = mayBayService.findById(chuyenBayDTO.getMaMayBay());
 		HangBay hangBay = hangBayService.findById(chuyenBayDTO.getMaHangBay());
 		try {
 			ChuyenBay chuyenBay = ModelMapperClass.convertToChuyenBay(chuyenBayDTO);
 			chuyenBay.setMayBay(mayBay);
 			chuyenBay.setHangBay(hangBay);
-			System.out.println(chuyenBay.toString());
 			chuyenBayService.save(chuyenBay);
 			return ResponseEntity.ok("Thêm thành công!");
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Thêm thất bại!");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Thêm thất bại!");
 		}
 	}
 }
