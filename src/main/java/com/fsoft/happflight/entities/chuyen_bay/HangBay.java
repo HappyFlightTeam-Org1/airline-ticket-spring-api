@@ -20,6 +20,9 @@ public class HangBay {
     @Column(name = "ten_hang_bay", columnDefinition = "nvarchar(50)")
     private String tenHangBay;
 
+    @Column(name = "logo_url", columnDefinition = "nvarchar(250)")
+    private String logoURL;
+
     @OneToMany(mappedBy = "hangBay", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonBackReference
     List<ChuyenBay> chuyenBays;
@@ -33,6 +36,12 @@ public class HangBay {
         super();
         this.maHangBay = maHangBay;
         this.tenHangBay = tenHangBay;
+    }
+
+    public HangBay(String maHangBay, String tenHangBay, String logoURL) {
+        this.maHangBay = maHangBay;
+        this.tenHangBay = tenHangBay;
+        this.logoURL = logoURL;
     }
 
     public HangBay(String maHangBay, String tenHangBay, List<ChuyenBay> chuyenBays) {
@@ -64,6 +73,14 @@ public class HangBay {
 
     public void setChuyenBays(List<ChuyenBay> chuyenBays) {
         this.chuyenBays = chuyenBays;
+    }
+
+    public String getLogoURL() {
+        return logoURL;
+    }
+
+    public void setLogoURL(String logoURL) {
+        this.logoURL = logoURL;
     }
 
     @Override

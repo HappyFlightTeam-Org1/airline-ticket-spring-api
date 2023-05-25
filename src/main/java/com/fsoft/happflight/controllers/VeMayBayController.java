@@ -1,5 +1,6 @@
 package com.fsoft.happflight.controllers;
 
+import com.fsoft.happflight.dto.DataChuyenBayFindById;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,12 @@ public class VeMayBayController {
             return new ResponseEntity<>(veMayBays, HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(veMayBays, HttpStatus.OK);
+    }
+
+    @GetMapping("/InVe")
+    public ResponseEntity<?> InVe(@RequestParam("maVe") String maVe) {
+        VeMayBay veMayBay = veMayBayService.findById(maVe);
+        return new ResponseEntity<>(veMayBay, HttpStatus.OK);
     }
 
 }
