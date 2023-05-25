@@ -35,6 +35,7 @@ public class HanhKhachController {
 		return hanhKhachService.findWithPageAble(pageable);
 	}
 
+	//DucNH66 lưu hành khách
 	@PostMapping("/save")
 	public ResponseEntity<String> saveHanhHanh(@RequestBody List<HanhKhachDTO> hanhKhachDTOs) {
 		try {
