@@ -2,9 +2,6 @@ package com.fsoft.happflight.services.chuyen_bay.impl;
 
 import java.util.List;
 
-import com.fsoft.happflight.entities.dat_cho.DatCho;
-import com.fsoft.happflight.entities.dat_cho.Ghe;
-import com.fsoft.happflight.services.dat_cho.IDatChoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,8 +12,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
+import com.fsoft.happflight.entities.dat_cho.DatCho;
+import com.fsoft.happflight.entities.dat_cho.Ghe;
 import com.fsoft.happflight.repositories.chuyen_bay.IChuyenBayRepository;
 import com.fsoft.happflight.services.chuyen_bay.IChuyenBayService;
+import com.fsoft.happflight.services.dat_cho.IDatChoService;
 
 @Service
 public class ChuyenBayServiceImpl implements IChuyenBayService {

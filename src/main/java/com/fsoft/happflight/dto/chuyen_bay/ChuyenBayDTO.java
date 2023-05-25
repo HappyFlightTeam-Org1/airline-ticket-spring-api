@@ -10,7 +10,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.fsoft.happflight.utils.CheckMaChuyenBay;
+
 public class ChuyenBayDTO implements Validator {
+	@CheckMaChuyenBay
+	@NotBlank(message = " không được để trống!")
 	private String maChuyenBay;
 	@NotBlank(message =  " không được để trống!")
 	private String diemDi;
@@ -173,13 +177,11 @@ public class ChuyenBayDTO implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		ChuyenBayDTO chuyenBayDTO = (ChuyenBayDTO) target;
-		if (chuyenBayDTO.getMaChuyenBay() == null || chuyenBayDTO.getMaChuyenBay() == "") {
-			errors.rejectValue("maChuyenBay", "", " không được để trống!");
-	} 
-	//		else if (!chuyenBayDTO.getMaHangBay().matches("^CB\\d{5}$")) {
-//			errors.rejectValue("maChuyenBay", "", " nhập đúng định dạng CBxxxxx với x là số nguyên dương!");
-//		}
-		
+	
+		if (!chuyenBayDTO.getMaChuyenBay().matches("^CB\\d{3}$")) {
+	        errors.rejectValue("maChuyenBay", "", " nhập đúng định dạng CBxxx với x là số nguyên dương!");
+	    }
+	
 		
 		if (chuyenBayDTO.getNgayKhoiHanh() == null || chuyenBayDTO.getNgayKhoiHanh() == "") {
 			errors.rejectValue("ngayKhoiHanh", "", " không được để trống!");

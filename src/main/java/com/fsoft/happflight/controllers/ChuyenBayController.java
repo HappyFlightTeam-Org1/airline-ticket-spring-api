@@ -67,7 +67,7 @@ public class ChuyenBayController {
 	}
 
  
-	//DucNH66 List cho user
+	//DucNH66 List cho User
 	@GetMapping("/listPageUser")
 	public ResponseEntity<?> searchChuyenBayUser(@RequestParam(required = false) String diemDi,
 			@RequestParam(required = false) String diemDen, @RequestParam(required = false) String ngayDi,
