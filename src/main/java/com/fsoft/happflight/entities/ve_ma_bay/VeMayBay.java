@@ -23,7 +23,7 @@ public class VeMayBay {
     @Column(name = "trang_thai_xoa")
     private Integer trangThaiXoa;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "ma_hanh_khach", referencedColumnName = "ma_hanh_khach")
     private HanhKhach hanhKhach;
 

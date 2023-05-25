@@ -91,7 +91,8 @@ public class VNPayController {
             vnp_Params.put("vnp_Locale", "vn");
         }
         System.out.println("MA DAT CHO");
-        System.out.println(Arrays.toString(veMayBayDTO.getMaDatChos()));
+        System.out.println(Arrays.toString(veMayBayDTO.getMaDatChoDis()));
+        System.out.println(Arrays.toString(veMayBayDTO.getMaDatChoKhuHois()));
         vnp_Params.put("vnp_ReturnUrl", VnpayConfig.vnp_Returnurl);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
@@ -157,21 +158,28 @@ public class VNPayController {
         System.out.println("HOA DON1230" + hoaDon.toString());
         HoaDon hoaDon1 = hoaDonService.create(hoaDon);
 
-        List<Long> maDatChos = Arrays.asList(veMayBayDTO.getMaDatChos());
+        List<Long> maDatChoDis = Arrays.asList(veMayBayDTO.getMaDatChoDis());
+        List<Long> maDatChoKhuHois = Arrays.asList(veMayBayDTO.getMaDatChoKhuHois());
         List<HanhKhachDTO> hanhKhachDTOS = veMayBayDTO.getHanhKhachDTOs();
-        for (int i = 0; i < maDatChos.size(); i++) {
-            for (int j = 0; j < hanhKhachDTOS.size(); j++) {
-                DatCho datCho = datChoService.findById(maDatChos.get(i));
-                String maVe = "TK" + datCho.getGhe().getTenGhe() + datCho.getChuyenBay().getMaChuyenBay() + datCho.getMaDatCho();
-                String hangVe = datCho.getGhe().getLoaiGhe().getTenLoaiGhe();
-                Long giaVe = datCho.getChuyenBay().getGiaVe();
-                HanhKhach hanhKhach = modelMapper.map(hanhKhachDTOS.get(j), HanhKhach.class);
-                HanhKhach hanhKhach1 = hanhKhachService.saveHanhKhach(hanhKhach);
-                veMayBayService.create(new VeMayBay(maVe, hangVe, giaVe, 0, hanhKhach1, datCho, hoaDon1));
-            }
+        for (int i = 0; i < hanhKhachDTOS.size(); i++) {
+            HanhKhach hanhKhach = modelMapper.map(hanhKhachDTOS.get(i), HanhKhach.class);
+            System.out.println(hanhKhach.toString());
+            HanhKhach hanhKhach1 = hanhKhachService.saveHanhKhach(hanhKhach);
+            System.out.println(hanhKhach1.toString());
+            DatCho datChoDi = datChoService.findById(maDatChoDis.get(i));
+            String maVeDi = "TK" + datChoDi.getGhe().getTenGhe() + datChoDi.getChuyenBay().getMaChuyenBay() + datChoDi.getMaDatCho();
+            String hangVeDi = datChoDi.getGhe().getLoaiGhe().getTenLoaiGhe();
+            Long giaVeDi = datChoDi.getChuyenBay().getGiaVe();
 
+            DatCho datChoVe = datChoService.findById(maDatChoKhuHois.get(i));
+            String maVeVe = "TK" + datChoVe.getGhe().getTenGhe() + datChoDi.getChuyenBay().getMaChuyenBay() + datChoVe.getMaDatCho();
+            String hangVeVe = datChoVe.getGhe().getLoaiGhe().getTenLoaiGhe();
+            Long giaVeVe = datChoVe.getChuyenBay().getGiaVe();
+            veMayBayService.create(new VeMayBay(maVeDi, hangVeDi, giaVeDi, 0, hanhKhach1, datChoDi, hoaDon1));
+            veMayBayService.create(new VeMayBay(maVeVe, hangVeVe, giaVeVe, 0, hanhKhach1, datChoVe, hoaDon1));
 
         }
+
 
         String queryUrl = query.toString();
         String vnp_SecureHash = VnpayConfig.hmacSHA512(VnpayConfig.vnp_HashSecret, hashData.toString());
