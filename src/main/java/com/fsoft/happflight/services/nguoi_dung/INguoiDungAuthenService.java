@@ -9,4 +9,6 @@ public interface INguoiDungAuthenService {
     void saveNguoiDung(DangKyDTO dangKyDTO);
 
     void saveThayDoiNguoiDung(ThayDoiThongTinNguoiDungDTO thayDoiThongTinNguoiDungDTO);
+
+    String getUsernameFromNguoiDung(String email);
 }

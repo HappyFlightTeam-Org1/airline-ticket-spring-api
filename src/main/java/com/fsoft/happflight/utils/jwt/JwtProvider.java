@@ -11,10 +11,20 @@ public class JwtProvider {
 
     private static final long EXPIRY_DURATION = 30L * 86400 * 1000;
 
+    private static final long RESET_EXPIRY_DURATION = 10L * 60 * 1000;
+
     public static String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRY_DURATION))
+                .signWith(SignatureAlgorithm.HS512, JWT_SECRET_KEY)
+                .compact();
+    }
+
+    public static String generateResetToken(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setExpiration(new Date(System.currentTimeMillis() + RESET_EXPIRY_DURATION))
                 .signWith(SignatureAlgorithm.HS512, JWT_SECRET_KEY)
                 .compact();
     }

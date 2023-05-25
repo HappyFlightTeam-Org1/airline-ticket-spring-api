@@ -56,4 +56,9 @@ public class NguoiDungAuthenServiceImpl implements INguoiDungAuthenService {
 
         nguoiDungRepository.save(nguoiDung);
     }
+
+    @Override
+    public String getUsernameFromNguoiDung(String email) {
+        return nguoiDungRepository.getReferenceById(email).getTaiKhoan().getTenTaiKhoan();
+    }
 }
