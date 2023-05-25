@@ -14,7 +14,6 @@ public class SanBayServiceImpl implements ISanBayService {
 ISanBayRepository sanBayRepository;
 	@Override
 	public List<SanBay> findAll() {
-		// TODO Auto-generated method stub
 		return sanBayRepository.findAll();
 	}
 

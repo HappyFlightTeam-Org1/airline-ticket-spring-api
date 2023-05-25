@@ -1,9 +1,8 @@
 package com.fsoft.happflight.repositories.chuyen_bay;
 
-import com.fsoft.happflight.entities.chuyen_bay.HangBay;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.fsoft.happflight.entities.chuyen_bay.HangBay;
 
-@Repository
+//DucNH66 lấy danh sách hãng bay
 public interface IHangBayRepository extends JpaRepository<HangBay, String> {
 }

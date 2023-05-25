@@ -10,10 +10,9 @@ import java.util.List;
 public interface IHanhKhachService {
 	
 	List<HanhKhach> findAll();
-    void saveHanhKhach(HanhKhach hanhKhach);
+    HanhKhach saveHanhKhach(HanhKhach hanhKhach);
 
     void saveHanhKhach(List<HanhKhachDTO> hanhKhachDTOs);
-
 
     Page<HanhKhach> findByName(Pageable pageable,String name);
 

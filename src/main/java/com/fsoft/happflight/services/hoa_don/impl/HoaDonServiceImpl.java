@@ -18,7 +18,8 @@ public class HoaDonServiceImpl implements IHoaDonService {
 	}
 
 	@Override
-	public void update(HoaDon hoaDon) {
+	public HoaDon update(HoaDon hoaDon) {
+		return hoaDonRepository.save(hoaDon);
 	}
 
 	@Override
