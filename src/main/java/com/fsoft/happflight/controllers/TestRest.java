@@ -12,6 +12,7 @@ import com.fsoft.happflight.services.dat_cho.IGheService;
 import com.fsoft.happflight.services.hanh_khach.IHanhKhachService;
 import com.fsoft.happflight.services.hoa_don.IHoaDonService;
 import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
+import com.fsoft.happflight.utils.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @RestController
@@ -46,6 +48,9 @@ public class TestRest {
 
     @Autowired
     private IGheService gheService;
+
+    @Autowired
+    private EmailService emailService;
 
 //    @Autowired
 //    public TestRest(IMayBayService mayBayService) {
@@ -110,5 +115,12 @@ public class TestRest {
         PageRequest pageable = PageRequest.of(page, size);
         Page<VeMayBay> veMayBays = veMayBayService.search(maVe, tenHanhKhach, diemDi, diemDen,pageable);
         return new ResponseEntity<>(veMayBays, HttpStatus.OK);
+    }
+
+    @RequestMapping("/send/{email}")
+    public ResponseEntity<String> sendSimpleEmail (@PathVariable("email") String email) throws MessagingException {
+        emailService.sendPaymentMail(email);
+        System.out.println("SENDDING");
+        return new ResponseEntity<>("THANH CONG", HttpStatus.OK);
     }
 }

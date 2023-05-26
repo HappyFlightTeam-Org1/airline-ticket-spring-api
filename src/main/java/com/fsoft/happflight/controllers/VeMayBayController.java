@@ -82,20 +82,26 @@ public class VeMayBayController {
     @PostMapping("/prePayment")
     public ResponseEntity<?> createPaymentVNPay(@RequestBody VeMayBayDTO veMayBayDTO) {
         try {
+            System.out.println("THEM MOI HOA DON");
             String maHoaDon = veMayBayDTO.getHoaDonDTO().getMaHoaDon();
             if (null != hoaDonService.findById(maHoaDon) && hoaDonService.findById(maHoaDon).getTrangThaiThanhToan() == 1) {
-                return new ResponseEntity<>("HÓA ĐƠN ĐÃ ĐƯỢC THANH TOÁN!", HttpStatus.CONFLICT);
+                System.out.println("HÓA ĐƠN ĐÃ ĐƯỢC THANH TOÁN!");
+                return new ResponseEntity<>("HÓA ĐƠN ĐÃ ĐƯỢC THANH TOÁN!", HttpStatus.OK);
             }
             NguoiDung nguoiDung = nguoiDungService.findById(veMayBayDTO.getHoaDonDTO().getEmailNguoiDung());
             if (nguoiDung == null) {
-                return new ResponseEntity<>("TÀI KHOẢN " + nguoiDung.getEmail() + " KHÔNG TỒN TẠI!", HttpStatus.CONFLICT);
+                System.out.println("TÀI KHOẢN " + nguoiDung.getEmail() + " KHÔNG TỒN TẠI!");
+                return new ResponseEntity<>("TÀI KHOẢN " + nguoiDung.getEmail() + " KHÔNG TỒN TẠI!", HttpStatus.OK);
             }
             HoaDon hoaDon = modelMapper.map(veMayBayDTO.getHoaDonDTO(), HoaDon.class);
             hoaDon.setNguoiDung(nguoiDung);
+            System.out.println("HOA DON1236" + hoaDon.toString());
             HoaDon hoaDonHienTai = hoaDonService.create(hoaDon);
+
             List<Long> maDatChoDis = Arrays.asList(veMayBayDTO.getMaDatChoDis());
             List<Long> maDatChoKhuHois = Arrays.asList(veMayBayDTO.getMaDatChoKhuHois());
             List<HanhKhachDTO> hanhKhachDTOS = veMayBayDTO.getHanhKhachDTOs();
+
             for (int i = 0; i < hanhKhachDTOS.size(); i++) {
                 //tạo hành khách và lưu xuống DB
                 HanhKhach hanhKhach = hanhKhachService.saveHanhKhach(modelMapper.map(hanhKhachDTOS.get(i), HanhKhach.class));
@@ -106,6 +112,7 @@ public class VeMayBayController {
                         DatCho datChoDi = datChoService.findById(maDatChoDis.get(i));
                         //update trang thai cua datCho
                         if (datChoDi.getTrangThai().equals("selected")) {
+                            System.out.println("GHẾ BẠN CHỌN VỪA ĐƯỢC ĐẶT");
                             return new ResponseEntity<>("GHẾ BẠN CHỌN VỪA ĐƯỢC ĐẶT", HttpStatus.NOT_FOUND);
                         }
                         datChoService.update(datChoDi);
