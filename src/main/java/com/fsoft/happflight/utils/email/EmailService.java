@@ -1,7 +1,7 @@
 package com.fsoft.happflight.utils.email;
 
-import com.fsoft.happflight.dto.hoa_don.HoaDonDTO;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
+import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 
 import javax.mail.MessagingException;
 
@@ -12,6 +12,6 @@ public interface EmailService {
 
     void sendPaymentMail(HoaDon hoaDon) throws MessagingException;
 
-    void sendPaymentMail(String email) throws MessagingException;
+    void sendAfterCancelTicket(VeMayBay veMayBay) throws MessagingException;
 
 }

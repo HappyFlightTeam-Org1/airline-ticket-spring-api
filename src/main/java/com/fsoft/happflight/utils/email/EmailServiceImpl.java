@@ -1,6 +1,7 @@
 package com.fsoft.happflight.utils.email;
 
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
+import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -48,7 +49,7 @@ public class EmailServiceImpl implements EmailService {
         boolean multipart = true;
         MimeMessageHelper helper = new MimeMessageHelper(message , multipart , "utf-8");
         String htmlMsg = "<div style=\"background: url('https://images2.alphacoders.com/401/thumb-1920-40102.jpg') white; background-size: 100% 100%; background-position:right; min-height: 800px; background-repeat: no-repeat;\">" +
-                "<p>Dear <b>" + hoaDon.getNguoiDung().getEmail() + "</b>,</p>\n" +
+                "<p>Kính gửi <b>" + hoaDon.getNguoiDung().getEmail() + "</b>,</p>\n" +
                 "<p>Cảm ơn quý khách đã sử dụng dịch vụ của chúng tôi. HappyFlight gửi bạn hoá đơn đã thanh toán.</p>\n" +
                 "<p>Xin vui lòng kiểm tra thông tin bên dưới. Mọi thắc mắc vui lòng liên hệ số điện thoại: 0917.579.123 (Mr. Duy - Kế toán trưởng).</p>\n" +
                 "<table class=\"table\" style=\"border: 1px solid; padding: 10px 10px; border-collapse: collapse;\">\n" +
@@ -88,41 +89,39 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendPaymentMail(String email) throws MessagingException {
+    public void sendAfterCancelTicket(VeMayBay veMayBay) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         boolean multipart = true;
         MimeMessageHelper helper = new MimeMessageHelper(message , multipart , "utf-8");
         String htmlMsg = "<div style=\"background: url('https://images2.alphacoders.com/401/thumb-1920-40102.jpg') white; background-size: 100% 100%; background-position:right; min-height: 800px; background-repeat: no-repeat;\">" +
-                "<p>Dear <b>" + email + "</b>,</p>\n" +
-                "<p>Cảm ơn quý khách đã sử dụng dịch vụ của chúng tôi. HappyFlight gửi bạn hoá đơn đã thanh toán.</p>\n" +
-                "<p>Xin vui lòng kiểm tra thông tin bên dưới. Mọi thắc mắc vui lòng liên hệ số điện thoại: 0917.579.123 (Mr. Duy - Kế toán trưởng).</p>\n" +
+                "<p>Kính gửi quý khách <b>" + veMayBay.getHoaDon().getNguoiDung().getEmail() + "</b>,</p>\n" +
+                "<p>Chúng tôi thông báo đã hủy vé của bạn.</p>\n" +
+                "<p>Xin vui lòng kiểm tra thông tin bên vé dưới. Mọi thắc mắc vui lòng liên hệ số điện thoại: 0917.579.123 (Mr. Duy - Nhân viên đại lý Happy Flight).</p>\n" +
                 "<table class=\"table\" style=\"border: 1px solid; padding: 10px 10px; border-collapse: collapse;\">\n" +
                 "  <thead>\n" +
                 "  <tr style=\"background-color: antiquewhite;\">\n" +
-                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Mã hoá đơn</th>\n" +
-                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Tổng tiền</th>\n" +
-                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Ngày thanh toán</th>\n" +
-                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Người thanh toán</th>\n" +
-                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Trạng thái</th>\n" +
+                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Mã vé</th>\n" +
+                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Hạng vé</th>\n" +
+                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Giá vé</th>\n" +
+                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Hành khách</th>\n" +
                 "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Mã bưu chính</th>\n" +
                 "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Quốc gia</th>\n" +
                 "  </tr>\n" +
                 "  </thead>\n" +
                 "  <tbody>\n" +
                 "  <tr style=\"background-color: aliceblue;\n\">\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "DONEDONE" + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "DONEDONE" + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "DONEDONE" + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "DONEDONE" + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "DONEDONE" + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "DONEDONE" + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "DONEDONE" + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + veMayBay.getMaVe() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + veMayBay.getDatCho().getGhe().getLoaiGhe().getTenLoaiGhe() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + veMayBay.getDatCho().getChuyenBay().getGiaVe().toString() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + veMayBay.getHanhKhach().getTenHanhKhach() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "560000" + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "Viet Nam" + "</td>\n" +
                 "  </tr>\n" +
                 "  </tbody>\n" +
                 "</table>" +
                 "<p style=\"font-size: 11px; color: blue;\"><i>Thanks and best regards</i><br>\n" +
                 "_____________________________<br>\n" +
-                "<i>Nguyen Thien Duy ( Mr.) - Accounting.</i><br>\n" +
+                "<i>Nguyen Thien Duy ( Mr.) - Staff.</i><br>\n" +
                 "<i>Phone: 0917.579.123.</i><br>\n" +
                 "<i>Email: thienduy0195@gmail.com.</i></p>\n" +
                 "</div>";

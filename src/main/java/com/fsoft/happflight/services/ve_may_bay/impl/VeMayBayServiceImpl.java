@@ -81,7 +81,7 @@ public class VeMayBayServiceImpl implements IVeMayBayService {
 		}
 
 		 spec = spec.and((root, query, builder) -> builder.equal(root.join("hoaDon").get("trangThaiThanhToan"), 1));
-		
+		spec = spec.and((root, query, builder) -> builder.equal(root.get("trangThaiXoa"), 0));
 		Page<VeMayBay> result;
 		if (spec.equals(Specification.where(null))) {
 		    result = veMayBayRepository.findAll(pageable);
