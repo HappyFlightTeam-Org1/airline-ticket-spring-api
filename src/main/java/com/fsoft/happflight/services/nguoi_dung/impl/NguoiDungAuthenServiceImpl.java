@@ -43,22 +43,31 @@ public class NguoiDungAuthenServiceImpl implements INguoiDungAuthenService {
     }
 
     @Override
-    public void saveThayDoiNguoiDung(ThayDoiThongTinNguoiDungDTO thayDoiThongTinNguoiDungDTO) {
-        NguoiDung nguoiDung = nguoiDungRepository.getReferenceById(thayDoiThongTinNguoiDungDTO.getDiaChiEmail());
-
-        nguoiDung.setSoDienThoai(thayDoiThongTinNguoiDungDTO.getSoDienThoai());
-        nguoiDung.setHoVaTen(thayDoiThongTinNguoiDungDTO.getHoVaTen());
-        nguoiDung.setNgaySinh(thayDoiThongTinNguoiDungDTO.getNgaySinh());
-        nguoiDung.setDiaChi(thayDoiThongTinNguoiDungDTO.getDiaChi());
-        nguoiDung.setHoChieu(thayDoiThongTinNguoiDungDTO.getHoChieu());
-        nguoiDung.setGioiTinh(thayDoiThongTinNguoiDungDTO.getGioiTinh());
-        nguoiDung.setQuocTich(quocTichService.getById(thayDoiThongTinNguoiDungDTO.getQuocTich()));
-
-        nguoiDungRepository.save(nguoiDung);
+    public boolean saveThayDoiNguoiDung(NguoiDung nguoiDung, ThayDoiThongTinNguoiDungDTO thayDoiThongTinNguoiDungDTO) {
+        if (!nguoiDung.getEmail().equals(thayDoiThongTinNguoiDungDTO.getDiaChiEmail())
+                && validateEmail(thayDoiThongTinNguoiDungDTO.getDiaChiEmail())) {
+            return false;
+        }
+        nguoiDungRepository.saveNguoiDung(
+                thayDoiThongTinNguoiDungDTO.getDiaChiEmail(),
+                thayDoiThongTinNguoiDungDTO.getSoDienThoai(),
+                thayDoiThongTinNguoiDungDTO.getNgaySinh(),
+                thayDoiThongTinNguoiDungDTO.getDiaChi(),
+                thayDoiThongTinNguoiDungDTO.getHoChieu(),
+                thayDoiThongTinNguoiDungDTO.getGioiTinh(),
+                thayDoiThongTinNguoiDungDTO.getQuocTich(),
+                nguoiDung.getTaiKhoan().getTenTaiKhoan()
+        );
+        return true;
     }
 
     @Override
     public String getUsernameFromNguoiDung(String email) {
         return nguoiDungRepository.getReferenceById(email).getTaiKhoan().getTenTaiKhoan();
+    }
+
+    @Override
+    public NguoiDung getWithUsername(String username) {
+        return nguoiDungRepository.getNguoiDungByUsername(username);
     }
 }

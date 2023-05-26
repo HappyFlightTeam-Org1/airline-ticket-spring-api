@@ -37,7 +37,7 @@ public class EmailServiceImpl implements EmailService {
         emailDetail.setRecipent(email);
         emailDetail.setSubject("Email đặt lại mật khẩu");
         emailDetail.setMessageBody("URL đặt lại mật khẩu:\n\n"
-                + "http://localhost:3000/" + resetToken +
+                + "http://localhost:3000/ThietLapMatKhauMoi?reset-token=" + resetToken +
                 "\n\n*Lưu ý*: URL chỉ có hiệu lực trong 10 phút.");
         sendEmail(emailDetail);
     }

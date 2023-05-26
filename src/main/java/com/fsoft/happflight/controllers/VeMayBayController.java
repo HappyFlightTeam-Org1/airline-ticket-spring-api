@@ -7,6 +7,9 @@ import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
 import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
+import com.fsoft.happflight.repositories.chuyen_bay.IChuyenBayRepository;
+import com.fsoft.happflight.services.chuyen_bay.IChuyenBayService;
+import com.fsoft.happflight.services.chuyen_bay.ISanBayService;
 import com.fsoft.happflight.services.dat_cho.IDatChoService;
 import com.fsoft.happflight.services.hanh_khach.IHanhKhachService;
 import com.fsoft.happflight.services.hoa_don.IHoaDonService;
@@ -16,6 +19,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,27 +47,35 @@ public class VeMayBayController {
     @Autowired
     private IHanhKhachService hanhKhachService;
 
+    @Autowired ISanBayService sanBayService;
+    
     @Autowired
     private ModelMapper modelMapper;
+    
+    @GetMapping("/listSanBay")
+    public ResponseEntity<?> listSanBay(){
+    	return new ResponseEntity<>(sanBayService.findAll(),HttpStatus.OK);
+    }
 
-    @GetMapping(value = "/list")
-    public ResponseEntity<?> showListVeMayBay(@RequestParam(defaultValue = "0") int page,
-                                              @RequestParam(defaultValue = "5") int size) {
-
-        Page<VeMayBay> pageVeMayBays = veMayBayService.findAll(PageRequest.of(page, size));
-        List<VeMayBay> veMayBays = pageVeMayBays.getContent();
-        veMayBays.stream().forEach(item -> {
-            System.out.println(item.toString());
-        });
-        if (veMayBays.isEmpty()) {
-            return new ResponseEntity<>(veMayBays, HttpStatus.NO_CONTENT);
-        }
+    @GetMapping("/page")
+    public ResponseEntity<?> searchVeMayBay(@RequestParam(required = false) String maVe,
+                                            @RequestParam(required = false) String tenHanhKhach,
+                                            @RequestParam(required = false) String diemDi,
+                                            @RequestParam(required = false) String diemDen,
+                                            @RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "5") int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        Page<VeMayBay> veMayBays = veMayBayService.pageAndSearch(maVe, tenHanhKhach, diemDi, diemDen,pageable);
         return new ResponseEntity<>(veMayBays, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/list/{maHoaDon}")
-    public ResponseEntity<?> showListFromOrderCode(@PathVariable("maHoaDon") String maHoaDon) {
-        List<VeMayBay> veMayBays = veMayBayService.findByOrderCode(maHoaDon);
+  
+    @GetMapping(value = "/list-page")
+    public ResponseEntity<?> showListFromOrderCode(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+    		@RequestParam("maHoaDon") String maHoaDon) {
+    	Pageable pageable = PageRequest.of(page, size);
+        Page<VeMayBay> veMayBays = veMayBayService.findByOrderCode(maHoaDon, pageable);
         veMayBays.stream().forEach(item -> {
             System.out.println(item.toString());
         });
@@ -81,12 +93,12 @@ public class VeMayBayController {
 
     @PostMapping("/prePayment")
     public ResponseEntity<?> createPaymentVNPay(@RequestBody VeMayBayDTO veMayBayDTO) {
+    	System.out.println(veMayBayDTO.toString());
         try {
             System.out.println("THEM MOI HOA DON");
             String maHoaDon = veMayBayDTO.getHoaDonDTO().getMaHoaDon();
             if (null != hoaDonService.findById(maHoaDon) && hoaDonService.findById(maHoaDon).getTrangThaiThanhToan() == 1) {
-                System.out.println("HÓA ĐƠN ĐÃ ĐƯỢC THANH TOÁN!");
-                return new ResponseEntity<>("HÓA ĐƠN ĐÃ ĐƯỢC THANH TOÁN!", HttpStatus.OK);
+                return new ResponseEntity<>("HÓA ĐƠN ĐÃ THANH TOÁN!", HttpStatus.OK);
             }
             NguoiDung nguoiDung = nguoiDungService.findById(veMayBayDTO.getHoaDonDTO().getEmailNguoiDung());
             if (nguoiDung == null) {
@@ -112,13 +124,15 @@ public class VeMayBayController {
                         DatCho datChoDi = datChoService.findById(maDatChoDis.get(i));
                         //update trang thai cua datCho
                         if (datChoDi.getTrangThai().equals("selected")) {
-                            System.out.println("GHẾ BẠN CHỌN VỪA ĐƯỢC ĐẶT");
                             return new ResponseEntity<>("GHẾ BẠN CHỌN VỪA ĐƯỢC ĐẶT", HttpStatus.NOT_FOUND);
                         }
+                        datChoDi.setTrangThai("selected");
                         datChoService.update(datChoDi);
                         String maVeDi = "TK" + datChoDi.getGhe().getTenGhe() + datChoDi.getChuyenBay().getMaChuyenBay() + datChoDi.getMaDatCho();
                         String hangVeDi = datChoDi.getGhe().getLoaiGhe().getTenLoaiGhe();
                         Long giaVeDi = datChoDi.getChuyenBay().getGiaVe();
+                        VeMayBay veMayBay = new VeMayBay(maVeDi, hangVeDi, giaVeDi, 0, hanhKhach, datChoDi, hoaDonHienTai);
+                        System.out.println(veMayBay.toString());
                         veMayBayService.create(new VeMayBay(maVeDi, hangVeDi, giaVeDi, 0, hanhKhach, datChoDi, hoaDonHienTai));
                     }
 
@@ -142,6 +156,18 @@ public class VeMayBayController {
             e.printStackTrace();
             return new ResponseEntity<>("THÊM VÉ KHÔNG THÀNH CÔNG!", HttpStatus.OK);
         }
+    }
+
+    @GetMapping(value = "/list/{maHoaDon}")
+    public ResponseEntity<?> showListFromOrderCode(@PathVariable("maHoaDon") String maHoaDon) {
+        List<VeMayBay> veMayBays = veMayBayService.findByOrderCode(maHoaDon);
+        veMayBays.stream().forEach(item -> {
+            System.out.println(item.toString());
+        });
+        if (veMayBays.isEmpty()) {
+            return new ResponseEntity<>(veMayBays, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(veMayBays, HttpStatus.OK);
     }
 
 }
