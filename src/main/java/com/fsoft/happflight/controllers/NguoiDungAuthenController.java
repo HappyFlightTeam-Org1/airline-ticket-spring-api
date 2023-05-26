@@ -2,11 +2,13 @@ package com.fsoft.happflight.controllers;
 
 import com.fsoft.happflight.dto.nguoi_dung.*;
 import com.fsoft.happflight.services.nguoi_dung.impl.NguoiDungAuthenServiceImpl;
+import com.fsoft.happflight.services.nguoi_dung.impl.QuocTichServiceImpl;
 import com.fsoft.happflight.services.tai_khoan.impl.RoleServiceImpl;
 import com.fsoft.happflight.services.tai_khoan.impl.TaiKhoanServiceImpl;
 import com.fsoft.happflight.utils.email.EmailService;
 import com.fsoft.happflight.utils.jwt.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
 @RequestMapping("/nguoi-dung")
 public class NguoiDungAuthenController {
 
@@ -31,6 +33,9 @@ public class NguoiDungAuthenController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private QuocTichServiceImpl quocTichService;
 
     @PostMapping("/dang-nhap")
     public ResponseEntity<?> dangNhap(@Validated @ModelAttribute DangNhapDTO dangNhapDTO) {
@@ -102,16 +107,30 @@ public class NguoiDungAuthenController {
         return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping("/lay-thong-tin-nguoi-dung")
+    public ResponseEntity<?> layThongTinNguoiDung(@CookieValue(value = "jwt", defaultValue = "") String jwtToken) {
+        if (JwtProvider.validateToken(jwtToken)) {
+            return new ResponseEntity<>(nguoiDungService.getWithUsername(JwtProvider.getUsernameFromToken(jwtToken)), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
     @PostMapping("/thay-doi-thong-tin-nguoi-dung")
     public ResponseEntity<?> thayDoiThongTinNguoiDung(@Validated @ModelAttribute ThayDoiThongTinNguoiDungDTO thayDoiThongTinNguoiDungDTO,
                                                       @CookieValue(value = "jwt", defaultValue = "") String jwtToken) {
         HashMap<String, String> responseBody = new HashMap<>();
-        if (JwtProvider.validateToken(jwtToken)) {
-            nguoiDungService.saveThayDoiNguoiDung(thayDoiThongTinNguoiDungDTO);
+        if (JwtProvider.validateToken(jwtToken) && nguoiDungService.saveThayDoiNguoiDung(
+                nguoiDungService.getWithUsername(JwtProvider.getUsernameFromToken(jwtToken)),
+                thayDoiThongTinNguoiDungDTO)) {
             responseBody.put("message", "Thay đổi thông tin người dùng thành công;");
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         }
         responseBody.put("message", "Thay đổi thông tin người dùng không thành công");
         return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/danh-sach-quoc-tich")
+    public ResponseEntity<?> getAllQuocTich() {
+        return new ResponseEntity<>(quocTichService.getAll(), HttpStatus.OK);
     }
 }

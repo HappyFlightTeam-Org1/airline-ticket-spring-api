@@ -39,7 +39,7 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 		});
 	}
 
-	//DucNH66 tìm kiếm chuyến bay
+	//DucNH66 tìm kiếm chuyến bay eho Id
 	@Override
 	public ChuyenBay findById(String maChuyenBay) {
 		return chuyenBayRepository.findById(maChuyenBay).orElse(null);
@@ -110,6 +110,11 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	        }
 	        return chuyenBayRepository.findAll(spec, pageableWithSort);
 	    }
+
+	@Override
+	public List<ChuyenBay> getListMonthNow() {
+		return chuyenBayRepository.getListMonthNow();
+	}
 
 
 

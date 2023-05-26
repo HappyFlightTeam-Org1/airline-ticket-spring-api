@@ -5,7 +5,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,7 +16,6 @@ import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,18 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fsoft.happflight.config.vnpay.VnpayConfig;
-import com.fsoft.happflight.dto.hanh_khach.HanhKhachDTO;
-import com.fsoft.happflight.dto.ve_may_bay.VeMayBayDTO;
-import com.fsoft.happflight.entities.dat_cho.DatCho;
-import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
-import com.fsoft.happflight.entities.hoa_don.HoaDon;
-import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
-import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
-import com.fsoft.happflight.services.dat_cho.IDatChoService;
-import com.fsoft.happflight.services.hanh_khach.IHanhKhachService;
-import com.fsoft.happflight.services.hoa_don.IHoaDonService;
-import com.fsoft.happflight.services.nguoi_dung.INguoiDungService;
-import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
+import com.fsoft.happflight.dto.hoa_don.HoaDonDTO;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -50,38 +37,20 @@ public class VNPayController {
     @Autowired
     private HttpServletResponse resp;
 
-    @Autowired
-    private INguoiDungService nguoiDungService;
-
-    @Autowired
-    private IDatChoService datChoService;
-
-    @Autowired
-    private IHoaDonService hoaDonService;
-
-    @Autowired
-    private IHanhKhachService hanhKhachService;
-
-    @Autowired
-    private IVeMayBayService veMayBayService;
-
-    @Autowired
-    private ModelMapper modelMapper;
 
     @PostMapping("/vnpay/make-order")
-    public String createPaymentVNPay(@RequestBody VeMayBayDTO veMayBayDTO) throws UnsupportedEncodingException {
-        System.out.println("HERREEE");
-        System.out.println(veMayBayDTO.toString());
+    public String createPaymentVNPay(@RequestBody HoaDonDTO hoaDonDTO) throws UnsupportedEncodingException {
+        System.out.println("THANH TOAN");
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String vnp_OrderInfo = "Hoa don ve may bay";
         String orderType = "other";
 //        String vnp_TxnRef = Config.getRandomNumber(8);
-        String vnp_TxnRef = veMayBayDTO.getHoaDonDTO().getMaHoaDon();
+        String vnp_TxnRef = hoaDonDTO.getMaHoaDon();
 //        String vnp_IpAddr = Config.getIpAddress(req);
         String vnp_IpAddr = "118.69.35.214";
         String vnp_TmnCode = VnpayConfig.vnp_TmnCode;
-        Long amount = veMayBayDTO.getHoaDonDTO().getTongTien() != null ? veMayBayDTO.getHoaDonDTO().getTongTien() * 100 : 1000000;
+        Long amount = hoaDonDTO.getTongTien() != null ? hoaDonDTO.getTongTien() * 100 : 1000000;
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", vnp_Version);
         vnp_Params.put("vnp_Command", vnp_Command);
@@ -104,9 +73,6 @@ public class VNPayController {
         } else {
             vnp_Params.put("vnp_Locale", "vn");
         }
-        System.out.println("MA DAT CHO");
-        System.out.println(Arrays.toString(veMayBayDTO.getMaDatChoDis()));
-        System.out.println(Arrays.toString(veMayBayDTO.getMaDatChoKhuHois()));
         vnp_Params.put("vnp_ReturnUrl", VnpayConfig.vnp_Returnurl);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
@@ -163,38 +129,6 @@ public class VNPayController {
                 }
             }
         }
-
-        //thêm mới hóa đơn
-        NguoiDung nguoiDung = nguoiDungService.findById(veMayBayDTO.getHoaDonDTO().getEmailNguoiDung());
-        System.out.println(nguoiDung.toString());
-        HoaDon hoaDon = modelMapper.map(veMayBayDTO.getHoaDonDTO(), HoaDon.class);
-        hoaDon.setNguoiDung(nguoiDung);
-        System.out.println("HOA DON1230" + hoaDon.toString());
-        HoaDon hoaDon1 = hoaDonService.create(hoaDon);
-
-        List<Long> maDatChoDis = Arrays.asList(veMayBayDTO.getMaDatChoDis());
-        List<Long> maDatChoKhuHois = Arrays.asList(veMayBayDTO.getMaDatChoKhuHois());
-        List<HanhKhachDTO> hanhKhachDTOS = veMayBayDTO.getHanhKhachDTOs();
-        for (int i = 0; i < hanhKhachDTOS.size(); i++) {
-            HanhKhach hanhKhach = modelMapper.map(hanhKhachDTOS.get(i), HanhKhach.class);
-            System.out.println(hanhKhach.toString());
-            HanhKhach hanhKhach1 = hanhKhachService.saveHanhKhach(hanhKhach);
-            System.out.println(hanhKhach1.toString());
-            DatCho datChoDi = datChoService.findById(maDatChoDis.get(i));
-            String maVeDi = "TK" + datChoDi.getGhe().getTenGhe() + datChoDi.getChuyenBay().getMaChuyenBay() + datChoDi.getMaDatCho();
-            String hangVeDi = datChoDi.getGhe().getLoaiGhe().getTenLoaiGhe();
-            Long giaVeDi = datChoDi.getChuyenBay().getGiaVe();
-
-            DatCho datChoVe = datChoService.findById(maDatChoKhuHois.get(i));
-            String maVeVe = "TK" + datChoVe.getGhe().getTenGhe() + datChoDi.getChuyenBay().getMaChuyenBay() + datChoVe.getMaDatCho();
-            String hangVeVe = datChoVe.getGhe().getLoaiGhe().getTenLoaiGhe();
-            Long giaVeVe = datChoVe.getChuyenBay().getGiaVe();
-            System.out.println(maVeDi + hangVeDi+ giaVeDi+ hanhKhach1+ datChoDi+ hoaDon1);
-            veMayBayService.create(new VeMayBay(maVeDi, hangVeDi, giaVeDi, 0, hanhKhach1, datChoDi, hoaDon1));
-            veMayBayService.create(new VeMayBay(maVeVe, hangVeVe, giaVeVe, 0, hanhKhach1, datChoVe, hoaDon1));
-
-        }
-
 
         String queryUrl = query.toString();
         String vnp_SecureHash = VnpayConfig.hmacSHA512(VnpayConfig.vnp_HashSecret, hashData.toString());

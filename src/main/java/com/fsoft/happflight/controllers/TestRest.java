@@ -35,23 +35,23 @@ public class TestRest {
 //    @Autowired
 //    private IMayBayService mayBayService;
 
-    @Autowired
-    private IVeMayBayService veMayBayService;
+	@Autowired
+	private IVeMayBayService veMayBayService;
 
-    @Autowired
-    private INguoiDungRepository nguoiDungRepository;
+	@Autowired
+	private INguoiDungRepository nguoiDungRepository;
 
-    @Autowired
-    private IDatChoService datChoService;
+	@Autowired
+	private IDatChoService datChoService;
 
-    @Autowired
-    private IHoaDonService hoaDonService;
+	@Autowired
+	private IHoaDonService hoaDonService;
 
-    @Autowired
-    private IHanhKhachService hanhKhachService;
+	@Autowired
+	private IHanhKhachService hanhKhachService;
 
-    @Autowired
-    private IGheService gheService;
+	@Autowired
+	private IGheService gheService;
 
 //    @Autowired
 //    public TestRest(IMayBayService mayBayService) {
@@ -67,53 +67,53 @@ public class TestRest {
 //        return new ResponseEntity<>(mayBayList, HttpStatus.OK);
 //    }
 
-    @GetMapping("/page")
-    public ResponseEntity<?> showList(Pageable pageable ) {
-        Page<VeMayBay> vPage = veMayBayService.findAll(pageable);
-        return   new ResponseEntity<>(vPage, HttpStatus.OK);
-	
-    }
+//	@GetMapping("/page")
+//	public ResponseEntity<?> showList(Pageable pageable) {
+//		Page<VeMayBay> vPage = veMayBayService.findAll(pageable);
+//		return new ResponseEntity<>(vPage, HttpStatus.OK);
+//	}
 
-    
-    @GetMapping("/ghes")
-    public ResponseEntity<List<Ghe>> showListGhe() {
-        List<Ghe> ghes = gheService.findAll();
-        if (ghes.isEmpty()) {
-            return new ResponseEntity<>(ghes, HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(ghes, HttpStatus.OK);
-    }
+	@GetMapping("/ghes")
+	public ResponseEntity<List<Ghe>> showListGhe() {
+		List<Ghe> ghes = gheService.findAll();
+		if (ghes.isEmpty()) {
+			return new ResponseEntity<>(ghes, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(ghes, HttpStatus.OK);
+	}
 
-    @PostMapping("/saveVeMayBay")
-    public ResponseEntity<String> saveTicket() {
-        try {
-            HoaDon hoaDon = hoaDonService.findById("OD1019279");
-            System.out.println(hoaDon.toString());
-            List<HanhKhach> hanhKhachs = hanhKhachService.findAll();
-            for (int i = 1; i <= hanhKhachs.size(); i++) {
-                System.out.println(i);
-                String id = "TK00" + i;
-                HanhKhach hanhKhach = hanhKhachs.get(i - 1);
-                System.out.println(hanhKhach.toString());
-                VeMayBay veMayBay = new VeMayBay(id, datChoService.findById(Long.parseLong(String.valueOf(i))).getGhe().getLoaiGhe().getTenLoaiGhe(), 2000000L, 0, hanhKhach, datChoService.findById(Long.parseLong(String.valueOf(i))), hoaDon);
-                System.out.println(veMayBay.toString());
-                veMayBayService.create(veMayBay);
-            }
-            return null;
-        } catch (Exception e) {
-            System.out.println("ERROR");
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Thêm thất bại!");
-        }
-    }
+	@PostMapping("/saveVeMayBay")
+	public ResponseEntity<String> saveTicket() {
+		try {
+			HoaDon hoaDon = hoaDonService.findById("OD1019279");
+			System.out.println(hoaDon.toString());
+			List<HanhKhach> hanhKhachs = hanhKhachService.findAll();
+			for (int i = 1; i <= hanhKhachs.size(); i++) {
+				System.out.println(i);
+				String id = "TK00" + i;
+				HanhKhach hanhKhach = hanhKhachs.get(i - 1);
+				System.out.println(hanhKhach.toString());
+				VeMayBay veMayBay = new VeMayBay(id,
+						datChoService.findById(Long.parseLong(String.valueOf(i))).getGhe().getLoaiGhe().getTenLoaiGhe(),
+						2000000L, 0, hanhKhach, datChoService.findById(Long.parseLong(String.valueOf(i))), hoaDon);
+				System.out.println(veMayBay.toString());
+				veMayBayService.create(veMayBay);
+			}
+			return null;
+		} catch (Exception e) {
+			System.out.println("ERROR");
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Thêm thất bại!");
+		}
+	}
 
-    @GetMapping(value = "/{email}")
-    public ResponseEntity<?> showListFromOrderCode(@PathVariable("email") String email) {
-        NguoiDung nguoiDung = nguoiDungRepository.findById(email).orElse(null);
-        return new ResponseEntity<>(nguoiDung, HttpStatus.OK);
-    }
+	@GetMapping(value = "/{email}")
+	public ResponseEntity<?> showListFromOrderCode(@PathVariable("email") String email) {
+		NguoiDung nguoiDung = nguoiDungRepository.findById(email).orElse(null);
+		return new ResponseEntity<>(nguoiDung, HttpStatus.OK);
+	}
 
-    @GetMapping("/list")
+    @GetMapping("")
     public ResponseEntity<?> searchVeMayBay(@RequestParam(required = false) String maVe,
                                             @RequestParam(required = false) String tenHanhKhach,
                                             @RequestParam(required = false) String diemDi,
@@ -124,5 +124,5 @@ public class TestRest {
         Page<VeMayBay> veMayBays = veMayBayService.pageAndSearch(maVe, tenHanhKhach, diemDi, diemDen,pageable);
         return new ResponseEntity<>(veMayBays, HttpStatus.OK);
     }
-    
+
 }

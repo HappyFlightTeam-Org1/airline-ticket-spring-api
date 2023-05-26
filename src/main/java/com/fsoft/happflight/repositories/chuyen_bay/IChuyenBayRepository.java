@@ -26,5 +26,11 @@ public interface IChuyenBayRepository extends JpaRepository<ChuyenBay, String>, 
 	
 	@Query(value="SELECT * FROM chuyen_bay WHERE STR_TO_DATE(ngay_khoi_hanh, '%Y-%m-%d') BETWEEN STR_TO_DATE(?1, '%Y-%m-%d') AND STR_TO_DATE(?2, '%Y-%m-%d')", nativeQuery = true)
 	List<ChuyenBay> search(String firstDay, String lastDay);
+	
+	@Query(value="SELECT *\n"
+			+ "FROM chuyen_bay\n"
+			+ "WHERE MONTH(ngay_khoi_hanh) = MONTH(CURRENT_DATE())\n"
+			+ "  AND YEAR(ngay_khoi_hanh) = YEAR(CURRENT_DATE());",nativeQuery = true)
+	List<ChuyenBay> getListMonthNow();
 
 }

@@ -120,6 +120,8 @@ public class ChuyenBayController {
 		return new ResponseEntity<>(chuyenBayService.findById(maChuyenBay), HttpStatus.OK);
 	}
 
+	
+	//DucNH66 Thêm mới chuyến bay
 	@PostMapping("/save")
 	public ResponseEntity<?> saveChuyenBayOk( @Valid
 		@RequestBody ChuyenBayDTO chuyenBayDTO,BindingResult bindingResult) {

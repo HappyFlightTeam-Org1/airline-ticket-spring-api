@@ -21,6 +21,14 @@ public class HoaDonDTO {
         this.emailNguoiDung = emailNguoiDung;
     }
 
+    public HoaDonDTO(String maHoaDon, String ngayTao, Long tongTien, Integer trangThaiThanhToan, Integer trangThaiXoa) {
+        this.maHoaDon = maHoaDon;
+        this.ngayTao = ngayTao;
+        this.tongTien = tongTien;
+        this.trangThaiThanhToan = trangThaiThanhToan;
+        this.trangThaiXoa = trangThaiXoa;
+    }
+
     public String getMaHoaDon() {
         return maHoaDon;
     }
