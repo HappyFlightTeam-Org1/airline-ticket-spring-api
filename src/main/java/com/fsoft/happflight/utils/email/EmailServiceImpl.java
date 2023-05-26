@@ -55,43 +55,35 @@ public class EmailServiceImpl implements EmailService {
                 "  <thead>\n" +
                 "  <tr style=\"background-color: antiquewhite;\">\n" +
                 "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Mã hoá đơn</th>\n" +
-                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Trạng thái</th>\n" +
                 "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Tổng tiền</th>\n" +
-                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Thư điện tử</th>\n" +
-                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Họ và tên</th>\n" +
-                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Địa chỉ</th>\n" +
-                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Thành phố</th>\n" +
-                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Tỉnh</th>\n" +
+                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Ngày thanh toán</th>\n" +
+                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Người thanh toán</th>\n" +
+                "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Trạng thái</th>\n" +
                 "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Mã bưu chính</th>\n" +
                 "    <th style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Quốc gia</th>\n" +
                 "  </tr>\n" +
                 "  </thead>\n" +
                 "  <tbody>\n" +
                 "  <tr style=\"background-color: aliceblue;\n\">\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "DONEDONE" + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Hoàn thành</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "DONEDONE" + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "DONEDONE" + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "DONEDONE" + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "DONEDONE" + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "DONEDONE" + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "DONEDONE" + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "DONEDONE" + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "DONEDONE" + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + hoaDon.getMaHoaDon() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + hoaDon.getTongTien() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + hoaDon.getNgayTao() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + hoaDon.getNguoiDung().getHoVaTen() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "Đã thanh toán" + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "560000" + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "Viet Nam" + "</td>\n" +
                 "  </tr>\n" +
                 "  </tbody>\n" +
                 "</table>" +
                 "<p style=\"font-size: 11px; color: blue;\"><i>Thanks and best regards</i><br>\n" +
                 "_____________________________<br>\n" +
-                "<i>Nguyen Dinh Luan ( Mr.) - Accounting.</i><br>\n" +
-                "<i>Phone: 0969.307.886.</i><br>\n" +
-                "<i>Email: luanqn20@gmail.com.</i></p>\n" +
+                "<i>Nguyen Thien Duy ( Mr.) - Accounting.</i><br>\n" +
+                "<i>Phone: 0917.579.123.</i><br>\n" +
+                "<i>Email: thienduy0195@gmail.com.</i></p>\n" +
                 "</div>";
         message.setContent(htmlMsg , "text/html; charset=UTF-8");
-//        message.setHeader("Origin", "https://c0222g1-organization.github.io");
-        message.setHeader("Access-Control-Allow-Origin", "https://c0222g1-organization.github.io");
-        helper.setTo("thienduy0195@gmail.com");
-        helper.setSubject("Thanh toán thành công!");
+        helper.setTo(hoaDon.getNguoiDung().getEmail());
+        helper.setSubject("THANH TOÁN THÀNH CÔNG!");
         this.javaMailSender.send(message);
     }
 
