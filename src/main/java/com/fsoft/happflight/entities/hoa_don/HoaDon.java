@@ -1,8 +1,10 @@
 package com.fsoft.happflight.entities.hoa_don;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.util.List;

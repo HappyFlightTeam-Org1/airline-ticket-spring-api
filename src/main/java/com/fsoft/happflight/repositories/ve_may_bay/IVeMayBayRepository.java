@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 @Transactional
 public interface IVeMayBayRepository extends JpaRepository<VeMayBay, String> {
-    @Query(value = "select * from ve_may_bay v join hoa_don h on v.ma_hoa_don = h.ma_hoa_don where h.ma_hoa_don =:maHoaDon and h.tt_thanh_toan = 1", nativeQuery = true)
+    @Query(value = "select * from ve_may_bay v join hoa_don h on v.ma_hoa_don = h.ma_hoa_don where h.ma_hoa_don =:maHoaDon and h.tt_thanh_toan = 1 and v.trang_thai_xoa =0", nativeQuery = true)
     List<VeMayBay> findByOrderCode(@Param("maHoaDon") String maHoaDon);
 
     
