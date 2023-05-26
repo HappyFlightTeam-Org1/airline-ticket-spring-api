@@ -33,7 +33,6 @@ public class VeMayBay {
 
     @JoinColumn(name = "ma_hoa_don", referencedColumnName = "ma_hoa_don")
     @ManyToOne
-    @JsonIgnore
     private HoaDon hoaDon;
 
     public VeMayBay() {

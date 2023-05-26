@@ -5,6 +5,7 @@ import com.fsoft.happflight.entities.chuyen_bay.HangBay;
 import com.fsoft.happflight.entities.chuyen_bay.MayBay;
 import com.fsoft.happflight.entities.chuyen_bay.SanBay;
 
+//DucNH66 lấy data cần để thêm mới chuyến bay
 public class DataResponse {
 	List<SanBay> sanBays;
 	List<MayBay> mayBays;
