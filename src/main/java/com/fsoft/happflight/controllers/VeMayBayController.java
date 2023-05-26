@@ -19,6 +19,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -68,10 +69,13 @@ public class VeMayBayController {
         return new ResponseEntity<>(veMayBays, HttpStatus.OK);
     }
 
-
-    @GetMapping(value = "/list/{maHoaDon}")
-    public ResponseEntity<?> showListFromOrderCode(@PathVariable("maHoaDon") String maHoaDon) {
-        List<VeMayBay> veMayBays = veMayBayService.findByOrderCode(maHoaDon);
+  
+    @GetMapping(value = "/list-page")
+    public ResponseEntity<?> showListFromOrderCode(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+    		@RequestParam("maHoaDon") String maHoaDon) {
+    	Pageable pageable = PageRequest.of(page, size);
+        Page<VeMayBay> veMayBays = veMayBayService.findByOrderCode(maHoaDon, pageable);
         veMayBays.stream().forEach(item -> {
             System.out.println(item.toString());
         });
@@ -89,6 +93,7 @@ public class VeMayBayController {
 
     @PostMapping("/prePayment")
     public ResponseEntity<?> createPaymentVNPay(@RequestBody VeMayBayDTO veMayBayDTO) {
+    	System.out.println(veMayBayDTO.toString());
         try {
             String maHoaDon = veMayBayDTO.getHoaDonDTO().getMaHoaDon();
             if (null != hoaDonService.findById(maHoaDon) && hoaDonService.findById(maHoaDon).getTrangThaiThanhToan() == 1) {

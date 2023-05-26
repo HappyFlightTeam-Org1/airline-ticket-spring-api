@@ -20,6 +20,12 @@ public interface IVeMayBayRepository extends JpaRepository<VeMayBay, String>,Jpa
     @Query(value = "select * from ve_may_bay v join hoa_don h on v.ma_hoa_don = h.ma_hoa_don where h.ma_hoa_don =:maHoaDon and h.tt_thanh_toan = 1 and v.trang_thai_xoa =0", nativeQuery = true)
     List<VeMayBay> findByOrderCode(@Param("maHoaDon") String maHoaDon);
 
+
+    @Query(value = "select * from ve_may_bay v join hoa_don h on v.ma_hoa_don = h.ma_hoa_don where h.ma_hoa_don =:maHoaDon and h.tt_thanh_toan = 1 and v.trang_thai_xoa =0",
+    		countQuery = "select COUNT(*) from ve_may_bay v join hoa_don h on v.ma_hoa_don = h.ma_hoa_don where h.ma_hoa_don =:maHoaDon and h.tt_thanh_toan = 1 and v.trang_thai_xoa =0",nativeQuery = true)
+    Page<VeMayBay> findByOrderCode(@Param("maHoaDon") String maHoaDon, Pageable pageable);
+    
+
     @Query(value="SELECT MONTH(hd.ngay_tao) AS thang, COUNT(vm.ma_ve) AS so_luong_ve\n"
     		+ "FROM hoa_don hd\n"
     		+ "INNER JOIN ve_may_bay vm ON hd.ma_hoa_don = vm.ma_hoa_don\n"
@@ -46,4 +52,7 @@ public interface IVeMayBayRepository extends JpaRepository<VeMayBay, String>,Jpa
             Pageable pageable
     );
 
+
+
 }
+

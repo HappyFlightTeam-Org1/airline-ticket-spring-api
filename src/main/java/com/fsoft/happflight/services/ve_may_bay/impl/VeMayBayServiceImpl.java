@@ -104,4 +104,10 @@ public class VeMayBayServiceImpl implements IVeMayBayService {
         return veMayBayRepository.search("%" + maVe + "%", "%" + tenHanhKhach + "%", "%" + diemDi + "%",  "%" + diemDen + "%", pageable);
     }
 
+	@Override
+	public Page<VeMayBay> findByOrderCode(String maHoaDon, Pageable pageable) {
+		
+		return veMayBayRepository.findByOrderCode(maHoaDon, pageable);
+	}
+
 }
