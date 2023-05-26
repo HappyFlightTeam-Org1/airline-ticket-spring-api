@@ -17,6 +17,12 @@ public interface IChuyenBayRepository extends JpaRepository<ChuyenBay, String>, 
 //DucNH66 tìm kiếm phân trang sắp xếp chuyến bay
 	Page<ChuyenBay> findAll(Specification<ChuyenBay> spec, Pageable pageable);
     
+	/*
+	 * @Param getAll()
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (list chuyen bay thong ke )
+	 */
 	@Query(value="SELECT MONTH(ngay_khoi_hanh) AS month, COUNT(*) AS flight_count\n"
 			+ "FROM chuyen_bay\n"
 			+ "GROUP BY MONTH(ngay_khoi_hanh)\n"
@@ -24,9 +30,21 @@ public interface IChuyenBayRepository extends JpaRepository<ChuyenBay, String>, 
 			+ "",nativeQuery = true)
 	List<ChuyenBayThongKe> getAll();
 	
+	/*
+	 * @Param search 
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (search list chuyen bay tu tg den tg)
+	 */
 	@Query(value="SELECT * FROM chuyen_bay WHERE STR_TO_DATE(ngay_khoi_hanh, '%Y-%m-%d') BETWEEN STR_TO_DATE(?1, '%Y-%m-%d') AND STR_TO_DATE(?2, '%Y-%m-%d')", nativeQuery = true)
 	List<ChuyenBay> search(String firstDay, String lastDay);
 	
+	/*
+	 * @Param getListMonthNow
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (list chuyen bay month now)
+	 */
 	@Query(value="SELECT *\n"
 			+ "FROM chuyen_bay\n"
 			+ "WHERE MONTH(ngay_khoi_hanh) = MONTH(CURRENT_DATE())\n"
