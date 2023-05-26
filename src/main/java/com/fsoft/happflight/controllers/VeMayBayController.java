@@ -127,7 +127,7 @@ public class VeMayBayController {
                         Long giaVeDi = datChoDi.getChuyenBay().getGiaVe();
                         VeMayBay veMayBay = new VeMayBay(maVeDi, hangVeDi, giaVeDi, 0, hanhKhach, datChoDi, hoaDonHienTai);
                         System.out.println(veMayBay.toString());
-//                        veMayBayService.create();
+                        veMayBayService.create(new VeMayBay(maVeDi, hangVeDi, giaVeDi, 0, hanhKhach, datChoDi, hoaDonHienTai));
                     }
 
                     if (!maDatChoKhuHois.isEmpty()) {
