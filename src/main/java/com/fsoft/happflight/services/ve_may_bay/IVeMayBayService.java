@@ -6,6 +6,7 @@ import com.fsoft.happflight.entities.ve_ma_bay.VeMayBayThongKe;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -27,4 +28,5 @@ public interface IVeMayBayService {
 
     Page<VeMayBay> search(String maVe, String tenHanhKhach, String diemDi, String diemDen, PageRequest pageable);
 
+    Page<VeMayBay> findByOrderCode(@Param("maHoaDon") String maHoaDon, Pageable pageable);
 }
