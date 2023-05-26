@@ -17,4 +17,6 @@ public interface IHanhKhachService {
     Page<HanhKhach> findByName(Pageable pageable,String name);
 
     Page<HanhKhach> findWithPageAble(Pageable pageable);
+    
+    int soLuongKhachHangThangNay();
 }

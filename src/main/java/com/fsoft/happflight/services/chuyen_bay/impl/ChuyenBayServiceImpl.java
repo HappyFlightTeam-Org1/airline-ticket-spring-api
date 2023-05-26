@@ -111,6 +111,11 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	        return chuyenBayRepository.findAll(spec, pageableWithSort);
 	    }
 
+	@Override
+	public List<ChuyenBay> getListMonthNow() {
+		return chuyenBayRepository.getListMonthNow();
+	}
+
 
 
 }
