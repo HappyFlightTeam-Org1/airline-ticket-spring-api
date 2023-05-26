@@ -10,9 +10,9 @@ import com.fsoft.happflight.utils.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -45,13 +45,18 @@ public class HoaDonController {
                 datChoService.update(datCho);
             }
             hoaDon.setTrangThaiThanhToan(1);
-            System.out.println("UPDATE HOA DON!");
-            System.out.println(hoaDon.toString());
+            // GỬI MAIL SAU KHI THANH TOÁN THÀNH CÔNG
+            try {
+                emailService.sendPaymentMail(hoaDon);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+                return new ResponseEntity<>("GỬI MAIL THẤT BẠI", HttpStatus.OK);
+            }
             if (hoaDonService.update(hoaDon) != null) {
                 return new ResponseEntity<>("THANH TOÁN THÀNH CÔNG", HttpStatus.OK);
             }
         } else {
-            return new ResponseEntity<>(hoaDon.getNguoiDung().getEmail(), HttpStatus.OK);
+            return new ResponseEntity<>("PAID", HttpStatus.OK);
         }
         return new ResponseEntity<>("THANH TOÁN THẤT BẠI", HttpStatus.OK);
     }
