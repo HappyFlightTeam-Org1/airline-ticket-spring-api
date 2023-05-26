@@ -1,6 +1,5 @@
 package com.fsoft.happflight.controllers;
 
-import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
 import com.fsoft.happflight.entities.dat_cho.Ghe;
 import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
@@ -12,15 +11,17 @@ import com.fsoft.happflight.services.dat_cho.IGheService;
 import com.fsoft.happflight.services.hanh_khach.IHanhKhachService;
 import com.fsoft.happflight.services.hoa_don.IHoaDonService;
 import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
+import com.fsoft.happflight.utils.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.List;
+
 
 @RestController
 @RequestMapping(value = "/test")
@@ -47,6 +48,9 @@ public class TestRest {
     @Autowired
     private IGheService gheService;
 
+    @Autowired
+    private EmailService emailService;
+
 //    @Autowired
 //    public TestRest(IMayBayService mayBayService) {
 //        this.mayBayService = mayBayService;
@@ -60,6 +64,12 @@ public class TestRest {
 //        }
 //        return new ResponseEntity<>(mayBayList, HttpStatus.OK);
 //    }
+
+//	@GetMapping("/page")
+//	public ResponseEntity<?> showList(Pageable pageable) {
+//		Page<VeMayBay> vPage = veMayBayService.findAll(pageable);
+//		return new ResponseEntity<>(vPage, HttpStatus.OK);
+//	}
 
     @GetMapping("/ghes")
     public ResponseEntity<List<Ghe>> showListGhe() {
@@ -81,7 +91,9 @@ public class TestRest {
                 String id = "TK00" + i;
                 HanhKhach hanhKhach = hanhKhachs.get(i - 1);
                 System.out.println(hanhKhach.toString());
-                VeMayBay veMayBay = new VeMayBay(id, datChoService.findById(Long.parseLong(String.valueOf(i))).getGhe().getLoaiGhe().getTenLoaiGhe(), 2000000L, 0, hanhKhach, datChoService.findById(Long.parseLong(String.valueOf(i))), hoaDon);
+                VeMayBay veMayBay = new VeMayBay(id,
+                        datChoService.findById(Long.parseLong(String.valueOf(i))).getGhe().getLoaiGhe().getTenLoaiGhe(),
+                        2000000L, 0, hanhKhach, datChoService.findById(Long.parseLong(String.valueOf(i))), hoaDon);
                 System.out.println(veMayBay.toString());
                 veMayBayService.create(veMayBay);
             }
@@ -99,16 +111,24 @@ public class TestRest {
         return new ResponseEntity<>(nguoiDung, HttpStatus.OK);
     }
 
-    @GetMapping("/listPageAdmin")
+    @GetMapping("")
     public ResponseEntity<?> searchVeMayBay(@RequestParam(required = false) String maVe,
                                             @RequestParam(required = false) String tenHanhKhach,
                                             @RequestParam(required = false) String diemDi,
                                             @RequestParam(required = false) String diemDen,
                                             @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "5") int size) {
-//        Sort.Direction direction = sortDirection.equalsIgnoreCase("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
         PageRequest pageable = PageRequest.of(page, size);
-        Page<VeMayBay> veMayBays = veMayBayService.search(maVe, tenHanhKhach, diemDi, diemDen,pageable);
+        Page<VeMayBay> veMayBays = veMayBayService.pageAndSearch(maVe, tenHanhKhach, diemDi, diemDen, pageable);
         return new ResponseEntity<>(veMayBays, HttpStatus.OK);
     }
+
+
+    @RequestMapping("/send/{email}")
+    public ResponseEntity<String> sendSimpleEmail(@PathVariable("email") String email) throws MessagingException {
+        emailService.sendPaymentMail(email);
+        System.out.println("SENDDING");
+        return new ResponseEntity<>("THANH CONG", HttpStatus.OK);
+    }
+
 }

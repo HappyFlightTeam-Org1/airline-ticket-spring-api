@@ -11,15 +11,11 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface IVeMayBayService {
-
-    Page<VeMayBay> findAll(Pageable pageable);
-
     VeMayBay create(VeMayBay veMayBay);
 
     VeMayBay delete(VeMayBay veMayBay);
 
     List<VeMayBay> findByOrderCode(String maHoaDon);
-
     /*
 	 * @Param getVeMayBayThongKes
 	 * @creator TITT
@@ -28,10 +24,14 @@ public interface IVeMayBayService {
 	 */
     List<VeMayBayThongKe> getVeMayBayThongKes();
 
-
     VeMayBay findById(String maVe);
+
+//    , String tenHanhKhach, String diemDi, String diemDen,
+
+    Page<VeMayBay> pageAndSearch(String maVe,String tenHanhKhach, String diemDi, String diemDen, Pageable pageable);
 
     Page<VeMayBay> search(String maVe, String tenHanhKhach, String diemDi, String diemDen, PageRequest pageable);
 
     Page<VeMayBay> findByOrderCode(@Param("maHoaDon") String maHoaDon, Pageable pageable);
+
 }

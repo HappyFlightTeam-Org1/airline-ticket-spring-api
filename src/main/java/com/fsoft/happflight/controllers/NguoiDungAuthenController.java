@@ -1,6 +1,7 @@
 package com.fsoft.happflight.controllers;
 
 import com.fsoft.happflight.dto.nguoi_dung.*;
+import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
 import com.fsoft.happflight.services.nguoi_dung.impl.NguoiDungAuthenServiceImpl;
 import com.fsoft.happflight.services.nguoi_dung.impl.QuocTichServiceImpl;
 import com.fsoft.happflight.services.tai_khoan.impl.RoleServiceImpl;
@@ -41,7 +42,10 @@ public class NguoiDungAuthenController {
     public ResponseEntity<?> dangNhap(@Validated @ModelAttribute DangNhapDTO dangNhapDTO) {
         HashMap<String, String> responseBody = new HashMap<>();
         if (taiKhoanService.validateLogin(dangNhapDTO)) {
+            NguoiDung nguoiDung = nguoiDungService.getWithUsername(dangNhapDTO.getTenTaiKhoan());
+            responseBody.put("email", nguoiDung.getEmail());
             responseBody.put("jwt", JwtProvider.generateToken(dangNhapDTO.getTenTaiKhoan()));
+
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         }
         responseBody.put("message", "Sai tên tài khoản hoặc mật khẩu");
