@@ -19,6 +19,8 @@ public class HoaDonController {
     public ResponseEntity<?> findByID(@PathVariable("id") String maHoaDon) {
         HoaDon hoaDon = hoaDonService.findById(maHoaDon);
         hoaDon.setTrangThaiThanhToan(1);
+        System.out.println("UPDATE HOA DON!");
+        System.out.println(hoaDon.toString());
         if( hoaDonService.update(hoaDon)!= null){
             return new ResponseEntity<>("THANH TOÁN THÀNH CÔNG", HttpStatus.OK);
         }

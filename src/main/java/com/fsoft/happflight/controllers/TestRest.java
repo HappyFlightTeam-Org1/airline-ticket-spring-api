@@ -1,8 +1,10 @@
 package com.fsoft.happflight.controllers;
 
+import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
 import com.fsoft.happflight.entities.dat_cho.Ghe;
 import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
+import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import com.fsoft.happflight.repositories.nguoi_dung.INguoiDungRepository;
 import com.fsoft.happflight.services.dat_cho.IDatChoService;
@@ -11,6 +13,9 @@ import com.fsoft.happflight.services.hanh_khach.IHanhKhachService;
 import com.fsoft.happflight.services.hoa_don.IHoaDonService;
 import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -86,5 +91,24 @@ public class TestRest {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Thêm thất bại!");
         }
+    }
+
+    @GetMapping(value = "/{email}")
+    public ResponseEntity<?> showListFromOrderCode(@PathVariable("email") String email) {
+        NguoiDung nguoiDung = nguoiDungRepository.findById(email).orElse(null);
+        return new ResponseEntity<>(nguoiDung, HttpStatus.OK);
+    }
+
+    @GetMapping("/listPageAdmin")
+    public ResponseEntity<?> searchVeMayBay(@RequestParam(required = false) String maVe,
+                                            @RequestParam(required = false) String tenHanhKhach,
+                                            @RequestParam(required = false) String diemDi,
+                                            @RequestParam(required = false) String diemDen,
+                                            @RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "5") int size) {
+//        Sort.Direction direction = sortDirection.equalsIgnoreCase("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        PageRequest pageable = PageRequest.of(page, size);
+        Page<VeMayBay> veMayBays = veMayBayService.search(maVe, tenHanhKhach, diemDi, diemDen,pageable);
+        return new ResponseEntity<>(veMayBays, HttpStatus.OK);
     }
 }

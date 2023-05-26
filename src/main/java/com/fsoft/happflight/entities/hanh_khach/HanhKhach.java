@@ -1,9 +1,10 @@
 package com.fsoft.happflight.entities.hanh_khach;
 
-import com.fsoft.happflight.entities.dat_cho.DatCho;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class HanhKhach {
@@ -28,8 +29,9 @@ public class HanhKhach {
     @Column(name = "trang_thai_xoa")
     private Integer trangThaiXoa;
 
-    @OneToOne(mappedBy = "hanhKhach")
-    private VeMayBay veMayBay;
+    @OneToMany(mappedBy = "hanhKhach")
+    @JsonIgnore
+    private List<VeMayBay> veMayBays;
 
     public HanhKhach() {
         super();
@@ -43,6 +45,16 @@ public class HanhKhach {
         this.ngaySinh = ngaySinh;
         this.gioiTinh = gioiTinh;
         this.trangThaiXoa = trangThaiXoa;
+    }
+
+    public HanhKhach(Long maHanhKhach, String loaiHanhKhach, String tenHanhKhach, String ngaySinh, String gioiTinh, Integer trangThaiXoa, List<VeMayBay> veMayBays) {
+        this.maHanhKhach = maHanhKhach;
+        this.loaiHanhKhach = loaiHanhKhach;
+        this.tenHanhKhach = tenHanhKhach;
+        this.ngaySinh = ngaySinh;
+        this.gioiTinh = gioiTinh;
+        this.trangThaiXoa = trangThaiXoa;
+        this.veMayBays = veMayBays;
     }
 
     public Long getMaHanhKhach() {
@@ -91,6 +103,14 @@ public class HanhKhach {
 
     public void setTrangThaiXoa(Integer trangThaiXoa) {
         this.trangThaiXoa = trangThaiXoa;
+    }
+
+    public List<VeMayBay> getVeMayBays() {
+        return veMayBays;
+    }
+
+    public void setVeMayBays(List<VeMayBay> veMayBays) {
+        this.veMayBays = veMayBays;
     }
 
     @Override

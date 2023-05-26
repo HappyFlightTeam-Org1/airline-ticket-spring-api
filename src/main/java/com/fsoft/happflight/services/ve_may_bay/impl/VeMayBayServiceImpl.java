@@ -6,6 +6,7 @@ import com.fsoft.happflight.repositories.ve_may_bay.IVeMayBayRepository;
 import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -42,8 +43,20 @@ public class VeMayBayServiceImpl implements IVeMayBayService {
         return veMayBayRepository.findByOrderCode(maHoaDon);
     }
 
+
 	@Override
 	public List<VeMayBayThongKe> getVeMayBayThongKes() {
 		return veMayBayRepository.getVeMayBayThongKes();
 	}
+
+    @Override
+    public VeMayBay findById(String maVe) {
+        return veMayBayRepository.findById(maVe).orElse(null);
+    }
+
+    @Override
+    public Page<VeMayBay> search(String maVe, String tenHanhKhach, String diemDi, String diemDen, PageRequest pageable) {
+        return veMayBayRepository.search("%" + maVe + "%", "%" + tenHanhKhach + "%", "%" + diemDi + "%",  "%" + diemDen + "%", pageable);
+    }
+
 }
