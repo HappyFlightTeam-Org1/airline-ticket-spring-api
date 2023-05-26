@@ -1,6 +1,8 @@
 package com.fsoft.happflight.repositories.ve_may_bay;
 
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
+import com.fsoft.happflight.entities.ve_ma_bay.VeMayBayThongKe;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,15 @@ import java.util.List;
 public interface IVeMayBayRepository extends JpaRepository<VeMayBay, String> {
     @Query(value = "select * from ve_may_bay v join hoa_don h on v.ma_hoa_don = h.ma_hoa_don where h.ma_hoa_don =:maHoaDon and h.tt_thanh_toan = 1 and v.trang_thai_xoa =0", nativeQuery = true)
     List<VeMayBay> findByOrderCode(@Param("maHoaDon") String maHoaDon);
+
+    
+    @Query(value="SELECT MONTH(hd.ngay_tao) AS thang, COUNT(vm.ma_ve) AS so_luong_ve\n"
+    		+ "FROM hoa_don hd\n"
+    		+ "INNER JOIN ve_may_bay vm ON hd.ma_hoa_don = vm.ma_hoa_don\n"
+    		+ "GROUP BY thang\n"
+    		+ "ORDER BY thang;",nativeQuery = true)
+    List<VeMayBayThongKe> getVeMayBayThongKes();
+
 
     @Query(value = "select ve_may_bay.ma_ve, ve_may_bay.gia_ve, ve_may_bay.hang_ve, " +
             "ve_may_bay.ma_dat_cho, ve_may_bay.ma_hanh_khach, " +
@@ -36,4 +47,5 @@ public interface IVeMayBayRepository extends JpaRepository<VeMayBay, String> {
             @Param("diemDen") String diemDen,
             Pageable pageable
     );
+
 }

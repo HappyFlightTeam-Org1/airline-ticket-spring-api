@@ -50,5 +50,11 @@ public class HanhKhachServiceImpl implements IHanhKhachService {
         return hanhKhachRepository.findAll(pageable);
     }
 
+	@Override
+	public int soLuongKhachHangThangNay() {
+		
+		return hanhKhachRepository.soLuongKhachHangThangNay();
+	}
+
 
 }

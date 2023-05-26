@@ -19,5 +19,10 @@ public interface IHanhKhachRepository extends JpaRepository<HanhKhach, Long> {
 
     Page<HanhKhach> findAll(Pageable pageable);
 
-
+    @Query(value="SELECT COUNT(DISTINCT hk.ma_hanh_khach) AS so_luong_hanh_khach\n"
+    		+ "FROM hanh_khach hk\n"
+    		+ "JOIN ve_may_bay vb ON hk.ma_hanh_khach = vb.ma_hanh_khach\n"
+    		+ "JOIN hoa_don hd ON vb.ma_hoa_don = hd.ma_hoa_don\n"
+    		+ "WHERE MONTH(hd.ngay_tao) = MONTH(CURRENT_DATE()) AND YEAR(hd.ngay_tao) = YEAR(CURRENT_DATE());",nativeQuery = true)
+   int soLuongKhachHangThangNay();
 }

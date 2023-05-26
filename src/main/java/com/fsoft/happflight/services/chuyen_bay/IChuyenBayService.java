@@ -1,5 +1,7 @@
 package com.fsoft.happflight.services.chuyen_bay;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -19,5 +21,7 @@ public interface IChuyenBayService {
 
 	Page<ChuyenBay> searchChuyenBayAdmin(String diemDi, String diemDen, String ngayKhoiHanh,
 	        Direction sortDirection, String sortBy, Pageable pageable);
+	
+	List<ChuyenBay> getListMonthNow();
 
 }
