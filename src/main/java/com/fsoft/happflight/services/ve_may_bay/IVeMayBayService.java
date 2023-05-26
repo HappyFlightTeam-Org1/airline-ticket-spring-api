@@ -19,5 +19,5 @@ public interface IVeMayBayService {
 
     VeMayBay findById(String maVe);
 
-    Page<VeMayBay> search(String maVe, String tenHanhKhach, String diemDi, String diemDen, PageRequest pageable);
+    Page<VeMayBay> pageAndSearch(String maVe, String tenHanhKhach, String diemDi, String diemDen, Pageable pageable);
 }

@@ -1,5 +1,30 @@
 package com.fsoft.happflight.controllers;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.fsoft.happflight.config.vnpay.VnpayConfig;
 import com.fsoft.happflight.dto.hanh_khach.HanhKhachDTO;
 import com.fsoft.happflight.dto.ve_may_bay.VeMayBayDTO;
@@ -13,17 +38,6 @@ import com.fsoft.happflight.services.hanh_khach.IHanhKhachService;
 import com.fsoft.happflight.services.hoa_don.IHoaDonService;
 import com.fsoft.happflight.services.nguoi_dung.INguoiDungService;
 import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -175,6 +189,7 @@ public class VNPayController {
             String maVeVe = "TK" + datChoVe.getGhe().getTenGhe() + datChoDi.getChuyenBay().getMaChuyenBay() + datChoVe.getMaDatCho();
             String hangVeVe = datChoVe.getGhe().getLoaiGhe().getTenLoaiGhe();
             Long giaVeVe = datChoVe.getChuyenBay().getGiaVe();
+            System.out.println(maVeDi + hangVeDi+ giaVeDi+ hanhKhach1+ datChoDi+ hoaDon1);
             veMayBayService.create(new VeMayBay(maVeDi, hangVeDi, giaVeDi, 0, hanhKhach1, datChoDi, hoaDon1));
             veMayBayService.create(new VeMayBay(maVeVe, hangVeVe, giaVeVe, 0, hanhKhach1, datChoVe, hoaDon1));
 

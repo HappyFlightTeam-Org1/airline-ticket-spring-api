@@ -16,9 +16,9 @@ public class ChuyenBayDTO implements Validator {
 	@CheckMaChuyenBay
 	@NotBlank(message = " không được để trống!")
 	private String maChuyenBay;
-	@NotBlank(message =  " không được để trống!")
+	@NotBlank(message = " không được để trống!")
 	private String diemDi;
-	@NotBlank(message =  " không được để trống!")
+	@NotBlank(message = " không được để trống!")
 	private String diemDen;
 	private String ngayKhoiHanh;
 	@NotNull(message = " không được để trống")
@@ -28,13 +28,13 @@ public class ChuyenBayDTO implements Validator {
 	private LocalTime gioHaCanh;
 	private String thoiGianBay;
 	private Long giaVe;
-	@NotBlank(message =  " không được để trống!")
+	@NotBlank(message = " không được để trống!")
 	private String kLHanhLy;
-	@NotBlank(message =  " không được để trống!")
+	@NotBlank(message = " không được để trống!")
 	private String trangThaiVanHanh;
 	@NotNull(message = " không được để trống")
 	private Long maMayBay;
-	@NotBlank(message =  " không được để trống!")
+	@NotBlank(message = " không được để trống!")
 	private String maHangBay;
 	private Integer trangThaiXoa = 0;
 
@@ -177,44 +177,43 @@ public class ChuyenBayDTO implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		ChuyenBayDTO chuyenBayDTO = (ChuyenBayDTO) target;
-	
-		if (!chuyenBayDTO.getMaChuyenBay().matches("^CB\\d{3}$")) {
-	        errors.rejectValue("maChuyenBay", "", " nhập đúng định dạng CBxxx với x là số nguyên dương!");
-	    }
-	
-		
+
+		if (!chuyenBayDTO.getMaChuyenBay().matches("^CB\\d{5}$")) {
+			errors.rejectValue("maChuyenBay", "", " nhập đúng định dạng CBxxxxx với x là số nguyên dương!");
+		}
+
+		if (chuyenBayDTO.getDiemDen().equals(chuyenBayDTO.getDiemDi())) {
+			errors.rejectValue("diemDen", "", " điểm đến phải khác điểm đi!");
+		}
+
 		if (chuyenBayDTO.getNgayKhoiHanh() == null || chuyenBayDTO.getNgayKhoiHanh() == "") {
 			errors.rejectValue("ngayKhoiHanh", "", " không được để trống!");
 		} else {
 			LocalDate currentDate = LocalDate.now();
-			LocalDate ngayKhoiHanh=LocalDate.parse(chuyenBayDTO.getNgayKhoiHanh());
-			LocalDate conditionDate=currentDate.plusDays(7);
-			if(ngayKhoiHanh.isBefore(conditionDate)) {
+			LocalDate ngayKhoiHanh = LocalDate.parse(chuyenBayDTO.getNgayKhoiHanh());
+			LocalDate conditionDate = currentDate.plusDays(7);
+			if (ngayKhoiHanh.isBefore(conditionDate)) {
 				errors.rejectValue("ngayKhoiHanh", "", " phải cách ngày hiện tại ít nhất 7 ngày!");
 			}
 		}
-		
-	
-		if (chuyenBayDTO.getGioHaCanh() == null ) {
-		    errors.rejectValue("gioHaCanh", "", " không được để trống!");
-		} 
-//		else {
-//		    LocalTime gioKhoiHanh = chuyenBayDTO.getGioKhoiHanh();
-//		    LocalTime gioHaCanh = chuyenBayDTO.getGioHaCanh();
-//		    LocalTime conditionTime=gioKhoiHanh.plusHours(0);
-//		    if (gioHaCanh.isBefore(conditionTime)) {
-//		        errors.rejectValue("gioHaCanh", "", " phải lớn hơn giờ khởi hành ít nhất 1h!");
-//		    }
-		
-		
-		if(chuyenBayDTO.getGiaVe()==null) {
-			errors.rejectValue("giaVe", "", " không được để trống!");
-			
-		
-		}else if (chuyenBayDTO.getGiaVe()<0 ) {
-			errors.rejectValue("giaVe", "", " không được nhỏ hơn 0!");
+
+		if (chuyenBayDTO.getGioHaCanh() == null) {
+			errors.rejectValue("gioHaCanh", "", " không được để trống!");
+		} else {
+			LocalTime gioKhoiHanh = chuyenBayDTO.getGioKhoiHanh();
+			LocalTime gioHaCanh = chuyenBayDTO.getGioHaCanh();
+			LocalTime conditionTime = gioKhoiHanh.plusHours(1);
+			if (gioHaCanh.isBefore(conditionTime)) {
+				errors.rejectValue("gioHaCanh", "", " phải lớn hơn giờ khởi hành ít nhất 1h!");
+			}
 		}
 
+		if (chuyenBayDTO.getGiaVe() == null) {
+			errors.rejectValue("giaVe", "", " không được để trống!");
+
+		} else if (chuyenBayDTO.getGiaVe() < 0) {
+			errors.rejectValue("giaVe", "", " không được nhỏ hơn 0!");
+		}
 	}
-	
+
 }
