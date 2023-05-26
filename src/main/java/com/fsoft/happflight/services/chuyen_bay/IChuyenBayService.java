@@ -22,6 +22,12 @@ public interface IChuyenBayService {
 	Page<ChuyenBay> searchChuyenBayAdmin(String diemDi, String diemDen, String ngayKhoiHanh,
 	        Direction sortDirection, String sortBy, Pageable pageable);
 	
+	/*
+	 * @Param getListMonthNow
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (list chuyen bay month now)
+	 */
 	List<ChuyenBay> getListMonthNow();
 
 }

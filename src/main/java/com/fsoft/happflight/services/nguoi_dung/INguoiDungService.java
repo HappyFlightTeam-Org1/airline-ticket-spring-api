@@ -13,7 +13,18 @@ public interface INguoiDungService {
 
     List<NguoiDung> getAllNguoiDungs();
 
+    /*
+  	 * @Param getAllNguoiDungsPage
+  	 * @creator TITT
+  	 * @date-create 26-05-2023
+  	 * @function (page nguoi dung)
+  	 */
     Page<NguoiDung> getAllNguoiDungsPage(Pageable pageable);
-
+	/*
+  	 * @Param findByHoVaTenContainingAndSoDienThoaiContainingAndEmailContaining
+  	 * @creator TITT
+  	 * @date-create 26-05-2023
+  	 * @function (search nguoi dung)
+  	 */
     Page<NguoiDung> findByHoVaTenContainingAndSoDienThoaiContainingAndEmailContaining(Pageable pageable, String hoVaTen, String soDienThoai, String email);
 }

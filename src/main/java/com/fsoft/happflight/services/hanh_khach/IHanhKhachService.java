@@ -18,5 +18,11 @@ public interface IHanhKhachService {
 
     Page<HanhKhach> findWithPageAble(Pageable pageable);
     
+	/*
+	 * @Param soLuongKhachHangThangNay
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (so luong khach hang thang nay)
+	 */
     int soLuongKhachHangThangNay();
 }

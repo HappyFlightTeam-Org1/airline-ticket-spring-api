@@ -111,6 +111,12 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	        return chuyenBayRepository.findAll(spec, pageableWithSort);
 	    }
 
+	/*
+	 * @Param getListMonthNow
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (list chuyen bay month now)
+	 */
 	@Override
 	public List<ChuyenBay> getListMonthNow() {
 		return chuyenBayRepository.getListMonthNow();

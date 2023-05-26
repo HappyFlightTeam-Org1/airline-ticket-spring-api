@@ -20,7 +20,12 @@ public interface IVeMayBayService {
 
     List<VeMayBay> findByOrderCode(String maHoaDon);
 
-    
+    /*
+	 * @Param getVeMayBayThongKes
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (list ve may bay thong ke)
+	 */
     List<VeMayBayThongKe> getVeMayBayThongKes();
 
 
