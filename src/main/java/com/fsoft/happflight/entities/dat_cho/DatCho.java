@@ -1,5 +1,6 @@
 package com.fsoft.happflight.entities.dat_cho;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 
@@ -25,6 +26,7 @@ public class DatCho {
     private ChuyenBay chuyenBay;
 
     @OneToOne(mappedBy = "datCho")
+    @JsonIgnore
     private VeMayBay veMayBay;
 
     public DatCho() {
