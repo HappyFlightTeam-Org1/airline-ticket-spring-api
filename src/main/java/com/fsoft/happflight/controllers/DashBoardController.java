@@ -17,10 +17,12 @@ import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
 import com.fsoft.happflight.entities.hoa_don.HoaDonThongKe;
 import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
+import com.fsoft.happflight.entities.ve_ma_bay.VeMayBayThongKe;
 import com.fsoft.happflight.repositories.chuyen_bay.IChuyenBayRepository;
 import com.fsoft.happflight.repositories.hanh_khach.IHanhKhachRepository;
 import com.fsoft.happflight.repositories.hoa_don.IHoaDonRepository;
 import com.fsoft.happflight.repositories.nguoi_dung.INguoiDungRepository;
+import com.fsoft.happflight.repositories.ve_may_bay.IVeMayBayRepository;
 
 @RequestMapping(value = "/dashboard")
 @RestController
@@ -34,10 +36,10 @@ public class DashBoardController {
 	private IHanhKhachRepository iHanhKhachRepository;
 	
 	@Autowired
-	private INguoiDungRepository iNguoiDungRepository;
+	private IHoaDonRepository iHoaDonRepository;
 	
 	@Autowired
-	private IHoaDonRepository iHoaDonRepository;
+	private IVeMayBayRepository iVeMayBayRepository;
 	
 	
 	@GetMapping("/total")
@@ -50,12 +52,6 @@ public class DashBoardController {
 	public ResponseEntity<List<HanhKhach>>getHanhKhach(){
 		
 		return new ResponseEntity<>(iHanhKhachRepository.findAll(),HttpStatus.OK);
-	}
-	
-	@GetMapping("/totalND")
-	public ResponseEntity<List<NguoiDung>>getNguoiDung(){
-		
-		return new ResponseEntity<>(iNguoiDungRepository.findAll(),HttpStatus.OK);
 	}
 	
 	@GetMapping("/hoadon")
@@ -99,5 +95,20 @@ public class DashBoardController {
             chuyenBays = iChuyenBayRepository.findAll(); 
         }
         return new ResponseEntity<>(chuyenBays, HttpStatus.OK);
+    }
+    
+    @GetMapping("/list-chuyen-bay-month-now")
+    public ResponseEntity<List<ChuyenBay>> getListChuyenBayMonthNow(){
+    	
+    	return new ResponseEntity<>(iChuyenBayRepository.getListMonthNow(),HttpStatus.OK);
+    }
+    @GetMapping("/list-ve-may-bay-thong-ke")
+    public ResponseEntity<List<VeMayBayThongKe>> getVeMayBayThongKe(){
+    	return new ResponseEntity<>(iVeMayBayRepository.getVeMayBayThongKes(),HttpStatus.OK);
+    }
+    
+    @GetMapping("/so-luong-hanh-khach-thang-nay")
+    public int getSoLuongKhachHangThangNay(){
+    	return iHanhKhachRepository.soLuongKhachHangThangNay();
     }
 }
