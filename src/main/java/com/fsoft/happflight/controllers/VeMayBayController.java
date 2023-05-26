@@ -109,7 +109,6 @@ public class VeMayBayController {
             hoaDon.setNguoiDung(nguoiDung);
             System.out.println("HOA DON1236" + hoaDon.toString());
             HoaDon hoaDonHienTai = hoaDonService.create(hoaDon);
-
             List<Long> maDatChoDis = Arrays.asList(veMayBayDTO.getMaDatChoDis());
             List<Long> maDatChoKhuHois = Arrays.asList(veMayBayDTO.getMaDatChoKhuHois());
             List<HanhKhachDTO> hanhKhachDTOS = veMayBayDTO.getHanhKhachDTOs();
