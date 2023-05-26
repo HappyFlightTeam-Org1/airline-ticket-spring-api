@@ -9,15 +9,39 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 
+/**
+ * Contains CRUD method use for nguoi_dung table
+ */
 @Repository
 @Transactional
 public interface INguoiDungAuthenRepository extends JpaRepository<NguoiDung, String> {
+    /**
+     * Query 1 NguoiDung from database matches email
+     * @param email String of email
+     * @return NguoiDung object
+     */
     @Query(value = "SELECT * FROM nguoi_dung WHERE email=:email", nativeQuery = true)
     NguoiDung getNguoiDungByEmail(@Param("email") String email);
 
+    /**
+     * Query 1 NguoiDung from database matches ten_tai_khoan
+     * @param tenTaiKhoan String of ten_tai_khoan
+     * @return NguoiDung object
+     */
     @Query(value = "SELECT * FROM nguoi_dung WHERE ten_tai_khoan=:ten_tai_khoan", nativeQuery = true)
     NguoiDung getNguoiDungByUsername(@Param("ten_tai_khoan") String tenTaiKhoan);
 
+    /**
+     * Save edited NguoiDung info to database
+     * @param email String of email
+     * @param soDienThoai String of soDienThoai
+     * @param ngaySinh String of ngaySinh
+     * @param diaChi String of diaChi
+     * @param hoChieu String of hoChieu
+     * @param gioiTinh String of gioiTinh
+     * @param quocTich int of quocTich
+     * @param tenTaiKhoan String of tenTaiKhoan
+     */
     @Modifying
     @Query(value = "UPDATE nguoi_dung SET " +
             "email=:email, " +
