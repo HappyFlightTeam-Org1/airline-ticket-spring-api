@@ -50,6 +50,12 @@ public class HanhKhachServiceImpl implements IHanhKhachService {
         return hanhKhachRepository.findAll(pageable);
     }
 
+    /*
+	 * @Param soLuongKhachHangThangNay
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (so luong khach hang thang nay)
+	 */
 	@Override
 	public int soLuongKhachHangThangNay() {
 		
