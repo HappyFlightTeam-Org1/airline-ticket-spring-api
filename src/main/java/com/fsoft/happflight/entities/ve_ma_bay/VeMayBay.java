@@ -1,13 +1,16 @@
 package com.fsoft.happflight.entities.ve_ma_bay;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fsoft.happflight.entities.dat_cho.DatCho;
 import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
-
-import javax.persistence.*;
 
 @Entity
 public class VeMayBay {
@@ -35,6 +38,7 @@ public class VeMayBay {
 
     @JoinColumn(name = "ma_hoa_don", referencedColumnName = "ma_hoa_don")
     @ManyToOne
+
     private HoaDon hoaDon;
 
     public VeMayBay() {

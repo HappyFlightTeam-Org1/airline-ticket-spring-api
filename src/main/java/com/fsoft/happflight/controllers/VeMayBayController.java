@@ -7,6 +7,9 @@ import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
 import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
+import com.fsoft.happflight.repositories.chuyen_bay.IChuyenBayRepository;
+import com.fsoft.happflight.services.chuyen_bay.IChuyenBayService;
+import com.fsoft.happflight.services.chuyen_bay.ISanBayService;
 import com.fsoft.happflight.services.dat_cho.IDatChoService;
 import com.fsoft.happflight.services.hanh_khach.IHanhKhachService;
 import com.fsoft.happflight.services.hoa_don.IHoaDonService;
@@ -44,24 +47,29 @@ public class VeMayBayController {
     @Autowired
     private IHanhKhachService hanhKhachService;
 
+    @Autowired ISanBayService sanBayService;
+    
     @Autowired
     private ModelMapper modelMapper;
+    
+    @GetMapping("/listSanBay")
+    public ResponseEntity<?> listSanBay(){
+    	return new ResponseEntity<>(sanBayService.findAll(),HttpStatus.OK);
+    }
 
-    @GetMapping(value = "/list")
-    public ResponseEntity<?> showListVeMayBay(@RequestParam(defaultValue = "0") int page,
-                                              @RequestParam(defaultValue = "5") int size) {
-
-        Page<VeMayBay> pageVeMayBays = veMayBayService.findAll(PageRequest.of(page, size));
-        List<VeMayBay> veMayBays = pageVeMayBays.getContent();
-        veMayBays.stream().forEach(item -> {
-            System.out.println(item.toString());
-        });
-        if (veMayBays.isEmpty()) {
-            return new ResponseEntity<>(veMayBays, HttpStatus.NO_CONTENT);
-        }
+    @GetMapping("/page")
+    public ResponseEntity<?> searchVeMayBay(@RequestParam(required = false) String maVe,
+                                            @RequestParam(required = false) String tenHanhKhach,
+                                            @RequestParam(required = false) String diemDi,
+                                            @RequestParam(required = false) String diemDen,
+                                            @RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "5") int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        Page<VeMayBay> veMayBays = veMayBayService.pageAndSearch(maVe, tenHanhKhach, diemDi, diemDen,pageable);
         return new ResponseEntity<>(veMayBays, HttpStatus.OK);
     }
 
+  
     @GetMapping(value = "/list-page")
     public ResponseEntity<?> showListFromOrderCode(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
@@ -117,7 +125,9 @@ public class VeMayBayController {
                         String maVeDi = "TK" + datChoDi.getGhe().getTenGhe() + datChoDi.getChuyenBay().getMaChuyenBay() + datChoDi.getMaDatCho();
                         String hangVeDi = datChoDi.getGhe().getLoaiGhe().getTenLoaiGhe();
                         Long giaVeDi = datChoDi.getChuyenBay().getGiaVe();
-                        veMayBayService.create(new VeMayBay(maVeDi, hangVeDi, giaVeDi, 0, hanhKhach, datChoDi, hoaDonHienTai));
+                        VeMayBay veMayBay = new VeMayBay(maVeDi, hangVeDi, giaVeDi, 0, hanhKhach, datChoDi, hoaDonHienTai);
+                        System.out.println(veMayBay.toString());
+//                        veMayBayService.create();
                     }
 
                     if (!maDatChoKhuHois.isEmpty()) {
