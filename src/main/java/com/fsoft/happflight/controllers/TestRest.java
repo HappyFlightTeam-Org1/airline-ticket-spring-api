@@ -1,21 +1,5 @@
 package com.fsoft.happflight.controllers;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.fsoft.happflight.entities.dat_cho.Ghe;
 import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
@@ -27,6 +11,17 @@ import com.fsoft.happflight.services.dat_cho.IGheService;
 import com.fsoft.happflight.services.hanh_khach.IHanhKhachService;
 import com.fsoft.happflight.services.hoa_don.IHoaDonService;
 import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
+import com.fsoft.happflight.utils.email.EmailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.mail.MessagingException;
+import java.util.List;
+
 
 @RestController
 @RequestMapping(value = "/test")
@@ -35,23 +30,26 @@ public class TestRest {
 //    @Autowired
 //    private IMayBayService mayBayService;
 
-	@Autowired
-	private IVeMayBayService veMayBayService;
+    @Autowired
+    private IVeMayBayService veMayBayService;
 
-	@Autowired
-	private INguoiDungRepository nguoiDungRepository;
+    @Autowired
+    private INguoiDungRepository nguoiDungRepository;
 
-	@Autowired
-	private IDatChoService datChoService;
+    @Autowired
+    private IDatChoService datChoService;
 
-	@Autowired
-	private IHoaDonService hoaDonService;
+    @Autowired
+    private IHoaDonService hoaDonService;
 
-	@Autowired
-	private IHanhKhachService hanhKhachService;
+    @Autowired
+    private IHanhKhachService hanhKhachService;
 
-	@Autowired
-	private IGheService gheService;
+    @Autowired
+    private IGheService gheService;
+
+    @Autowired
+    private EmailService emailService;
 
 //    @Autowired
 //    public TestRest(IMayBayService mayBayService) {
@@ -73,45 +71,45 @@ public class TestRest {
 //		return new ResponseEntity<>(vPage, HttpStatus.OK);
 //	}
 
-	@GetMapping("/ghes")
-	public ResponseEntity<List<Ghe>> showListGhe() {
-		List<Ghe> ghes = gheService.findAll();
-		if (ghes.isEmpty()) {
-			return new ResponseEntity<>(ghes, HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<>(ghes, HttpStatus.OK);
-	}
+    @GetMapping("/ghes")
+    public ResponseEntity<List<Ghe>> showListGhe() {
+        List<Ghe> ghes = gheService.findAll();
+        if (ghes.isEmpty()) {
+            return new ResponseEntity<>(ghes, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(ghes, HttpStatus.OK);
+    }
 
-	@PostMapping("/saveVeMayBay")
-	public ResponseEntity<String> saveTicket() {
-		try {
-			HoaDon hoaDon = hoaDonService.findById("OD1019279");
-			System.out.println(hoaDon.toString());
-			List<HanhKhach> hanhKhachs = hanhKhachService.findAll();
-			for (int i = 1; i <= hanhKhachs.size(); i++) {
-				System.out.println(i);
-				String id = "TK00" + i;
-				HanhKhach hanhKhach = hanhKhachs.get(i - 1);
-				System.out.println(hanhKhach.toString());
-				VeMayBay veMayBay = new VeMayBay(id,
-						datChoService.findById(Long.parseLong(String.valueOf(i))).getGhe().getLoaiGhe().getTenLoaiGhe(),
-						2000000L, 0, hanhKhach, datChoService.findById(Long.parseLong(String.valueOf(i))), hoaDon);
-				System.out.println(veMayBay.toString());
-				veMayBayService.create(veMayBay);
-			}
-			return null;
-		} catch (Exception e) {
-			System.out.println("ERROR");
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Thêm thất bại!");
-		}
-	}
+    @PostMapping("/saveVeMayBay")
+    public ResponseEntity<String> saveTicket() {
+        try {
+            HoaDon hoaDon = hoaDonService.findById("OD1019279");
+            System.out.println(hoaDon.toString());
+            List<HanhKhach> hanhKhachs = hanhKhachService.findAll();
+            for (int i = 1; i <= hanhKhachs.size(); i++) {
+                System.out.println(i);
+                String id = "TK00" + i;
+                HanhKhach hanhKhach = hanhKhachs.get(i - 1);
+                System.out.println(hanhKhach.toString());
+                VeMayBay veMayBay = new VeMayBay(id,
+                        datChoService.findById(Long.parseLong(String.valueOf(i))).getGhe().getLoaiGhe().getTenLoaiGhe(),
+                        2000000L, 0, hanhKhach, datChoService.findById(Long.parseLong(String.valueOf(i))), hoaDon);
+                System.out.println(veMayBay.toString());
+                veMayBayService.create(veMayBay);
+            }
+            return null;
+        } catch (Exception e) {
+            System.out.println("ERROR");
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Thêm thất bại!");
+        }
+    }
 
-	@GetMapping(value = "/{email}")
-	public ResponseEntity<?> showListFromOrderCode(@PathVariable("email") String email) {
-		NguoiDung nguoiDung = nguoiDungRepository.findById(email).orElse(null);
-		return new ResponseEntity<>(nguoiDung, HttpStatus.OK);
-	}
+    @GetMapping(value = "/{email}")
+    public ResponseEntity<?> showListFromOrderCode(@PathVariable("email") String email) {
+        NguoiDung nguoiDung = nguoiDungRepository.findById(email).orElse(null);
+        return new ResponseEntity<>(nguoiDung, HttpStatus.OK);
+    }
 
     @GetMapping("")
     public ResponseEntity<?> searchVeMayBay(@RequestParam(required = false) String maVe,
@@ -121,8 +119,16 @@ public class TestRest {
                                             @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "5") int size) {
         PageRequest pageable = PageRequest.of(page, size);
-        Page<VeMayBay> veMayBays = veMayBayService.pageAndSearch(maVe, tenHanhKhach, diemDi, diemDen,pageable);
+        Page<VeMayBay> veMayBays = veMayBayService.pageAndSearch(maVe, tenHanhKhach, diemDi, diemDen, pageable);
         return new ResponseEntity<>(veMayBays, HttpStatus.OK);
+    }
+
+
+    @RequestMapping("/send/{email}")
+    public ResponseEntity<String> sendSimpleEmail(@PathVariable("email") String email) throws MessagingException {
+        emailService.sendPaymentMail(email);
+        System.out.println("SENDDING");
+        return new ResponseEntity<>("THANH CONG", HttpStatus.OK);
     }
 
 }
