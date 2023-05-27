@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service implementation for QuocTichService
+ */
 @Service
 public class QuocTichServiceImpl {
     @Autowired

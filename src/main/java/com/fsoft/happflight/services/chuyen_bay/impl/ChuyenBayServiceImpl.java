@@ -18,14 +18,14 @@ import com.fsoft.happflight.repositories.chuyen_bay.IChuyenBayRepository;
 import com.fsoft.happflight.services.chuyen_bay.IChuyenBayService;
 import com.fsoft.happflight.services.dat_cho.IDatChoService;
 
-
 /**
  * The Class ChuyenBayServiceImpl.
+ * 
  * @creator DucNH66
  */
 @Service
 public class ChuyenBayServiceImpl implements IChuyenBayService {
-	
+
 	/** The chuyen bay repository. */
 	@Autowired
 	IChuyenBayRepository chuyenBayRepository;
@@ -34,18 +34,19 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	@Autowired
 	private IDatChoService datChoService;
 
-   /**
-    * Save.
-    * @creator DucNH66
-    * @date 2023-05-26
-    * @param chuyenBay the chuyen bay
-    */
-   //DucNH66 thêm mới chuyến bay
+	/**
+	 * Save.
+	 * 
+	 * @creator DucNH66
+	 * @date 2023-05-26
+	 * @param chuyenBay the chuyen bay
+	 */
+	// DucNH66 thêm mới chuyến bay
 	@Override
 	public void save(ChuyenBay chuyenBay) {
 		System.out.println(chuyenBay.toString());
 		chuyenBayRepository.save(chuyenBay);
-		//DuyNT58 them danh sach dat cho khi them moi chuyen bay
+		// DuyNT58 them danh sach dat cho khi them moi chuyen bay
 		List<Ghe> ghes = chuyenBay.getMayBay().getGhes();
 		ghes.stream().forEach(ghe -> {
 			DatCho datCho = new DatCho("available", ghe, chuyenBay);
@@ -55,12 +56,13 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 
 	/**
 	 * Find by id.
+	 * 
 	 * @creator DucNH66
 	 * @param maChuyenBay the ma chuyen bay
 	 * @date 2023-05-26
 	 * @return the chuyen bay
 	 */
-	//DucNH66 tìm kiếm chuyến bay eho Id
+	// DucNH66 tìm kiếm chuyến bay eho Id
 	@Override
 	public ChuyenBay findById(String maChuyenBay) {
 		return chuyenBayRepository.findById(maChuyenBay).orElse(null);
@@ -68,104 +70,104 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 
 	/**
 	 * Search chuyen bay admin.
+	 * 
 	 * @creator DucNH66
 	 * @date 2023-05-26
-	 * @param diemDi the diem di
-	 * @param diemDen the diem den
-	 * @param ngayKhoiHanh the ngay khoi hanh
+	 * @param diemDi        the diem di
+	 * @param diemDen       the diem den
+	 * @param ngayKhoiHanh  the ngay khoi hanh
 	 * @param sortDirection the sort direction
-	 * @param sortBy the sort by
-	 * @param pageable the pageable
+	 * @param sortBy        the sort by
+	 * @param pageable      the pageable
 	 * @return the page
 	 */
-	//DucNH66 tìm kiếm sắp xếp phân trang chuyến bay cho Admin
+	// DucNH66 tìm kiếm sắp xếp phân trang chuyến bay cho Admin
 	@Override
 	public Page<ChuyenBay> searchChuyenBayAdmin(String diemDi, String diemDen, String ngayKhoiHanh,
-	        Direction sortDirection, String sortBy, Pageable pageable) {
-	    Specification<ChuyenBay> spec = Specification.where(null);
+			Direction sortDirection, String sortBy, Pageable pageable) {
+		Specification<ChuyenBay> spec = Specification.where(null);
 
-	    if (diemDi != null && !diemDi.trim().isEmpty()) {
-	        spec = spec.and((root, query, builder) ->
-	                builder.equal(root.get("diemDi"), diemDi));
-	    }
+		if (diemDi != null && !diemDi.trim().isEmpty()) {
+			spec = spec.and((root, query, builder) -> builder.equal(root.get("diemDi"), diemDi));
+		}
 
-	    if (diemDen != null && !diemDen.trim().isEmpty()) {
-	        spec = spec.and((root, query, builder) ->
-	                builder.equal(root.get("diemDen"), diemDen));
-	    }
+		if (diemDen != null && !diemDen.trim().isEmpty()) {
+			spec = spec.and((root, query, builder) -> builder.equal(root.get("diemDen"), diemDen));
+		}
 
-	    if (ngayKhoiHanh != null && !ngayKhoiHanh.trim().isEmpty()) {
-	        spec = spec.and((root, query, builder) ->
-	                builder.equal(root.get("ngayKhoiHanh"), ngayKhoiHanh));
-	    }
+		if (ngayKhoiHanh != null && !ngayKhoiHanh.trim().isEmpty()) {
+			spec = spec.and((root, query, builder) -> builder.equal(root.get("ngayKhoiHanh"), ngayKhoiHanh));
+		}
 
-	    Pageable pageableWithSort = pageable;
-	    if (sortBy != null && !sortBy.trim().isEmpty()) {
-	        Sort sort = Sort.by(sortDirection, sortBy);
-	        pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-	    }
+		Pageable pageableWithSort = pageable;
+		if (sortBy != null && !sortBy.trim().isEmpty()) {
+			Sort sort = Sort.by(sortDirection, sortBy);
+			pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+		}
 
-	    Page<ChuyenBay> result;
-	    if (spec.equals(Specification.where(null))) {
-	        result = chuyenBayRepository.findAll(pageableWithSort);
-	    } else {
-	        result = chuyenBayRepository.findAll(spec, pageableWithSort);
-	    }
-	    return result;
+		Page<ChuyenBay> result;
+		if (spec.equals(Specification.where(null))) {
+			result = chuyenBayRepository.findAll(pageableWithSort);
+		} else {
+			result = chuyenBayRepository.findAll(spec, pageableWithSort);
+		}
+		return result;
 	}
 
-	
 	/**
 	 * Search chuyen bay.
+	 * 
 	 * @creator DucNH66
 	 * @date 2023-05-26
-	 * @param diemDi the diem di
-	 * @param diemDen the diem den
-	 * @param ngayKhoiHanh the ngay khoi hanh
+	 * @param diemDi        the diem di
+	 * @param diemDen       the diem den
+	 * @param ngayKhoiHanh  the ngay khoi hanh
 	 * @param sortDirection the sort direction
-	 * @param sortBy the sort by
-	 * @param pageable the pageable
+	 * @param sortBy        the sort by
+	 * @param pageable      the pageable
 	 * @return the page
 	 */
-	//DucNH66 tìm kiếm sắp xếp phân trang chuyến bay cho User
+	// DucNH66 tìm kiếm sắp xếp phân trang chuyến bay cho User
 	@Override
-	public Page<ChuyenBay> searchChuyenBay(String diemDi, String diemDen, String ngayKhoiHanh,
-			Direction sortDirection, String sortBy, Pageable pageable) {
-		 Specification<ChuyenBay> spec = Specification.where(null);
+	public Page<ChuyenBay> searchChuyenBay(String diemDi, String diemDen, String ngayKhoiHanh, Direction sortDirection,
+			String sortBy, Pageable pageable) {
+		Specification<ChuyenBay> spec = Specification.where(null);
 
-	        if (diemDi != null && !diemDi.isEmpty()) {
-	            spec = spec.and((root, query, builder) ->
-	                    builder.equal(root.get("diemDi"), diemDi));
-	        }
+		if (diemDi != null && !diemDi.isEmpty()) {
+			spec = spec.and((root, query, builder) -> builder.equal(root.get("diemDi"), diemDi));
+		}
 
-	        if (diemDen != null && !diemDen.isEmpty()) {
-	            spec = spec.and((root, query, builder) ->
-	                    builder.equal(root.get("diemDen"), diemDen));
-	        }
+		if (diemDen != null && !diemDen.isEmpty()) {
+			spec = spec.and((root, query, builder) -> builder.equal(root.get("diemDen"), diemDen));
+		}
 
-	        if (ngayKhoiHanh != null ) {
-	            spec = spec.and((root, query, builder) ->
-	                    builder.equal(root.get("ngayKhoiHanh"), ngayKhoiHanh));
-	        }
+		if (ngayKhoiHanh != null) {
+			spec = spec.and((root, query, builder) -> builder.equal(root.get("ngayKhoiHanh"), ngayKhoiHanh));
+		}
 
-	        Pageable pageableWithSort = pageable;
-	        if (sortBy != null && !sortBy.isEmpty()) {
-	            Sort sort = Sort.by(sortDirection, sortBy);
-	            pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-	        }
-	        return chuyenBayRepository.findAll(spec, pageableWithSort);
-	    }
+		Pageable pageableWithSort = pageable;
+		if (sortBy != null && !sortBy.isEmpty()) {
+			Sort sort = Sort.by(sortDirection, sortBy);
+			pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+		}
+		return chuyenBayRepository.findAll(spec, pageableWithSort);
+	}
 
 	/**
 	 * Gets the list month now.
 	 *
 	 * @return the list month now
+	 * 
+	 *         /*
+	 * @Param getListMonthNow
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (list chuyen bay month now)
+	 * 
 	 */
 	@Override
 	public List<ChuyenBay> getListMonthNow() {
 		return chuyenBayRepository.getListMonthNow();
 	}
-
-
 
 }
