@@ -26,6 +26,11 @@ public class HanhKhachServiceImpl implements IHanhKhachService {
        return hanhKhachRepository.save(hanhKhach);
     }
 
+    /**
+     * Save hanh khach.
+     * @creator DucNH66
+     * @param hanhKhachDTOs the hanh khach DT os
+     */
     @Override
     public void saveHanhKhach(List<HanhKhachDTO> hanhKhachDTOs) {
         hanhKhachDTOs.stream().forEach(item -> {

@@ -18,14 +18,28 @@ import com.fsoft.happflight.repositories.chuyen_bay.IChuyenBayRepository;
 import com.fsoft.happflight.services.chuyen_bay.IChuyenBayService;
 import com.fsoft.happflight.services.dat_cho.IDatChoService;
 
+
+/**
+ * The Class ChuyenBayServiceImpl.
+ * @creator DucNH66
+ */
 @Service
 public class ChuyenBayServiceImpl implements IChuyenBayService {
+	
+	/** The chuyen bay repository. */
 	@Autowired
 	IChuyenBayRepository chuyenBayRepository;
 
+	/** The dat cho service. */
 	@Autowired
 	private IDatChoService datChoService;
 
+   /**
+    * Save.
+    * @creator DucNH66
+    * @date 2023-05-26
+    * @param chuyenBay the chuyen bay
+    */
    //DucNH66 thêm mới chuyến bay
 	@Override
 	public void save(ChuyenBay chuyenBay) {
@@ -39,12 +53,31 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 		});
 	}
 
+	/**
+	 * Find by id.
+	 * @creator DucNH66
+	 * @param maChuyenBay the ma chuyen bay
+	 * @date 2023-05-26
+	 * @return the chuyen bay
+	 */
 	//DucNH66 tìm kiếm chuyến bay eho Id
 	@Override
 	public ChuyenBay findById(String maChuyenBay) {
 		return chuyenBayRepository.findById(maChuyenBay).orElse(null);
 	}
 
+	/**
+	 * Search chuyen bay admin.
+	 * @creator DucNH66
+	 * @date 2023-05-26
+	 * @param diemDi the diem di
+	 * @param diemDen the diem den
+	 * @param ngayKhoiHanh the ngay khoi hanh
+	 * @param sortDirection the sort direction
+	 * @param sortBy the sort by
+	 * @param pageable the pageable
+	 * @return the page
+	 */
 	//DucNH66 tìm kiếm sắp xếp phân trang chuyến bay cho Admin
 	@Override
 	public Page<ChuyenBay> searchChuyenBayAdmin(String diemDi, String diemDen, String ngayKhoiHanh,
@@ -82,6 +115,18 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	}
 
 	
+	/**
+	 * Search chuyen bay.
+	 * @creator DucNH66
+	 * @date 2023-05-26
+	 * @param diemDi the diem di
+	 * @param diemDen the diem den
+	 * @param ngayKhoiHanh the ngay khoi hanh
+	 * @param sortDirection the sort direction
+	 * @param sortBy the sort by
+	 * @param pageable the pageable
+	 * @return the page
+	 */
 	//DucNH66 tìm kiếm sắp xếp phân trang chuyến bay cho User
 	@Override
 	public Page<ChuyenBay> searchChuyenBay(String diemDi, String diemDen, String ngayKhoiHanh,
@@ -111,6 +156,11 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	        return chuyenBayRepository.findAll(spec, pageableWithSort);
 	    }
 
+	/**
+	 * Gets the list month now.
+	 *
+	 * @return the list month now
+	 */
 	@Override
 	public List<ChuyenBay> getListMonthNow() {
 		return chuyenBayRepository.getListMonthNow();
