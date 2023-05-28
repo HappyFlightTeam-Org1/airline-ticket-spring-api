@@ -8,6 +8,10 @@ import javax.persistence.*;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 @Entity
 public class ChuyenBay {
 

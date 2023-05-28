@@ -48,8 +48,11 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 		chuyenBayRepository.save(chuyenBay);
 		// DuyNT58 them danh sach dat cho khi them moi chuyen bay
 		List<Ghe> ghes = chuyenBay.getMayBay().getGhes();
+		DatCho datCho = new DatCho();
 		ghes.stream().forEach(ghe -> {
-			DatCho datCho = new DatCho("available", ghe, chuyenBay);
+			datCho.setTrangThai("available");
+			datCho.setGhe(ghe);
+			datCho.setChuyenBay(chuyenBay);
 			datChoService.create(datCho);
 		});
 	}

@@ -16,6 +16,10 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
 import com.fsoft.happflight.entities.tai_khoan.TaiKhoan;
 
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 @Entity
 public class NguoiDung {
 

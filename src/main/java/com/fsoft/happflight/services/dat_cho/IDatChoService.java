@@ -4,9 +4,13 @@ import com.fsoft.happflight.entities.dat_cho.DatCho;
 
 import java.util.List;
 
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 public interface IDatChoService {
 
-    DatCho create(DatCho datCho);
+    void create(DatCho datCho);
 
     List<DatCho> findAll();
 

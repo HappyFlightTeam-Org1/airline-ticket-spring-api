@@ -13,6 +13,7 @@ import com.fsoft.happflight.services.hanh_khach.IHanhKhachService;
 import com.fsoft.happflight.services.hoa_don.IHoaDonService;
 import com.fsoft.happflight.services.nguoi_dung.INguoiDungService;
 import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
+import com.fsoft.happflight.utils.email.EmailService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,6 +52,9 @@ public class VeMayBayController {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping("/listSanBay")
     public ResponseEntity<?> listSanBay() {
@@ -107,6 +112,8 @@ public class VeMayBayController {
 
             for (int i = 0; i < hanhKhachDTOS.size(); i++) {
                 //tạo hành khách và lưu xuống DB
+                //lưu tên in hoa
+                hanhKhachDTOS.get(i).setTenHanhKhach(hanhKhachDTOS.get(i).getTenHanhKhach().toUpperCase());
                 HanhKhach hanhKhach = hanhKhachService.saveHanhKhach(modelMapper.map(hanhKhachDTOS.get(i), HanhKhach.class));
 
                 //nếu hành khách là em bé thì không tạo vé
@@ -155,6 +162,24 @@ public class VeMayBayController {
             return new ResponseEntity<>(veMayBays, HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(veMayBays, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{maVe}")
+    public ResponseEntity<?> deleteCustomer(@PathVariable("maVe") String maVe) {
+        //update trạng thái xóa của VeMayBay
+        VeMayBay veMayBay = veMayBayService.findById(maVe);
+        veMayBay.setTrangThaiXoa(1);
+        veMayBayService.create(veMayBay);
+        //update trạng thái của datcho thành available
+        DatCho datCho = veMayBay.getDatCho();
+        datCho.setTrangThai("available");
+        datChoService.update(datCho);
+        try {
+            emailService.sendAfterCancelTicket(veMayBay);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
