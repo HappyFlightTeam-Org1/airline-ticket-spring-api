@@ -1,5 +1,9 @@
 package com.fsoft.happflight.dto.hoa_don;
 
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 public class HoaDonDTO {
 
     private String maHoaDon;

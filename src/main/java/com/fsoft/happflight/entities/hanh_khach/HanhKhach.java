@@ -7,10 +7,14 @@ import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 @Entity
 public class HanhKhach {
 
-	@Id
+	@Id		
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ma_hanh_khach")
 	private Long maHanhKhach;

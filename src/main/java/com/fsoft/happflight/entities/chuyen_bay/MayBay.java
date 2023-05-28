@@ -13,6 +13,10 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fsoft.happflight.entities.dat_cho.Ghe;
 
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 @Entity
 public class MayBay {
 
