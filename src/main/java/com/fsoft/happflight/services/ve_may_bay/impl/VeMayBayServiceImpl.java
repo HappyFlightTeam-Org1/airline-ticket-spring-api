@@ -23,32 +23,51 @@ public class VeMayBayServiceImpl implements IVeMayBayService {
 	@Autowired
 	private IVeMayBayRepository veMayBayRepository;
 
-//	@Override
-//	public Page<VeMayBay> findAll(Pageable pageable) {
-//		System.out.println("SERRVICCCCEE 999999 !");
-//		Page<VeMayBay> vePage = veMayBayRepository.findAll(pageable);
-//		List<VeMayBay> veMayBays = vePage.getContent();
-//		System.out.println(veMayBays.size());
-//		System.out.println("HERREEEEE");
-//		return veMayBayRepository.findAll(pageable);
-//	}
 
+	/**
+	 * @author DuyNT58
+	 * @TODO tao moi VeMayBay
+	 * @UPDATE_DATE May 26, 2023
+	 * @param veMayBay
+	 * @return VeMayBay
+	 */
 	@Override
 	public VeMayBay create(VeMayBay veMayBay) {
 		return veMayBayRepository.save(veMayBay);
 	}
 
+	/**
+	 * @author DuyNT58
+	 * @TODO
+	 * @UPDATE_DATE May 26, 2023
+	 * @param veMayBay
+	 * @return VeMayBay
+	 */
 	@Override
 	public VeMayBay delete(VeMayBay veMayBay) {
 		return veMayBayRepository.save(veMayBay);
 	}
 
+	/**
+	 * @author DuyNT58
+	 * @TODO lay List<VeMayBay> tu ma hoa don
+	 * @UPDATE_DATE May 26, 2023
+	 * @param maHoaDon
+	 * @return List<VeMayBay>
+	 */
 	@Override
 	public List<VeMayBay> findByOrderCode(String maHoaDon) {
 		return veMayBayRepository.findByOrderCode(maHoaDon);
 	}
 
 
+	/**
+	 * @author DuyNT58
+	 * @TODO tim ve may bay de in hoac huy
+	 * @UPDATE_DATE May 26, 2023
+	 * @param maVe
+	 * @return VeMayBay
+	 */
 	@Override
 	public VeMayBay findById(String maVe) {
 		return veMayBayRepository.findById(maVe).orElse(null);

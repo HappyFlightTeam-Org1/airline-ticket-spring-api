@@ -19,8 +19,8 @@ public class DatChoServiceImpl implements IDatChoService {
     }
 
     @Override
-    public DatCho create(DatCho datCho) {
-        return this.datChoRepository.save(datCho);
+    public void create(DatCho datCho) {
+        this.datChoRepository.create(datCho.getTrangThai(), datCho.getGhe().getMaGhe(), datCho.getChuyenBay().getMaChuyenBay());
     }
 
     @Override

@@ -10,6 +10,10 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.NaturalId;
 
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 @Entity
 public class Role {
 

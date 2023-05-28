@@ -43,6 +43,13 @@ public class EmailServiceImpl implements EmailService {
         sendEmail(emailDetail);
     }
 
+    /**
+     * @author DuyNT58
+     * @TODO gui mail sau khi thanh toan hoa don thanh con
+     * @UPDATE_DATE May 26, 2023
+     * @param hoaDon
+     * @throws MessagingException
+     */
     @Override
     public void sendPaymentMail(HoaDon hoaDon) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -83,11 +90,19 @@ public class EmailServiceImpl implements EmailService {
                 "<i>Email: thienduy0195@gmail.com.</i></p>\n" +
                 "</div>";
         message.setContent(htmlMsg , "text/html; charset=UTF-8");
+        helper.setFrom("happyflightservices@gmail.com");
         helper.setTo(hoaDon.getNguoiDung().getEmail());
         helper.setSubject("THANH TOÁN THÀNH CÔNG!");
         this.javaMailSender.send(message);
     }
 
+    /**
+     * @author DuyNT58
+     * @TODO gui mail sau khi huy ve
+     * @UPDATE_DATE May 26, 2023
+     * @param veMayBay
+     * @throws MessagingException
+     */
     @Override
     public void sendAfterCancelTicket(VeMayBay veMayBay) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -126,7 +141,8 @@ public class EmailServiceImpl implements EmailService {
                 "<i>Email: thienduy0195@gmail.com.</i></p>\n" +
                 "</div>";
         message.setContent(htmlMsg , "text/html; charset=UTF-8");
-        helper.setTo("thienduy0195@gmail.com");
+        helper.setFrom("happyflightservices@gmail.com");
+        helper.setTo(veMayBay.getHoaDon().getNguoiDung().getEmail());
         helper.setSubject("THANH TOÁN THÀNH CÔNG!");
         this.javaMailSender.send(message);
     }

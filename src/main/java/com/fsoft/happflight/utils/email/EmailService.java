@@ -19,8 +19,22 @@ public interface EmailService {
      */
     void sendResetEmail(String email, String resetToken);
 
+    /**
+     * @author DuyNT58
+     * @TODO gui mail sau khi thanh toan thanh cong
+     * @UPDATE_DATE May 26, 2023
+     * @param hoaDon
+     * @throws MessagingException
+     */
     void sendPaymentMail(HoaDon hoaDon) throws MessagingException;
 
+    /**
+     * @author DuyNT58
+     * @TODO gui mail den chu ve sau khi huy ve
+     * @UPDATE_DATE May 26, 2023
+     * @param veMayBay
+     * @throws MessagingException
+     */
     void sendAfterCancelTicket(VeMayBay veMayBay) throws MessagingException;
 
 }

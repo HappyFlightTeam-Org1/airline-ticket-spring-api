@@ -9,6 +9,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
+/**
+ * @author DuyNT58
+ * @TODO config VNPay
+ * @UPDATE_DATE May 26, 2023
+ */
 public class VnpayConfig {
 
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
