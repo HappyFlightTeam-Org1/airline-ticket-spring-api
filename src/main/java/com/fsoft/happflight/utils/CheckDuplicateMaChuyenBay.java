@@ -14,7 +14,7 @@ public class CheckDuplicateMaChuyenBay implements ConstraintValidator<CheckMaChu
 	@Override
 	public void initialize(CheckMaChuyenBay constraintAnnotation) {
 	}
-//Tự động được gọi
+
 	@Override
 	public boolean isValid(String maChuyenBay, ConstraintValidatorContext context) {
 		if (chuyenBayService.findById(maChuyenBay) != null) {
@@ -22,6 +22,7 @@ public class CheckDuplicateMaChuyenBay implements ConstraintValidator<CheckMaChu
 		} else {
 			return true;
 		}
+		
 	}
 	
 

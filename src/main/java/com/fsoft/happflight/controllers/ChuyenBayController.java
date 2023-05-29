@@ -36,24 +36,38 @@ import com.fsoft.happflight.services.chuyen_bay.IChuyenBayService;
 import com.fsoft.happflight.services.chuyen_bay.IHangBayService;
 import com.fsoft.happflight.services.chuyen_bay.IMayBayService;
 import com.fsoft.happflight.services.chuyen_bay.ISanBayService;
+
+/**
+ * The Class ChuyenBayController.
+ * @creator DucNH66
+ */
 @RestController
 @RequestMapping(value = "/chuyen-bay")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ChuyenBayController {
 
+	/** The chuyen bay service. */
 	@Autowired
 	IChuyenBayService chuyenBayService;
 
+	/** The may bay service. */
 	@Autowired
 	IMayBayService mayBayService;
 
+	/** The hang bay service. */
 	@Autowired
 	IHangBayService hangBayService;
 
+	/** The san bay service. */
 	@Autowired
 	ISanBayService sanBayService;
-	
-   //DucNH66 Lấy dữ liệu các bảng liên quan
+
+	/**
+	 * @return the response entity
+	 * @function listSelectOption
+	 * @creator DucNH66
+	 * @date 26/05/2023
+	 */
 	@GetMapping("/listSelectOption")
 	public ResponseEntity<?> listSelectOption() {
 		List<SanBay> sanBays = sanBayService.findAll();
@@ -66,8 +80,20 @@ public class ChuyenBayController {
 		return new ResponseEntity<>(dataResponse, HttpStatus.OK);
 	}
 
- 
-	//DucNH66 List cho User
+	/**
+	 * @param diemDi the diem di
+	 * @param diemDen the diem den
+	 * @param ngayDi the ngay di
+	 * @param ngayDiKh the ngay di kh
+	 * @param sortDirection the sort direction
+	 * @param sortBy the sort by
+	 * @param page the page
+	 * @param size the size
+	 * @return the response entity
+	 * @function searchChuyenBayUser
+	 * @creator DucNH66
+	 * @date 26/05/2023
+	 */
 	@GetMapping("/listPageUser")
 	public ResponseEntity<?> searchChuyenBayUser(@RequestParam(required = false) String diemDi,
 			@RequestParam(required = false) String diemDen, @RequestParam(required = false) String ngayDi,
@@ -85,8 +111,20 @@ public class ChuyenBayController {
 		dataChuyenBaySearch.setChuyenBayKhuHoi(chuyenBayKhuHoi);
 		return new ResponseEntity<>(dataChuyenBaySearch, HttpStatus.OK);
 	}
-	
-    //DucNH66 List cho Admin 
+
+	/**
+	 * @param diemDi the diem di
+	 * @param diemDen the diem den
+	 * @param ngayKhoiHanh the ngay khoi hanh
+	 * @param sortDirection the sort direction
+	 * @param sortBy the sort by
+	 * @param page the page
+	 * @param size the size
+	 * @return the response entity
+	 * @function searchChuyenBayAdmin
+	 * @creator DucNH66
+	 * @date 26/05/2023
+	 */
 	@GetMapping("/listPageAdmin")
 	public ResponseEntity<?> searchChuyenBayAdmin(@RequestParam(required = false) String diemDi,
 			@RequestParam(required = false) String diemDen, @RequestParam(required = false) String ngayKhoiHanh,
@@ -95,16 +133,21 @@ public class ChuyenBayController {
 			@RequestParam(defaultValue = "5") int size) {
 		Sort.Direction direction = sortDirection.equalsIgnoreCase("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
 		PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
-		Page<ChuyenBay> chuyenBays = chuyenBayService.searchChuyenBayAdmin(diemDi, diemDen, ngayKhoiHanh, direction, sortBy,
-				pageable);
+		Page<ChuyenBay> chuyenBays = chuyenBayService.searchChuyenBayAdmin(diemDi, diemDen, ngayKhoiHanh, direction,
+				sortBy, pageable);
 		return new ResponseEntity<>(chuyenBays, HttpStatus.OK);
 	}
 
-
-	//DucNH66 Thông tin chuyến bay được chọn 1 chiều/ khứ hồi
+	/**
+	 * @param idChuyenBayDi the id chuyen bay di
+	 * @param idChuyenBayKhuHoi the id chuyen bay khu hoi
+	 * @return the response entity
+	 * @function findBy2ID
+	 * @creator DucNH66
+	 * @date 26/05/2023
+	 */
 	@GetMapping("/findBy2Id")
-	public ResponseEntity<?> findBy2ID(@RequestParam String idChuyenBayDi,
-			@RequestParam String idChuyenBayKhuHoi) {
+	public ResponseEntity<?> findBy2ID(@RequestParam String idChuyenBayDi, @RequestParam String idChuyenBayKhuHoi) {
 		ChuyenBay chuyenBay1Chieu = chuyenBayService.findById(idChuyenBayDi);
 		ChuyenBay chuyenBayKhuHoi = chuyenBayService.findById(idChuyenBayKhuHoi);
 		DataChuyenBayFindById dataChuyenBayFindById = new DataChuyenBayFindById();
@@ -113,26 +156,39 @@ public class ChuyenBayController {
 		return new ResponseEntity<>(dataChuyenBayFindById, HttpStatus.OK);
 	}
 
-	
-    //DucNH66 Thông tin chuyến bay cần chỉnh sửa/xem chi tiết
+	/**
+	 * @param maChuyenBay the ma chuyen bay
+	 * @return the response entity
+	 * @function findByID
+	 * @creator DucNH66
+	 * @date 26/05/2023
+	 */
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<?> findByID(@PathVariable("id") String maChuyenBay) {
 		return new ResponseEntity<>(chuyenBayService.findById(maChuyenBay), HttpStatus.OK);
 	}
 
-	
-	//DucNH66 Thêm mới chuyến bay
+	/**
+	 * Save chuyen bay ok.
+	 *
+	 * @param chuyenBayDTO the chuyen bay DTO
+	 * @param bindingResult the binding result
+	 * @return the response entity
+	 * @function saveChuyenBayOk
+	 * @creator DucNH66
+	 * @date 26/05/2023
+	 */
 	@PostMapping("/save")
-	public ResponseEntity<?> saveChuyenBayOk( @Valid
-		@RequestBody ChuyenBayDTO chuyenBayDTO,BindingResult bindingResult) {
+	public ResponseEntity<?> saveChuyenBayOk(@Valid @RequestBody ChuyenBayDTO chuyenBayDTO,
+			BindingResult bindingResult) {
 		chuyenBayDTO.validate(chuyenBayDTO, bindingResult);
-		   if (bindingResult.hasErrors()) {
-		        Map<String, String> errorMessages = new HashMap<>();
-		        for (FieldError error : bindingResult.getFieldErrors()) {
-		            errorMessages.put(error.getField(), error.getDefaultMessage());
-		        }
-		        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
-		    }
+		if (bindingResult.hasErrors()) {
+			Map<String, String> errorMessages = new HashMap<>();
+			for (FieldError error : bindingResult.getFieldErrors()) {
+				errorMessages.put(error.getField(), error.getDefaultMessage());
+			}
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
+		}
 
 		MayBay mayBay = mayBayService.findById(chuyenBayDTO.getMaMayBay());
 		HangBay hangBay = hangBayService.findById(chuyenBayDTO.getMaHangBay());

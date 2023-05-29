@@ -12,6 +12,11 @@ public interface IHanhKhachService {
 	List<HanhKhach> findAll();
     HanhKhach saveHanhKhach(HanhKhach hanhKhach);
 
+    /**
+     * Save hanh khach.
+     * @creator DucNH66
+     * @param hanhKhachDTOs the hanh khach DT os
+     */
     void saveHanhKhach(List<HanhKhachDTO> hanhKhachDTOs);
 
     Page<HanhKhach> findByName(Pageable pageable,String name);

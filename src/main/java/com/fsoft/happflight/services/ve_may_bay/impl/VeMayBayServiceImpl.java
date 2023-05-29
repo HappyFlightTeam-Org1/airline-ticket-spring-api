@@ -7,12 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBayThongKe;
 import com.fsoft.happflight.repositories.ve_may_bay.IVeMayBayRepository;
@@ -81,12 +78,12 @@ public class VeMayBayServiceImpl implements IVeMayBayService {
 		
 		Specification<VeMayBay> spec = Specification.where(null);
 		if (maVe != null && !maVe.trim().isEmpty() ) {
-			spec = spec.and((root, query, builder) -> builder.equal(root.get("maVe"), maVe));
+			spec = spec.and((root, query, builder) -> builder.like(root.get("maVe"),"%"+ maVe+"%"));
 		}
 
 		if (tenHanhKhach != null && !tenHanhKhach.trim().isEmpty() ) {
 			spec = spec.and(
-					(root, query, builder) -> builder.equal(root.join("hanhKhach").get("tenHanhKhach"), tenHanhKhach));
+					(root, query, builder) -> builder.like(root.join("hanhKhach").get("tenHanhKhach"), "%"+tenHanhKhach+"%"));
 		}
 
 		if (diemDi != null && !diemDi.trim().isEmpty()) {
