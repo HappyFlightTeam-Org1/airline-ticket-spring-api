@@ -178,7 +178,7 @@ public class ChuyenBayDTO implements Validator {
 	public void validate(Object target, Errors errors) {
 		ChuyenBayDTO chuyenBayDTO = (ChuyenBayDTO) target;
 
-		if (!chuyenBayDTO.getMaChuyenBay().matches("^CB\\d{5}$")) {
+		if (!chuyenBayDTO.getMaChuyenBay().matches("^FL\\d{5}$")) {
 			errors.rejectValue("maChuyenBay", "", " nhập đúng định dạng CBxxxxx với x là số nguyên dương!");
 		}
 

@@ -20,4 +20,9 @@ public interface IRoleRepository extends JpaRepository<Role, Long> {
     @Query(value = "INSERT INTO tai_khoan_role (role_id, ten_tai_khoan) " +
             "VALUES (:roleId, :tenTaiKhoan)", nativeQuery = true)
     void saveTaiKhoanRole(@Param("roleId") long roleId, @Param("tenTaiKhoan") String tenTaiKhoan);
+
+    @Query(value = "SELECT role_name " +
+            "FROM role JOIN tai_khoan_role ON role.role_id = tai_khoan_role.role_id " +
+            "WHERE tai_khoan_role.ten_tai_khoan=:tenTaiKhoan", nativeQuery = true)
+    String getRoleFromTaiKhoan(@Param("tenTaiKhoan") String tenTaiKhoan);
 }

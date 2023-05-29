@@ -199,6 +199,8 @@ public class ChuyenBayController {
 			chuyenBayService.save(chuyenBay);
 			return ResponseEntity.ok("Thêm thành công!");
 		} catch (Exception e) {
+//			sout
+
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Thêm thất bại!");
 		}
 	}
