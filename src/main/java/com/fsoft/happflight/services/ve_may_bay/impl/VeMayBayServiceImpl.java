@@ -81,12 +81,12 @@ public class VeMayBayServiceImpl implements IVeMayBayService {
 		
 		Specification<VeMayBay> spec = Specification.where(null);
 		if (maVe != null && !maVe.trim().isEmpty() ) {
-			spec = spec.and((root, query, builder) -> builder.equal(root.get("maVe"), maVe));
+			spec = spec.and((root, query, builder) -> builder.like(root.get("maVe"),"%"+ maVe+"%"));
 		}
 
 		if (tenHanhKhach != null && !tenHanhKhach.trim().isEmpty() ) {
 			spec = spec.and(
-					(root, query, builder) -> builder.equal(root.join("hanhKhach").get("tenHanhKhach"), tenHanhKhach));
+					(root, query, builder) -> builder.like(root.join("hanhKhach").get("tenHanhKhach"), "%"+tenHanhKhach+"%"));
 		}
 
 		if (diemDi != null && !diemDi.trim().isEmpty()) {
