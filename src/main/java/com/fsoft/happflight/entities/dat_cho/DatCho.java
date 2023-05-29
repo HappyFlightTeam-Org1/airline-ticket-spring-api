@@ -13,6 +13,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 @Entity
 public class DatCho {
 

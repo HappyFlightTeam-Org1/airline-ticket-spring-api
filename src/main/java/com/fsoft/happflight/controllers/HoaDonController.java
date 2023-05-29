@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import java.util.List;
 
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/hoa-don")
@@ -32,8 +36,15 @@ public class HoaDonController {
     @Autowired
     private EmailService emailService;
 
+    /**
+     * @author DuyNT58
+     * @TODO update trang thai hoa don thanh da thanh toan
+     * @UPDATE_DATE May 26, 2023
+     * @param maHoaDon
+     * @return
+     */
     @PostMapping("/update/{id}")
-    public ResponseEntity<?> findByID(@PathVariable("id") String maHoaDon) {
+    public ResponseEntity<?> updateAfterPayment(@PathVariable("id") String maHoaDon) {
         HoaDon hoaDon = hoaDonService.findById(maHoaDon);
         if (hoaDon.getTrangThaiThanhToan() == 0) {
             List<VeMayBay> veMayBays = veMayBayService.findByOrderCode(maHoaDon);

@@ -12,11 +12,23 @@ import org.springframework.data.jpa.repository.Query;
 import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
 import com.fsoft.happflight.entities.chuyen_bay.ChuyenBayThongKe;
 
+/**
+ * The Interface IChuyenBayRepository.
+ * @creator DucNH66
+ */
 @Transactional
 public interface IChuyenBayRepository extends JpaRepository<ChuyenBay, String>, JpaSpecificationExecutor<ChuyenBay> {
-//DucNH66 tìm kiếm phân trang sắp xếp chuyến bay
+
+	/**
+	 * @function Find all
+	 * @creator DucNH66
+	 * @param spec     the spec
+	 * @param pageable the pageable
+	 * @return the page
+	 * @date 2023-05-26
+	 */
 	Page<ChuyenBay> findAll(Specification<ChuyenBay> spec, Pageable pageable);
-    
+	
 	/*
 	 * @Param getAll()
 	 * @creator TITT

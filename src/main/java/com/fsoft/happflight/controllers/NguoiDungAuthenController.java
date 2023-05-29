@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
+/**
+ * RESTful controller endpoint for DangNhap, DangKy, QuenMatKhau, ResetMatKhau, ThayDoiThongTinNguoiDung
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
 @RequestMapping("/nguoi-dung")
@@ -38,6 +41,12 @@ public class NguoiDungAuthenController {
     @Autowired
     private QuocTichServiceImpl quocTichService;
 
+    /**
+     * Perform login function
+     * @param dangNhapDTO FormData from client request
+     * @return JSON object (Http: 200) contain: email, jwt token if valid credentials<br>
+     *         JSON object (Http: 400) contain: invalid message if invalid credentials<br>
+     */
     @PostMapping("/dang-nhap")
     public ResponseEntity<?> dangNhap(@Validated @ModelAttribute DangNhapDTO dangNhapDTO) {
         HashMap<String, String> responseBody = new HashMap<>();
@@ -52,6 +61,12 @@ public class NguoiDungAuthenController {
         return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Perform register, save to database if valid register data
+     * @param dangKyDTO FormData from client request
+     * @return JSON object (Http: 200) contain: success message if valid register data<br>
+     *         JSON object (Http: 400) contain: failure message if invalid register data<br>
+     */
     @Transactional
     @PostMapping("/dang-ky")
     public ResponseEntity<?> dangKy(@Validated @ModelAttribute DangKyDTO dangKyDTO) {
@@ -68,7 +83,12 @@ public class NguoiDungAuthenController {
         return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
 
-    //quen mat khau
+    /**
+     * Send reset email to user if email exist in database
+     * @param emailDatLaiMatKhauDTO FormData from client request
+     * @return JSON object (Http: 200) contain: success message if valid email<br>
+     *         JSON object (Http: 400) contain: failure message if invalid email<br>
+     */
     @PostMapping("/email-dat-lai-mat-khau")
     public ResponseEntity<?> emailDatLaiMatKhau(@Validated @ModelAttribute EmailDatLaiMatKhauDTO emailDatLaiMatKhauDTO) {
         HashMap<String, String> responseBody = new HashMap<>();
@@ -82,6 +102,12 @@ public class NguoiDungAuthenController {
         return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Save new password to database if provided valid reset token
+     * @param datLaiMatKhauDTO FormData from client request
+     * @return JSON object (Http: 200) contain: success message if valid reset token<br>
+     *         JSON object (Http: 400) contain: failure message if invalid reset token<br>
+     */
     @PostMapping("/dat-lai-mat-khau")
     public ResponseEntity<?> datLaiMatKhau(@Validated @ModelAttribute DatLaiMatKhauDTO datLaiMatKhauDTO) {
         HashMap<String, String> responseBody = new HashMap<>();
@@ -95,6 +121,13 @@ public class NguoiDungAuthenController {
         return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Save change password to database if provided valid current password
+     * @param thayDoiMatKhauDTO FormData from client request
+     * @param jwtToken JWT login token
+     * @return JSON object (Http: 200) contain: success message if valid current password<br>
+     *         JSON object (Http: 400) contain: failure message if invalid current password<br>
+     */
     @Transactional
     @PostMapping("/thay-doi-mat-khau")
     public ResponseEntity<?> thayDoiMatKhau(@Validated @ModelAttribute ThayDoiMatKhauDTO thayDoiMatKhauDTO,
@@ -111,6 +144,11 @@ public class NguoiDungAuthenController {
         return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Get current login NguoiDung info
+     * @param jwtToken JWT login token sent from client
+     * @return JSON object (Http: 200) contain: NguoiDung info
+     */
     @GetMapping("/lay-thong-tin-nguoi-dung")
     public ResponseEntity<?> layThongTinNguoiDung(@CookieValue(value = "jwt", defaultValue = "") String jwtToken) {
         if (JwtProvider.validateToken(jwtToken)) {
@@ -119,6 +157,13 @@ public class NguoiDungAuthenController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Save change to NguoiDung info
+     * @param thayDoiThongTinNguoiDungDTO FormData sent from client
+     * @param jwtToken JWT login token sent from client
+     * @return JSON object (Http: 200) contain: success message if valid JWT login token<br>
+     *         JSON object (Http: 400) contain: failure message if invalid JWT login token
+     */
     @PostMapping("/thay-doi-thong-tin-nguoi-dung")
     public ResponseEntity<?> thayDoiThongTinNguoiDung(@Validated @ModelAttribute ThayDoiThongTinNguoiDungDTO thayDoiThongTinNguoiDungDTO,
                                                       @CookieValue(value = "jwt", defaultValue = "") String jwtToken) {
@@ -133,6 +178,10 @@ public class NguoiDungAuthenController {
         return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Get all quoc tich from quoc_tich table in database
+     * @return JSON object (Http: 200) contain: list of quoc tich<br>
+     */
     @GetMapping("/danh-sach-quoc-tich")
     public ResponseEntity<?> getAllQuocTich() {
         return new ResponseEntity<>(quocTichService.getAll(), HttpStatus.OK);

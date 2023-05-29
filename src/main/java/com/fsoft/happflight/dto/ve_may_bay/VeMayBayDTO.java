@@ -6,6 +6,10 @@ import com.fsoft.happflight.dto.hoa_don.HoaDonDTO;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 public class VeMayBayDTO {
     private HoaDonDTO hoaDonDTO;
     private List<HanhKhachDTO> hanhKhachDTOs;

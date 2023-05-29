@@ -26,6 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fsoft.happflight.config.vnpay.VnpayConfig;
 import com.fsoft.happflight.dto.hoa_don.HoaDonDTO;
 
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/thanh-toan")
@@ -38,6 +42,14 @@ public class VNPayController {
     private HttpServletResponse resp;
 
 
+    /**
+     * @author DuyNT58
+     * @TODO tạo ra link VNPay với các thông số cần thiết
+     * @UPDATE_DATE May 26, 2023
+     * @param hoaDonDTO
+     * @return url to redirect to VNPay landing page
+     * @throws UnsupportedEncodingException
+     */
     @PostMapping("/vnpay/make-order")
     public String createPaymentVNPay(@RequestBody HoaDonDTO hoaDonDTO) throws UnsupportedEncodingException {
         System.out.println("THANH TOAN");

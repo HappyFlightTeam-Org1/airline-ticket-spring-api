@@ -2,7 +2,6 @@ package com.fsoft.happflight.utils.jwt;
 
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
-
 import java.util.Date;
 
 @Component

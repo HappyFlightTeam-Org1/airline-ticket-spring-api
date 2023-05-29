@@ -2,13 +2,17 @@ package com.fsoft.happflight.config.vnpay;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
+/**
+ * @author DuyNT58
+ * @TODO config VNPay
+ * @UPDATE_DATE May 26, 2023
+ */
 public class VnpayConfig {
 
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
@@ -126,14 +130,14 @@ public class VnpayConfig {
 //        return ipAdress;
 //    }
 
-    public static String getRandomNumber(int len) {
-        Random rnd = new Random();
-        String chars = "0123456789";
-        StringBuilder sb = new StringBuilder(len);
-        sb.append("OD");
-        for (int i = 0; i < len; i++) {
-            sb.append(chars.charAt(rnd.nextInt(chars.length())));
-        }
-        return sb.toString();
-    }
+//    public static String getRandomNumber(int len) {
+//        Random rnd = new Random();
+//        String chars = "0123456789";
+//        StringBuilder sb = new StringBuilder(len);
+//        sb.append("OD");
+//        for (int i = 0; i < len; i++) {
+//            sb.append(chars.charAt(rnd.nextInt(chars.length())));
+//        }
+//        return sb.toString();
+//    }
 }

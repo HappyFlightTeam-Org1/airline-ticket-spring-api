@@ -11,6 +11,10 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 @Repository
 @Transactional
 public interface IHoaDonRepository extends JpaRepository<HoaDon, String> {
