@@ -54,6 +54,7 @@ public class NguoiDungAuthenController {
             NguoiDung nguoiDung = nguoiDungService.getWithUsername(dangNhapDTO.getTenTaiKhoan());
             responseBody.put("email", nguoiDung.getEmail());
             responseBody.put("jwt", JwtProvider.generateToken(dangNhapDTO.getTenTaiKhoan()));
+            responseBody.put("role", roleService.getRoleFromTaiKhoan(dangNhapDTO.getTenTaiKhoan()));
 
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         }

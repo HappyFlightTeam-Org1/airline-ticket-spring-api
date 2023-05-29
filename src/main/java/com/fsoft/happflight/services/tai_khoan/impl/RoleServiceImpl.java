@@ -24,4 +24,9 @@ public class RoleServiceImpl implements IRoleService {
     public void saveTaiKhoanWithUserRole(String tenTaiKhoan) {
         roleRepository.saveTaiKhoanRole(getUserRoleId(), tenTaiKhoan);
     }
+
+    @Override
+    public String getRoleFromTaiKhoan(String tenTaiKhoan) {
+        return roleRepository.getRoleFromTaiKhoan(tenTaiKhoan);
+    }
 }
