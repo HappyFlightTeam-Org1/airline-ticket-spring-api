@@ -41,7 +41,6 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	 * @date 2023-05-26
 	 * @param chuyenBay the chuyen bay
 	 */
-	// DucNH66 thêm mới chuyến bay
 	@Override
 	public void save(ChuyenBay chuyenBay) {
 		System.out.println(chuyenBay.toString());
