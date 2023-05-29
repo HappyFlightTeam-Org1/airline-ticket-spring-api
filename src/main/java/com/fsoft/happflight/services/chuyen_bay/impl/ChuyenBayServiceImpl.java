@@ -20,7 +20,7 @@ import com.fsoft.happflight.services.dat_cho.IDatChoService;
 
 /**
  * The Class ChuyenBayServiceImpl.
- * 
+ *
  * @creator DucNH66
  */
 @Service
@@ -36,7 +36,7 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 
 	/**
 	 * Save.
-	 * 
+	 *
 	 * @creator DucNH66
 	 * @date 2023-05-26
 	 * @param chuyenBay the chuyen bay
@@ -46,19 +46,12 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 		System.out.println(chuyenBay.toString());
 		chuyenBayRepository.save(chuyenBay);
 		// DuyNT58 them danh sach dat cho khi them moi chuyen bay
-		List<Ghe> ghes = chuyenBay.getMayBay().getGhes();
-		DatCho datCho = new DatCho();
-		ghes.stream().forEach(ghe -> {
-			datCho.setTrangThai("available");
-			datCho.setGhe(ghe);
-			datCho.setChuyenBay(chuyenBay);
-			datChoService.create(datCho);
-		});
+		datChoService.autoCreateDatCho(chuyenBay);
 	}
 
 	/**
 	 * Find by id.
-	 * 
+	 *
 	 * @creator DucNH66
 	 * @param maChuyenBay the ma chuyen bay
 	 * @date 2023-05-26
@@ -72,7 +65,7 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 
 	/**
 	 * Search chuyen bay admin.
-	 * 
+	 *
 	 * @creator DucNH66
 	 * @date 2023-05-26
 	 * @param diemDi        the diem di
@@ -86,7 +79,7 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	// DucNH66 tìm kiếm sắp xếp phân trang chuyến bay cho Admin
 	@Override
 	public Page<ChuyenBay> searchChuyenBayAdmin(String diemDi, String diemDen, String ngayKhoiHanh,
-			Direction sortDirection, String sortBy, Pageable pageable) {
+												Direction sortDirection, String sortBy, Pageable pageable) {
 		Specification<ChuyenBay> spec = Specification.where(null);
 
 		if (diemDi != null && !diemDi.trim().isEmpty()) {
@@ -118,7 +111,7 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 
 	/**
 	 * Search chuyen bay.
-	 * 
+	 *
 	 * @creator DucNH66
 	 * @date 2023-05-26
 	 * @param diemDi        the diem di
@@ -132,7 +125,7 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	// DucNH66 tìm kiếm sắp xếp phân trang chuyến bay cho User
 	@Override
 	public Page<ChuyenBay> searchChuyenBay(String diemDi, String diemDen, String ngayKhoiHanh, Direction sortDirection,
-			String sortBy, Pageable pageable) {
+										   String sortBy, Pageable pageable) {
 		Specification<ChuyenBay> spec = Specification.where(null);
 
 		if (diemDi != null && !diemDi.isEmpty()) {
@@ -159,13 +152,13 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	 * Gets the list month now.
 	 *
 	 * @return the list month now
-	 * 
+	 *
 	 *         /*
 	 * @Param getListMonthNow
 	 * @creator TITT
 	 * @date-create 26-05-2023
 	 * @function (list chuyen bay month now)
-	 * 
+	 *
 	 */
 	@Override
 	public List<ChuyenBay> getListMonthNow() {
