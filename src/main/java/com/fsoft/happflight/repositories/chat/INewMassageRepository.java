@@ -14,6 +14,11 @@ import java.util.List;
 @Transactional
 public interface INewMassageRepository extends JpaRepository<NewMessage,Long> {
 
+    /**
+     * @Author: DuyenTTM7
+     * @Day: May 26, 2023 | @Time: 7:52:48 PM
+     * @Return: void
+     */
     @Modifying
     @Query(value = "DELETE FROM newmessage WHERE user = :user", nativeQuery = true)
     void deleteByUser(@Param("user") String user);
