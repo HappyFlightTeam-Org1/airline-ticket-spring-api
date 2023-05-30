@@ -21,6 +21,11 @@ public class HanhKhachController {
 	@Autowired
 	private IHanhKhachService hanhKhachService;
 
+	/**
+	 * @Author: DuyenTTM7
+	 * @Day: May 26, 2023 | @Time: 7:51:52 PM
+	 * @Return: ResponseEntity<List<HanhKhach>>
+	 */
 	@GetMapping("/list")
 	public ResponseEntity<List<HanhKhach>> listHanhKhach() {
 		List<HanhKhach> hanhKhachs = hanhKhachService.findAll();
@@ -28,6 +33,11 @@ public class HanhKhachController {
 
 	}
 
+	/**
+	 * @Author: DuyenTTM7
+	 * @Day: May 26, 2023 | @Time: 7:51:49 PM
+	 * @Return: Page<HanhKhach>
+	 */
 	@GetMapping("/list-with-page")
 	public Page<HanhKhach> getAllHanhKhach(@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size) {
@@ -36,6 +46,11 @@ public class HanhKhachController {
 	}
 
 	//DucNH66 lưu hành khách
+	/**
+	 * @Author: DuyenTTM7
+	 * @Day: May 26, 2023 | @Time: 7:51:45 PM
+	 * @Return: ResponseEntity<String>
+	 */
 	@PostMapping("/save")
 	public ResponseEntity<String> saveHanhHanh(@RequestBody List<HanhKhachDTO> hanhKhachDTOs) {
 		try {
@@ -56,13 +71,18 @@ public class HanhKhachController {
 //            return new ResponseEntity<>(hanhKhachList, HttpStatus.OK);
 //        }
 
+	/**
+	 * @Author: DuyenTTM7
+	 * @Day: May 26, 2023 | @Time: 7:51:41 PM
+	 * @Return: Page<HanhKhach>
+	 */
 	@GetMapping("/search")
 	public Page<HanhKhach> FindListHanhKhachByName(
 			@RequestParam(name = "tenHanhKhach") String tenHanhKhach,@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		Page<HanhKhach> hanhKhachList;
-		if(tenHanhKhach!=""){
+		if(!"".equals(tenHanhKhach)){
 		hanhKhachList = hanhKhachService.findByName(pageable,tenHanhKhach);}
 		else {
 			hanhKhachList = hanhKhachService.findWithPageAble(pageable);

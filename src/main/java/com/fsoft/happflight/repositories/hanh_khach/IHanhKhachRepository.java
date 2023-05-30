@@ -15,10 +15,24 @@ import java.util.List;
 @Transactional
 public interface IHanhKhachRepository extends JpaRepository<HanhKhach, Long> {
 
+    /**
+     * @Author: DuyenTTM7
+     * @Day: May 26, 2023 | @Time: 7:53:04 PM
+     * @Return: Page<HanhKhach>
+     */
     Page<HanhKhach> findByTenHanhKhachContainingIgnoreCase(Pageable pageable,String tenHanhkhach);
 
+    
+    /**
+     *
+     */
     Page<HanhKhach> findAll(Pageable pageable);
 
+    /**
+     * @Author: DuyenTTM7
+     * @Day: May 26, 2023 | @Time: 7:53:02 PM
+     * @Return: int
+     */
     @Query(value="SELECT COUNT(DISTINCT hk.ma_hanh_khach) AS so_luong_hanh_khach\n"
     		+ "FROM hanh_khach hk\n"
     		+ "JOIN ve_may_bay vb ON hk.ma_hanh_khach = vb.ma_hanh_khach\n"
