@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class IGheServiceImpl implements IGheService {
+public class GheServiceImpl implements IGheService {
 
     private IGheRepository gheRepository;
 
     @Autowired
-    public IGheServiceImpl(IGheRepository gheRepository) {
+    public GheServiceImpl(IGheRepository gheRepository) {
         this.gheRepository = gheRepository;
     }
 
