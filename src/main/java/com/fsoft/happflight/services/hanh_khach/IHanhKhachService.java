@@ -23,9 +23,15 @@ public interface IHanhKhachService {
     HanhKhach saveHanhKhach(HanhKhach hanhKhach);
 
     /**
+<<<<<<< HEAD
      * @Author: DuyenTTM7
      * @Day: May 26, 2023 | @Time: 7:54:38 PM
      * @Return: void
+=======
+     * Save hanh khach.
+     * @creator DucNH66
+     * @param hanhKhachDTOs the hanh khach DT os
+>>>>>>> 87683d5e2dd38c94c0ef29a20abe25229b898d4b
      */
     void saveHanhKhach(List<HanhKhachDTO> hanhKhachDTOs);
 
@@ -43,10 +49,13 @@ public interface IHanhKhachService {
      */
     Page<HanhKhach> findWithPageAble(Pageable pageable);
     
-    /**
-     * @Author: DuyenTTM7
-     * @Day: May 26, 2023 | @Time: 7:54:30 PM
-     * @Return: int
-     */
+
+	/*
+	 * @Param soLuongKhachHangThangNay
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (so luong khach hang thang nay)
+	 */
+
     int soLuongKhachHangThangNay();
 }

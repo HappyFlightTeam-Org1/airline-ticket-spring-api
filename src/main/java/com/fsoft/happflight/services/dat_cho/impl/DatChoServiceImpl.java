@@ -1,6 +1,8 @@
 package com.fsoft.happflight.services.dat_cho.impl;
 
+import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
 import com.fsoft.happflight.entities.dat_cho.DatCho;
+import com.fsoft.happflight.entities.dat_cho.Ghe;
 import com.fsoft.happflight.repositories.dat_cho.IDatChoRepository;
 import com.fsoft.happflight.services.dat_cho.IDatChoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,8 @@ public class DatChoServiceImpl implements IDatChoService {
     }
 
     @Override
-    public DatCho create(DatCho datCho) {
-        return this.datChoRepository.save(datCho);
+    public void create(DatCho datCho) {
+        this.datChoRepository.create(datCho.getTrangThai(), datCho.getGhe().getMaGhe(), datCho.getChuyenBay().getMaChuyenBay());
     }
 
     @Override
@@ -41,6 +43,18 @@ public class DatChoServiceImpl implements IDatChoService {
     @Override
     public DatCho findById(Long id) {
         return datChoRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void autoCreateDatCho(ChuyenBay chuyenBay) {
+        List<Ghe> ghes = chuyenBay.getMayBay().getGhes();
+        DatCho datCho = new DatCho();
+        ghes.stream().forEach(ghe -> {
+            datCho.setTrangThai("available");
+            datCho.setGhe(ghe);
+            datCho.setChuyenBay(chuyenBay);
+            datChoRepository.create(datCho.getTrangThai(), datCho.getGhe().getMaGhe(), datCho.getChuyenBay().getMaChuyenBay());
+        });
     }
 
 }

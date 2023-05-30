@@ -11,9 +11,9 @@ import javax.validation.Payload;
 @Target({ ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = CheckDuplicateMaChuyenBay.class)
-//Đặt tên interface này lên trên đầu của field muốn sử dụng
+
 public @interface CheckMaChuyenBay {
-	String message() default " mã chuyến bay  đã tồn tại!";
+	String message() default " Mã chuyến bay  đã tồn tại!";
 
 	Class<?>[] groups() default {};
 

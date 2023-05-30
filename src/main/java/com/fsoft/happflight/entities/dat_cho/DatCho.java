@@ -13,6 +13,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 @Entity
 public class DatCho {
 
@@ -21,8 +25,8 @@ public class DatCho {
     @Column(name = "ma_dat_cho")
     private Long maDatCho;
 
-    @Column(name = "trang_thai", columnDefinition = "nvarchar(50)")
-    private String trangThai = "available";
+    @Column(name = "trang_thai", columnDefinition = "nvarchar(50) default 'available'")
+    private String trangThai;
 
     @JoinColumn(name = "ma_ghe", referencedColumnName = "ma_ghe")
     @ManyToOne(targetEntity = Ghe.class)

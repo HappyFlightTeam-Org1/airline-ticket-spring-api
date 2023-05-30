@@ -11,10 +11,20 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 @Repository
 @Transactional
 public interface IHoaDonRepository extends JpaRepository<HoaDon, String> {
 	
+	/*
+	 * @Param getHoaDonThongKe
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (list hoa don thong ke)
+	 */
 	@Query(value = "SELECT MONTH(ngay_tao) AS thang, SUM(tong_tien) AS tong_tien_thang\n"
 			+ "FROM hoa_don\n"
 			+ "GROUP BY MONTH(ngay_tao);\n"

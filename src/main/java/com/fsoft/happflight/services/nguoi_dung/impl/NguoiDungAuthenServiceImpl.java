@@ -10,6 +10,9 @@ import com.fsoft.happflight.utils.consts.TrangThaiXoaConsts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service implementation for NguoiDungAuthen
+ */
 @Service
 public class NguoiDungAuthenServiceImpl implements INguoiDungAuthenService {
     @Autowired

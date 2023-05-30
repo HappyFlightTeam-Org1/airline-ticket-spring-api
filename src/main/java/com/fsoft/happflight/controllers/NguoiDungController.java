@@ -24,6 +24,12 @@ public class NguoiDungController {
 	@Autowired
 	private INguoiDungService iNguoiDungService;
 		
+	/*
+	 * @Param listNguoiDung
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (list nguoi dung)
+	 */
 	@GetMapping("/list")
 	public ResponseEntity<List<NguoiDung>> listNguoiDung() {
 		List<NguoiDung> nguoiDungs = iNguoiDungService.getAllNguoiDungs();
@@ -31,6 +37,12 @@ public class NguoiDungController {
 
 	}
 	
+	/*
+	 * @Param getAllNguoiDungPage
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (list nguoi dung page)
+	 */ 
 	@GetMapping("/list-page")
 	public Page<NguoiDung> getAllNguoiDungPage(@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size) {
@@ -38,6 +50,12 @@ public class NguoiDungController {
 		return iNguoiDungService.getAllNguoiDungsPage(pageable);
 	}
 
+	/*
+	 * @Param FindListSearch
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (search nguoi dung page)
+	 */ 
 	@GetMapping("/search")
 	public Page<NguoiDung> FindListSearch(
 			@RequestParam(name = "hoVaTen",defaultValue = "") String hoVaTen,

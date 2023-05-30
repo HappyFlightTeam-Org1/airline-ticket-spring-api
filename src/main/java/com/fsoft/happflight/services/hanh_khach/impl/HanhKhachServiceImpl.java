@@ -26,6 +26,11 @@ public class HanhKhachServiceImpl implements IHanhKhachService {
        return hanhKhachRepository.save(hanhKhach);
     }
 
+    /**
+     * Save hanh khach.
+     * @creator DucNH66
+     * @param hanhKhachDTOs the hanh khach DT os
+     */
     @Override
     public void saveHanhKhach(List<HanhKhachDTO> hanhKhachDTOs) {
         hanhKhachDTOs.stream().forEach(item -> {
@@ -50,6 +55,12 @@ public class HanhKhachServiceImpl implements IHanhKhachService {
         return hanhKhachRepository.findAll(pageable);
     }
 
+    /*
+	 * @Param soLuongKhachHangThangNay
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (so luong khach hang thang nay)
+	 */
 	@Override
 	public int soLuongKhachHangThangNay() {
 		

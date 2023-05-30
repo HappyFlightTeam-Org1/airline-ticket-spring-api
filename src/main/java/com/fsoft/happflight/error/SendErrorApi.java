@@ -12,19 +12,31 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+
+/**
+ * The Class SendErrorApi.
+ * @creator DucNH66
+ */
 @RestControllerAdvice
 public class SendErrorApi {
+	
+	/**
+	 * @function Handle validation exceptions.
+	 *
+	 * @param ex the ex
+	 * @creator DucNH66
+	 * @date 2023-05-26
+	 * @return the response entity
+	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
 	    BindingResult bindingResult = ex.getBindingResult();
 	    Map<String, String> errorMessages = new HashMap<>();
 
-	    // Process field errors
 	    for (FieldError fieldError : bindingResult.getFieldErrors()) {
 	        errorMessages.put(fieldError.getField(), fieldError.getDefaultMessage());
 	    }
 
-	    // Process global errors
 	    for (ObjectError objectError : bindingResult.getGlobalErrors()) {
 	        errorMessages.put(objectError.getObjectName(), objectError.getDefaultMessage());
 	    }

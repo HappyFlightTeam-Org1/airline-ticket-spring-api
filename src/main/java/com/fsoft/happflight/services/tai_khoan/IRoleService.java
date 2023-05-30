@@ -6,4 +6,6 @@ public interface IRoleService {
     int getUserRoleId();
 
     void saveTaiKhoanWithUserRole(String tenTaiKhoan);
+
+    String getRoleFromTaiKhoan(String tenTaiKhoan);
 }

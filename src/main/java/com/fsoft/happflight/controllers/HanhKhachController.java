@@ -45,11 +45,12 @@ public class HanhKhachController {
 		return hanhKhachService.findWithPageAble(pageable);
 	}
 
-	//DucNH66 lưu hành khách
+
 	/**
-	 * @Author: DuyenTTM7
-	 * @Day: May 26, 2023 | @Time: 7:51:45 PM
-	 * @Return: ResponseEntity<String>
+	 * @function Save hanh hanh.
+	 * @create DucNH66
+	 * @param hanhKhachDTOs the hanh khach DTos
+	 * @return the response entity
 	 */
 	@PostMapping("/save")
 	public ResponseEntity<String> saveHanhHanh(@RequestBody List<HanhKhachDTO> hanhKhachDTOs) {
@@ -62,14 +63,6 @@ public class HanhKhachController {
 
 	}
 
-//        @PostMapping("/search")
-//        public ResponseEntity<List<HanhKhach>> FindListHanhKhachByTenHanhKhach(@RequestBody SearchCriteria criteria) {
-//            List<HanhKhach> hanhKhachList = hanhKhachService.findByName(criteria.getTenHanhKhach());
-//            if (hanhKhachList.isEmpty()) {
-//                return new ResponseEntity<>(hanhKhachList, HttpStatus.NO_CONTENT);
-//            }
-//            return new ResponseEntity<>(hanhKhachList, HttpStatus.OK);
-//        }
 
 	/**
 	 * @Author: DuyenTTM7

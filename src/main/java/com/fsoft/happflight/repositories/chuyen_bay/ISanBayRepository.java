@@ -4,7 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.fsoft.happflight.entities.chuyen_bay.SanBay;
 
 
-//DucNH66 lấy danh sách sân bay
+
+/**
+ * The Interface ISanBayRepository.
+ * @creator DucNH66
+ */
 public interface ISanBayRepository extends JpaRepository<SanBay, Long> {
 
 }

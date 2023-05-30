@@ -22,18 +22,36 @@ public class NguoiDungServiceImpl implements INguoiDungService {
 	@Autowired
 	private INguoiDungRepository iNguoiDungRepository;
 	
+   /*
+	 * @Param getAllNguoiDungs
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (list nguoi dung) 
+   */
 	@Override
 	public List<NguoiDung> getAllNguoiDungs() {
 		
 		return iNguoiDungRepository.getAllNguoiDungs();
 	}
 
+	/*
+	 * @Param getAllNguoiDungsPage
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function ( nguoi dung page) 
+ */
 	@Override
 	public Page<NguoiDung> getAllNguoiDungsPage(Pageable pageable) {
 		
 		return iNguoiDungRepository.getAllNguoiDungsPage(pageable);
 	}
 
+	 /*
+		 * @Param findByHoVaTenContainingAndSoDienThoaiContainingAndEmailContaining
+		 * @creator TITT
+		 * @date-create 26-05-2023
+		 * @function (search nguoi dung)
+	 */
 	@Override
 	public Page<NguoiDung> findByHoVaTenContainingAndSoDienThoaiContainingAndEmailContaining(Pageable pageable,
 			String hoVaTen, String soDienThoai, String email) {

@@ -15,17 +15,46 @@ import com.fsoft.happflight.entities.ve_ma_bay.VeMayBayThongKe;
 @Transactional
 public interface IVeMayBayRepository extends JpaRepository<VeMayBay, String>,JpaSpecificationExecutor<VeMayBay> {
 	
+    /**
+     * @author DuyNT58
+     * @TODO
+     * @UPDATE_DATE May 26, 2023
+     * @param maHoaDon
+     * @param pageable
+     * @return Page <VeMayBay>
+     */	
 	Page <VeMayBay> findAll(Specification<VeMayBay> spec,Pageable pageable); 
 	
+    /**
+     * @author DuyNT58
+     * @TODO
+     * @UPDATE_DATE May 26, 2023
+     * @param maHoaDon
+     * @return List<VeMayBay>
+     */
     @Query(value = "select * from ve_may_bay v join hoa_don h on v.ma_hoa_don = h.ma_hoa_don where h.ma_hoa_don =:maHoaDon and h.tt_thanh_toan = 1 and v.trang_thai_xoa =0", nativeQuery = true)
     List<VeMayBay> findByOrderCode(@Param("maHoaDon") String maHoaDon);
 
 
+    /**
+     * @author DuyNT58
+     * @TODO
+     * @UPDATE_DATE May 26, 2023
+     * @param maHoaDon
+     * @param pageable
+     * @return Page <VeMayBay>
+     */
     @Query(value = "select * from ve_may_bay v join hoa_don h on v.ma_hoa_don = h.ma_hoa_don where h.ma_hoa_don =:maHoaDon and h.tt_thanh_toan = 1 and v.trang_thai_xoa =0",
     		countQuery = "select COUNT(*) from ve_may_bay v join hoa_don h on v.ma_hoa_don = h.ma_hoa_don where h.ma_hoa_don =:maHoaDon and h.tt_thanh_toan = 1 and v.trang_thai_xoa =0",nativeQuery = true)
     Page<VeMayBay> findByOrderCode(@Param("maHoaDon") String maHoaDon, Pageable pageable);
-    
 
+       
+	/*
+	 * @Param getVeMayBayThongKes
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (list ve may bay thong ke)
+	 */  
     @Query(value="SELECT MONTH(hd.ngay_tao) AS thang, COUNT(vm.ma_ve) AS so_luong_ve\n"
     		+ "FROM hoa_don hd\n"
     		+ "INNER JOIN ve_may_bay vm ON hd.ma_hoa_don = vm.ma_hoa_don\n"
@@ -33,6 +62,17 @@ public interface IVeMayBayRepository extends JpaRepository<VeMayBay, String>,Jpa
     		+ "ORDER BY thang;",nativeQuery = true)
     List<VeMayBayThongKe> getVeMayBayThongKes();
 
+    /**
+     * @author DuyNT58
+     * @TODO
+     * @UPDATE_DATE May 26, 2023
+     * @param maVe
+     * @param tenHanhKhach
+     * @param diemDi
+     * @param diemDen
+     * @param pageable
+     * @return Page <VeMayBay>
+     */
     @Query(value = "select ve_may_bay.ma_ve, ve_may_bay.gia_ve, ve_may_bay.hang_ve, " +
             "ve_may_bay.ma_dat_cho, ve_may_bay.ma_hanh_khach, " +
             "ve_may_bay.ma_hoa_don, ve_may_bay.trang_thai_xoa from ve_may_bay " +
