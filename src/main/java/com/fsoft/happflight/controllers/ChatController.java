@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/chat-box")
@@ -29,6 +31,11 @@ public class ChatController {
     @Autowired
     INewMassageService iNewMassageService;
 
+    /**
+     * @Author: DuyenTTM7
+     * @Day: May 26, 2023 | @Time: 7:50:13 PM
+     * @Return: Message
+     */
     @MessageMapping("/message")
     public Message recMessage(@Payload Message message) {
         simpMessagingTemplate.convertAndSendToUser(message.getReciptient(), "/queue/messages", message);
@@ -40,6 +47,11 @@ public class ChatController {
         return message;
     }
 
+    /**
+     * @Author: DuyenTTM7
+     * @Day: May 26, 2023 | @Time: 7:50:10 PM
+     * @Return: List<String>
+     */
     @GetMapping(value = "/user")
     public List<String> getUser() {
         List<Message> messages = iChatService.FindALL();
@@ -55,6 +67,11 @@ public class ChatController {
         return senders;
     }
 
+    /**
+     * @Author: DuyenTTM7
+     * @Day: May 26, 2023 | @Time: 7:50:05 PM
+     * @Return: List<NewMessage>
+     */
     @GetMapping(value = "/new-message")
     public List<NewMessage> getAllNewMessage() {
         List<NewMessage> users = iNewMassageService.findAll();
@@ -62,6 +79,11 @@ public class ChatController {
         return users;
     }
 
+    /**
+     * @Author: DuyenTTM7
+     * @Day: May 26, 2023 | @Time: 7:50:02 PM
+     * @Return: ResponseEntity<String>
+     */
     @DeleteMapping(value = "/delete-new-message/{user}")
     public ResponseEntity<String> deleteNewMessage(@PathVariable String user) {
         List<NewMessage> messages = iNewMassageService.findByUserContainingIgnoreCase(user);
@@ -76,6 +98,11 @@ public class ChatController {
         return ResponseEntity.ok().body(messageOk);
     }
 
+    /**
+     * @Author: DuyenTTM7
+     * @Day: May 26, 2023 | @Time: 7:49:58 PM
+     * @Return: ResponseEntity<String>
+     */
     @GetMapping(value = "/save-new-message/{user}")
     public ResponseEntity<String> saveNewMessage(@PathVariable String user) {
         boolean check = true;
@@ -102,6 +129,11 @@ public class ChatController {
     }
 
 
+    /**
+     * @Author: DuyenTTM7
+     * @Day: May 26, 2023 | @Time: 7:49:55 PM
+     * @Return: List<Message>
+     */
     @GetMapping(value = "/getchat")
     public List<Message> getMessageUser(@RequestParam(name = "user") String user) {
         List<Message> messages = iChatService.FindByUser(user);
