@@ -66,9 +66,15 @@ public class VeMayBayController {
                                             @RequestParam(required = false) String tenHanhKhach,
                                             @RequestParam(required = false) String diemDi,
                                             @RequestParam(required = false) String diemDen,
+                                            @RequestParam(required = false) String emailNguoiDung,
                                             @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "5") int size) {
         PageRequest pageable = PageRequest.of(page, size);
+        NguoiDung nguoiDung = nguoiDungService.findById(emailNguoiDung);
+//        if(nguoiDung.getTaiKhoan().get==1){
+//
+//        }
+        //get list ve may bay cho admin
         Page<VeMayBay> veMayBays = veMayBayService.pageAndSearch(maVe, tenHanhKhach, diemDi, diemDen, pageable);
         return new ResponseEntity<>(veMayBays, HttpStatus.OK);
     }
@@ -126,7 +132,7 @@ public class VeMayBayController {
                         }
                         datChoDi.setTrangThai("selected");
                         datChoService.update(datChoDi);
-                        String maVeDi = "TK" + datChoDi.getGhe().getTenGhe() + datChoDi.getChuyenBay().getMaChuyenBay() + datChoDi.getMaDatCho();
+                        String maVeDi = "TK" + datChoDi.getGhe().getTenGhe() + datChoDi.getChuyenBay().getMaChuyenBay();
                         String hangVeDi = datChoDi.getGhe().getLoaiGhe().getTenLoaiGhe();
                         Long giaVeDi = datChoDi.getChuyenBay().getGiaVe();
                         VeMayBay veMayBay = new VeMayBay(maVeDi, hangVeDi, giaVeDi, 0, hanhKhach, datChoDi, hoaDonHienTai);
@@ -141,7 +147,7 @@ public class VeMayBayController {
                         }
                         datChoVe.setTrangThai("selected");
                         datChoService.update(datChoVe);
-                        String maVeVe = "TK" + datChoVe.getGhe().getTenGhe() + datChoVe.getChuyenBay().getMaChuyenBay() + datChoVe.getMaDatCho();
+                        String maVeVe = "TK" + datChoVe.getGhe().getTenGhe() + datChoVe.getChuyenBay().getMaChuyenBay();
                         String hangVeVe = datChoVe.getGhe().getLoaiGhe().getTenLoaiGhe();
                         Long giaVeVe = datChoVe.getChuyenBay().getGiaVe();
                         veMayBayService.create(new VeMayBay(maVeVe, hangVeVe, giaVeVe, 0, hanhKhach, datChoVe, hoaDonHienTai));

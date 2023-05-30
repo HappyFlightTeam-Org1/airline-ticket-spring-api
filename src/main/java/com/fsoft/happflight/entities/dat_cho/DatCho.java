@@ -25,8 +25,8 @@ public class DatCho {
     @Column(name = "ma_dat_cho")
     private Long maDatCho;
 
-    @Column(name = "trang_thai", columnDefinition = "nvarchar(50)")
-    private String trangThai = "available";
+    @Column(name = "trang_thai", columnDefinition = "nvarchar(50) default 'available'")
+    private String trangThai;
 
     @JoinColumn(name = "ma_ghe", referencedColumnName = "ma_ghe")
     @ManyToOne(targetEntity = Ghe.class)
