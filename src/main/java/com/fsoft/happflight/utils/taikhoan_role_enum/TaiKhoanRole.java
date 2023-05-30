@@ -1,4 +1,4 @@
-package com.fsoft.happflight.entities.tai_khoan;
+package com.fsoft.happflight.utils.taikhoan_role_enum;
 
 /**
  * @author DuyNT58

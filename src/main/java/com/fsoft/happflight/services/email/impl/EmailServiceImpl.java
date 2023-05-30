@@ -1,7 +1,9 @@
-package com.fsoft.happflight.utils.email;
+package com.fsoft.happflight.services.email.impl;
 
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
+import com.fsoft.happflight.services.email.EmailService;
+import com.fsoft.happflight.utils.email.EmailDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -11,6 +13,16 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+
+/**
+ * @see
+ * Version: 2.0
+ * @DATE May 26, 2023
+ * Copyright
+ * Modification Logs:
+ * DATE                 AUTHOR          DESCRIPTION
+ * May 30, 2023         DuyNT58          update code
+ */
 @Service
 public class EmailServiceImpl implements EmailService {
     @Autowired
@@ -43,10 +55,10 @@ public class EmailServiceImpl implements EmailService {
         sendEmail(emailDetail);
     }
 
+
+
     /**
-     * @author DuyNT58
-     * @TODO gui mail sau khi thanh toan hoa don thanh con
-     * @UPDATE_DATE May 26, 2023
+     * @TODO gửi email sau khi thanh toán thành công
      * @param hoaDon
      * @throws MessagingException
      */
@@ -96,10 +108,9 @@ public class EmailServiceImpl implements EmailService {
         this.javaMailSender.send(message);
     }
 
+
     /**
-     * @author DuyNT58
-     * @TODO gui mail sau khi huy ve
-     * @UPDATE_DATE May 26, 2023
+     * @TODO gửi email sau khi hủy vé
      * @param veMayBay
      * @throws MessagingException
      */
@@ -146,7 +157,6 @@ public class EmailServiceImpl implements EmailService {
         helper.setFrom("happyflightservices@gmail.com");
         helper.setTo(veMayBay.getHoaDon().getNguoiDung().getEmail());
         helper.setSubject("THÔNG BÁO HỦY VÉ!");
-        System.out.println("THONG BAO HUY VE");
         this.javaMailSender.send(message);
     }
 }

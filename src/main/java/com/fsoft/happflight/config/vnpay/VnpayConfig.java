@@ -34,11 +34,7 @@ public class VnpayConfig {
             digest = sb.toString();
         } catch (UnsupportedEncodingException ex) {
             digest = "";
-            // Logger.getLogger(StringReplace.class.getName()).log(Level.SEVERE,
-            // null, ex);
         } catch (NoSuchAlgorithmException ex) {
-            // Logger.getLogger(StringReplace.class.getName()).log(Level.SEVERE,
-            // null, ex);
             digest = "";
         }
         return digest;
@@ -60,11 +56,7 @@ public class VnpayConfig {
 
         } catch (UnsupportedEncodingException ex) {
             digest = "";
-            // Logger.getLogger(StringReplace.class.getName()).log(Level.SEVERE,
-            // null, ex);
         } catch (NoSuchAlgorithmException ex) {
-            // Logger.getLogger(StringReplace.class.getName()).log(Level.SEVERE,
-            // null, ex);
             digest = "";
         }
         return digest;
@@ -116,28 +108,4 @@ public class VnpayConfig {
         }
         return hmacSHA512(vnp_HashSecret, sb.toString());
     }
-
-//    public static String getIpAddress(HttpServletRequest request) {
-//        String ipAdress;
-//        try {
-//            ipAdress = request.getHeader("X-FORWARDED-FOR");
-//            if (ipAdress == null) {
-//                ipAdress = request.getRemoteAddr();
-//            }
-//        } catch (Exception e) {
-//            ipAdress = "Invalid IP:" + e.getMessage();
-//        }
-//        return ipAdress;
-//    }
-
-//    public static String getRandomNumber(int len) {
-//        Random rnd = new Random();
-//        String chars = "0123456789";
-//        StringBuilder sb = new StringBuilder(len);
-//        sb.append("OD");
-//        for (int i = 0; i < len; i++) {
-//            sb.append(chars.charAt(rnd.nextInt(chars.length())));
-//        }
-//        return sb.toString();
-//    }
 }
