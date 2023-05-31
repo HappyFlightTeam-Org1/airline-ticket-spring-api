@@ -212,7 +212,7 @@ public class ChuyenBayDTO implements Validator {
 			errors.rejectValue("giaVe", "", " không được để trống!");
 
 		} else if (chuyenBayDTO.getGiaVe() < 0) {
-			errors.rejectValue("giaVe", "", " không được nhỏ hơn 0!");
+			errors.rejectValue("giaVe", "", " giá vé phải là số dương > 0!");
 		}
 	}
 

@@ -128,10 +128,10 @@ public class ChuyenBayController {
 	 */
 	@GetMapping("/listPageAdmin")
 	public ResponseEntity<?> searchChuyenBayAdmin(@RequestParam(required = false) String diemDi,
-			@RequestParam(required = false) String diemDen, @RequestParam(required = false) String ngayKhoiHanh,
-			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+			@RequestParam(required = false) String diemDen, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size) {
 		PageRequest pageable = PageRequest.of(page, size);
-		Page<ChuyenBay> chuyenBays = chuyenBayService.searchChuyenBayAdmin(diemDi, diemDen, ngayKhoiHanh, pageable);
+		Page<ChuyenBay> chuyenBays = chuyenBayService.searchChuyenBayAdmin(diemDi, diemDen, pageable);
 		return new ResponseEntity<>(chuyenBays, HttpStatus.OK);
 	}
 
