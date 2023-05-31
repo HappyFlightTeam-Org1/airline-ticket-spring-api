@@ -36,13 +36,12 @@ public class VeMayBay {
     @JoinColumn(name = "ma_hanh_khach", referencedColumnName = "ma_hanh_khach")
     private HanhKhach hanhKhach;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "ma_dat_cho", referencedColumnName = "ma_dat_cho")
     private DatCho datCho;
 
     @JoinColumn(name = "ma_hoa_don", referencedColumnName = "ma_hoa_don")
     @ManyToOne
-
     private HoaDon hoaDon;
 
     public VeMayBay() {
