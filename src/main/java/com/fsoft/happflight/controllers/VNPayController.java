@@ -57,9 +57,7 @@ public class VNPayController {
         String vnp_Command = "pay";
         String vnp_OrderInfo = "Hoa don ve may bay";
         String orderType = "other";
-//        String vnp_TxnRef = Config.getRandomNumber(8);
         String vnp_TxnRef = hoaDonDTO.getMaHoaDon();
-//        String vnp_IpAddr = Config.getIpAddress(req);
         String vnp_IpAddr = "118.69.35.214";
         String vnp_TmnCode = VnpayConfig.vnp_TmnCode;
         Long amount = hoaDonDTO.getTongTien() != null ? hoaDonDTO.getTongTien() * 100 : 1000000;
