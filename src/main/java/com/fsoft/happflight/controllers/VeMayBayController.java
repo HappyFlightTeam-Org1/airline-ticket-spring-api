@@ -103,7 +103,7 @@ public class VeMayBayController {
 
 
     /**
-     * @TODO hiển thị danh sách vé máy bay dự vào mã hóa đơn chứa vé máy bay đó
+     * @TODO hiển thị danh sách vé máy bay dựa vào mã hóa đơn chứa vé máy bay đó
      * @param page
      * @param size
      * @param maHoaDon
@@ -150,9 +150,13 @@ public class VeMayBayController {
             }
             HoaDon hoaDon = modelMapper.map(veMayBayDTO.getHoaDonDTO(), HoaDon.class);
             hoaDon.setNguoiDung(nguoiDung);
+            //them moi hoa don
             HoaDon hoaDonHienTai = hoaDonService.create(hoaDon);
+            //lay danh sach ma dat cho chieu di
             List<Long> maDatChoDis = Arrays.asList(veMayBayDTO.getMaDatChoDis());
+            //lay danh sach ma dat cho chieu ve
             List<Long> maDatChoKhuHois = Arrays.asList(veMayBayDTO.getMaDatChoKhuHois());
+            //lay danh sach hanh khach
             List<HanhKhachDTO> hanhKhachDTOS = veMayBayDTO.getHanhKhachDTOs();
 
             for (int i = 0; i < hanhKhachDTOS.size(); i++) {
@@ -229,6 +233,10 @@ public class VeMayBayController {
         DatCho datCho = veMayBay.getDatCho();
         datCho.setTrangThai(TrangThaiXoaConsts.AVAILABLE);
         datChoService.update(datCho);
+        //xoa logic hanh khach
+        HanhKhach hanhKhach = veMayBay.getHanhKhach();
+        hanhKhach.setTrangThaiXoa(1);
+        hanhKhachService.saveHanhKhach(hanhKhach);
         try {
             //gửi email thông báo hủy thành công
             emailService.sendAfterCancelTicket(veMayBay);
