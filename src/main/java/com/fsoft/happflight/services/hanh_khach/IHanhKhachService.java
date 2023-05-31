@@ -10,6 +10,7 @@ import java.util.List;
 public interface IHanhKhachService {
 	
 	List<HanhKhach> findAll();
+	
     HanhKhach saveHanhKhach(HanhKhach hanhKhach);
 
     /**

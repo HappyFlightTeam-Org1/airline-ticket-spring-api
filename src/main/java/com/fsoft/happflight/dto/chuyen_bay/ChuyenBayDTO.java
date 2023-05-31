@@ -179,7 +179,7 @@ public class ChuyenBayDTO implements Validator {
 		ChuyenBayDTO chuyenBayDTO = (ChuyenBayDTO) target;
 
 		if (!chuyenBayDTO.getMaChuyenBay().matches("^FL\\d{5}$")) {
-			errors.rejectValue("maChuyenBay", "", " nhập đúng định dạng CBxxxxx với x là số nguyên dương!");
+			errors.rejectValue("maChuyenBay", "", " nhập đúng định dạng FLxxxxx với x là số nguyên dương!");
 		}
 
 		if (chuyenBayDTO.getDiemDen().equals(chuyenBayDTO.getDiemDi())) {

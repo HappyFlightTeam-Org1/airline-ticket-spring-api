@@ -36,13 +36,13 @@ public class HanhKhachController {
 	}
 
 	/**
-	 * @function Save hanh hanh.
+	 * @function Save Hanh Khach
 	 * @create DucNH66
 	 * @param hanhKhachDTOs the hanh khach DTos
 	 * @return the response entity
 	 */
 	@PostMapping("/save")
-	public ResponseEntity<String> saveHanhHanh(@RequestBody List<HanhKhachDTO> hanhKhachDTOs) {
+	public ResponseEntity<String> saveHanhKhach(@RequestBody List<HanhKhachDTO> hanhKhachDTOs) {
 		try {
 			hanhKhachService.saveHanhKhach(hanhKhachDTOs);
 			return ResponseEntity.ok("Lưu hành khách thành công");

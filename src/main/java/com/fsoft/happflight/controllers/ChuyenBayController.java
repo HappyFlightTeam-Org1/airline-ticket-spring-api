@@ -39,6 +39,7 @@ import com.fsoft.happflight.services.chuyen_bay.ISanBayService;
 
 /**
  * The Class ChuyenBayController.
+ * 
  * @creator DucNH66
  */
 @RestController
@@ -81,14 +82,14 @@ public class ChuyenBayController {
 	}
 
 	/**
-	 * @param diemDi the diem di
-	 * @param diemDen the diem den
-	 * @param ngayDi the ngay di
-	 * @param ngayDiKh the ngay di kh
+	 * @param diemDi        the diem di
+	 * @param diemDen       the diem den
+	 * @param ngayDi        the ngay di
+	 * @param ngayDiKh      the ngay di kh
 	 * @param sortDirection the sort direction
-	 * @param sortBy the sort by
-	 * @param page the page
-	 * @param size the size
+	 * @param sortBy        the sort by
+	 * @param page          the page
+	 * @param size          the size
 	 * @return the response entity
 	 * @function searchChuyenBayUser
 	 * @creator DucNH66
@@ -113,13 +114,13 @@ public class ChuyenBayController {
 	}
 
 	/**
-	 * @param diemDi the diem di
-	 * @param diemDen the diem den
-	 * @param ngayKhoiHanh the ngay khoi hanh
+	 * @param diemDi        the diem di
+	 * @param diemDen       the diem den
+	 * @param ngayKhoiHanh  the ngay khoi hanh
 	 * @param sortDirection the sort direction
-	 * @param sortBy the sort by
-	 * @param page the page
-	 * @param size the size
+	 * @param sortBy        the sort by
+	 * @param page          the page
+	 * @param size          the size
 	 * @return the response entity
 	 * @function searchChuyenBayAdmin
 	 * @creator DucNH66
@@ -128,18 +129,14 @@ public class ChuyenBayController {
 	@GetMapping("/listPageAdmin")
 	public ResponseEntity<?> searchChuyenBayAdmin(@RequestParam(required = false) String diemDi,
 			@RequestParam(required = false) String diemDen, @RequestParam(required = false) String ngayKhoiHanh,
-			@RequestParam(defaultValue = "ASC") String sortDirection,
-			@RequestParam(defaultValue = "giaVe") String sortBy, @RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "5") int size) {
-		Sort.Direction direction = sortDirection.equalsIgnoreCase("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
-		PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
-		Page<ChuyenBay> chuyenBays = chuyenBayService.searchChuyenBayAdmin(diemDi, diemDen, ngayKhoiHanh, direction,
-				sortBy, pageable);
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+		PageRequest pageable = PageRequest.of(page, size);
+		Page<ChuyenBay> chuyenBays = chuyenBayService.searchChuyenBayAdmin(diemDi, diemDen, ngayKhoiHanh, pageable);
 		return new ResponseEntity<>(chuyenBays, HttpStatus.OK);
 	}
 
 	/**
-	 * @param idChuyenBayDi the id chuyen bay di
+	 * @param idChuyenBayDi     the id chuyen bay di
 	 * @param idChuyenBayKhuHoi the id chuyen bay khu hoi
 	 * @return the response entity
 	 * @function findBy2ID
@@ -171,7 +168,7 @@ public class ChuyenBayController {
 	/**
 	 * Save chuyen bay ok.
 	 *
-	 * @param chuyenBayDTO the chuyen bay DTO
+	 * @param chuyenBayDTO  the chuyen bay DTO
 	 * @param bindingResult the binding result
 	 * @return the response entity
 	 * @function saveChuyenBayOk
@@ -199,8 +196,6 @@ public class ChuyenBayController {
 			chuyenBayService.save(chuyenBay);
 			return ResponseEntity.ok("Thêm thành công!");
 		} catch (Exception e) {
-//			sout
-
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Thêm thất bại!");
 		}
 	}
