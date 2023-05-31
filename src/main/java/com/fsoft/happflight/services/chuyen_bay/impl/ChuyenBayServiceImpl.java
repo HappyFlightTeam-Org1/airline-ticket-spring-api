@@ -76,7 +76,7 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	 */
 	// DucNH66 tìm kiếm sắp xếp phân trang chuyến bay cho Admin
 	@Override
-	public Page<ChuyenBay> searchChuyenBayAdmin(String diemDi, String diemDen, String ngayKhoiHanh, Pageable pageable) {
+	public Page<ChuyenBay> searchChuyenBayAdmin(String diemDi, String diemDen, Pageable pageable) {
 		Specification<ChuyenBay> spec = Specification.where(null);
 
 		if (diemDi != null && !diemDi.trim().isEmpty()) {
@@ -85,10 +85,6 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 
 		if (diemDen != null && !diemDen.trim().isEmpty()) {
 			spec = spec.and((root, query, builder) -> builder.equal(root.get("diemDen"), diemDen));
-		}
-
-		if (ngayKhoiHanh != null && !ngayKhoiHanh.trim().isEmpty()) {
-			spec = spec.and((root, query, builder) -> builder.equal(root.get("ngayKhoiHanh"), ngayKhoiHanh));
 		}
 
 		if (spec.equals(Specification.where(null))) {
