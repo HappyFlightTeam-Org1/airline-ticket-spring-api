@@ -15,6 +15,7 @@ public interface IHanhKhachService {
 	 * @Return: List<HanhKhach>
 	 */
 	List<HanhKhach> findAll();
+
     /**
      * @Author: DuyenTTM7
      * @Day: May 26, 2023 | @Time: 7:54:40 PM
@@ -23,15 +24,9 @@ public interface IHanhKhachService {
     HanhKhach saveHanhKhach(HanhKhach hanhKhach);
 
     /**
-<<<<<<< HEAD
-     * @Author: DuyenTTM7
-     * @Day: May 26, 2023 | @Time: 7:54:38 PM
-     * @Return: void
-=======
      * Save hanh khach.
      * @creator DucNH66
      * @param hanhKhachDTOs the hanh khach DT os
->>>>>>> 87683d5e2dd38c94c0ef29a20abe25229b898d4b
      */
     void saveHanhKhach(List<HanhKhachDTO> hanhKhachDTOs);
 

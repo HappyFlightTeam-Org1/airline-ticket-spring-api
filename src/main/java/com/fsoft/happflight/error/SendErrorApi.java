@@ -40,7 +40,6 @@ public class SendErrorApi {
 	    for (ObjectError objectError : bindingResult.getGlobalErrors()) {
 	        errorMessages.put(objectError.getObjectName(), objectError.getDefaultMessage());
 	    }
-
 	    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
 	}
 

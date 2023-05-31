@@ -53,8 +53,7 @@ public interface IChuyenBayService {
 	 * @param pageable      the pageable
 	 * @return the page
 	 */
-	Page<ChuyenBay> searchChuyenBayAdmin(String diemDi, String diemDen, String ngayKhoiHanh, Direction sortDirection,
-			String sortBy, Pageable pageable);
+	Page<ChuyenBay> searchChuyenBayAdmin(String diemDi, String diemDen, String ngayKhoiHanh, Pageable pageable);
 
 	/**
 	 * Gets the list month now.
