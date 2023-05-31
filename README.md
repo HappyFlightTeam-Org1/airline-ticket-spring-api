@@ -1,28 +1,26 @@
-CAU TRUC NHANH
-
-main 
-1.1. dev 
-1.1.1. authen - ThanhTB4 
-1.1.2. chat-box - DuyenTTM7 
-1.1.3. chuyen-bay - DucNH66 
-1.1.4. hanh-khach - DuyenTTM7 
-1.1.5. thanh-toan - DuyNT58 
-1.1.6. thong-ke - TiTT 
-1.1.7. user - TiTT, ThanhTB4 
-1.1.8. ve-may-bay - DuyNT58
-mọi người clone git về và check-out sang nhánh của mình để code
-Ví dụ thứ tự cú pháp: git checkout dev >> git checkout chuyen-bay
-CÁC LỆNH GIT CƠ BẢN:
-git branch: kiểm tra nhánh đang đứng
-git checkout -b @tennhanh: tạo một nhánh mới ở local và chuyển sang nhánh đó --- ví dụ: git checkout -b new-thanh-toan
-git add . : thêm tất cả các thư mục tại thư mục đang đứng vào local stage để commit
-git add @tenthumuc: chỉ thêm thư mục chỉ định vào local stage để commit -- ví dụ: git add style.css
-git status: kiểm tra những thư mục nào đã được add vào local stage ở nhánh đang đứng
-git commit -m "@message": commit những thứ đã được add vào stage trước đó -- ví dụ: git commit -m "DuyNT58 update create ve-may-bay"
-git push origin @tennhanh: push những thứ đã được commit lên nhánh cần push -- ví dụ: git push origin thanh-toan
-#LƯU Ý QUAN TRỌNG:
-
-VỀ PUSH GIT:
-mọi người khi push git chỉ push trong phạm vi folder "src", không push folder "node-modules" lên source git, các tệp khác nếu nằm ngoài node-modules mà cần push lên thì nhắn trực tiếp Duy hoặc Thành để nắm tình hình nha
-Nhớ trước khi push thì pull về và fix conflict (nếu có) rồi mới push lại
-VỀ MERGE GIT: mọi người đẩy source code lên nhánh cá nhân của mình và tạo pull request để Duy hoặc Thành merge vào nhánh dev, khi nào hoàn thiện dự án mới tính đến merge vào main
+I. ĐỂ CHẠY ĐƯỢC DỰ ÁN NÀY CẦN:
+1. Cài đặt maven >> tham khảo nguồn google
+2. Cài đặt JDK 1.8 trở lên >> tham khảo nguồn google
+3. Cài đặt Eclipse IDE hoặc Intellij IDE(recommend) >> tham khảo nguồn google
+4. Cài đặt hệ quản trị cơ sở dữ liệu MySQL >> tham khảo nguồn google
+II. CÁC BƯỚC RUN PROJECT NÀY:
+BƯỚC 1: clone source code từ repository này về (có thể search cách clone repository github)
+BƯỚC 2: mở dự án bằng Eclipse hoặc Intellij, sau đó mở cửa sổ Terminal của dự án lên
+- Đối với Eclipse: click chuột phải vào dự án >> Show in Local Terminal >> Terminal
+- Đối với Eclipse: click chuột phải vào dự án >> Open in Terminal
+BƯỚC 3: tại cửa sổ Terminal  gõ lệnh git checkout dev để chuyển sang nhánh dev (nhánh đang chứa source code tổng hợp của dự án)
+BƯỚC 4: 
+- Đối với Eclipse: click chuột phải vào file pom.xml >> Maven >> Update project
+- Đối với Intellij: click chuột phải vào file pom.xml >> Maven >> Reimport
+BƯỚC 5: tạo một database có tên airline_ticket_db trong MySQL
+BƯỚC 6: vào thư mục \airline-ticket-spring-api\src\main\resources\application.properties để cấu hình thông tin ứng dụng
+#spring.datasource.username=${username MySQL của bạn} - ví dụ: spring.datasource.username=root
+#spring.datasource.password=${password MySQL của bạn} - ví dụ: spring.datasource.password=12345678
+#spring.jpa.hibernate.ddl-auto=create
+BƯỚC 7:
+- Đối với Eclipse: click chuột phải vào file src/main/java/com/fsoft/happflight/AirlineTicketSpringApiApplication.java >> Run as >> Java Application
+- Đối với Intellij: click chuột trái vào nút run có hình tam giác màu xanh trên đầu ứng dụng, ngay bên cạnh [AirlineTicketSpringApiApplication]
+# hoặc bạn có thể tham khảo cách chạy ứng dụng spring boot trên Intellij từ google
+BƯỚC 8: sau khi BƯỚC 7 hoàn thành, mở file \airline-ticket-spring-api\src\main\java\com\fsoft\happflight\sql\airline_ticket_db.sql và insert dữ liệu theo hướng dẫn trong file
+BƯỚC 9: chuyển #spring.jpa.hibernate.ddl-auto=create ở [BƯỚC 6] thành #spring.jpa.hibernate.ddl-auto=update và chạy lại chương trình
+#HOAN_TAT
