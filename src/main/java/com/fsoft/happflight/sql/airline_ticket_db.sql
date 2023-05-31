@@ -1,19 +1,7 @@
-create database airline_ticket_db;
-use airline_ticket_db;
+-- create database airline_ticket_db;
 -- drop database airline_ticket_db;
-
--- TAO TRIGGER TU DONG THEM MOI DAT CHO
-DELIMITER //
-CREATE TRIGGER tr_dat_cho AFTER INSERT ON chuyen_bay
-FOR EACH ROW
-BEGIN
-    INSERT INTO dat_cho (ma_chuyen_bay, ma_ghe)
-    SELECT NEW.ma_chuyen_bay, ghe.ma_ghe
-    FROM ghe
-    JOIN may_bay on ghe.ma_may_bay = may_bay.ma_may_bay
-    JOIN chuyen_bay on may_bay.ma_may_bay = chuyen_bay.ma_may_bay;
-END //
-
+use airline_ticket_db;
+-- BƯỚC 1: INSERT may_bay, hang_bay, san_bay, loai_ghe
 INSERT INTO may_bay (sl_ghe_pho_thong, sl_ghe_thuong_gia, ten_may_bay)
 VALUES
 (28, 12, 'Boeing 747'),
@@ -32,16 +20,6 @@ VALUES
 ('HB03', 'Vietjet Air', 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/VietJet_Air_logo.svg/2560px-VietJet_Air_logo.svg.png'),
 ('HB04', 'Pacific Airlines', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Logo_h%C3%A3ng_Pacific_Airlines.svg/1200px-Logo_h%C3%A3ng_Pacific_Airlines.svg.png');
 
--- INSERT INTO san_bay (ma_san_bay, ten_san_bay, thanh_pho, quoc_gia)
--- VALUES
--- ('SGN', 'Sân bay Tân Sơn Nhất','TP HCM','Việt Nam'),
--- ('DAD', 'Sân bay Đà Nẵng','TP Đà Nẵng','Việt Nam'),
--- ('HAN', 'Sân bay Nội Bài','Thủ Đô Hà Nội','Việt Nam'),
--- ('DLI', 'Sân bay Liên Khương','Da Lat','Việt Nam'),
--- ('BKKA', 'Sân bay Bangkok','Thủ Đô Bangkok','Thái Lan'),
--- ('SYD', 'Sân bay Sydney','Sydney','Australia'),
--- ('MNL', 'Sân bay Ninoy Aquino','Manila','Philippines'),
--- ('JKTA', 'Sân bay Jakarta','Jakarta','Indonesia');
 
 -- INSERT DANH SACH SAN BAY
 INSERT INTO san_bay (ma_san_bay, ten_san_bay, thanh_pho, quoc_gia)
@@ -57,8 +35,10 @@ VALUES
 ('Phổ Thông'),
 ('Thương Gia');
 
+-- BƯỚC 2: TẠO BẢNG seat_numbers
+
 -- Tạo bảng tạm để tạo danh sách các số từ 1 đến số lượng ghế thương gia
-CREATE TEMPORARY TABLE seat_numberss AS (
+CREATE TEMPORARY TABLE seat_numbers AS (
   SELECT 1 AS seat_number UNION ALL
  SELECT 2 UNION ALL
   SELECT 3 UNION ALL
@@ -100,6 +80,8 @@ CREATE TEMPORARY TABLE seat_numberss AS (
   SELECT 39 UNION ALL SELECT 40
 );
 
+-- BƯỚC 3: insert ghe
+
 -- Thêm các ghế thương gia vào máy bay
 INSERT INTO ghe (ten_ghe, ma_may_bay, ma_loai_ghe)
 SELECT CONCAT('B', sn.seat_number) AS ten_ghe,
@@ -120,6 +102,8 @@ JOIN seat_numbers sn ON sn.seat_number <= mb.sl_ghe_pho_thong
 ORDER BY mb.ma_may_bay, lg.ma_loai_ghe;
 select * from ghe;
 
+-- BƯỚC 4: INSERT chuyen_bay
+
 -- INSERT INTO DANH SACH CHUYEN BAY
 INSERT INTO chuyen_bay (ma_chuyen_bay, kl_hanh_ly, diem_den, diem_di, gia_ve, gio_khoi_hanh,gio_ha_canh,
  ma_hang_bay, ma_may_bay, ngay_khoi_hanh, thoi_gian_bay, trang_hai_van_hanh, trang_thai_xoa)
@@ -136,6 +120,20 @@ VALUES
 ('FL00010', '15 kg', 'Thủ Đô Hà Nội','TP HCM',  1280000, '03:00', '04:30', 'HB02', 4, '2023-06-02', '1h 30m', 'Normal', 0),
 ('FL00011', '20 kg', 'Thủ Đô Hà Nội','TP HCM',  1450000, '09:00', '10:30', 'HB01', 5, '2023-06-02', '1h 30m', 'Normal', 0),
 ('FL00012', '25 kg', 'Thủ Đô Hà Nội','TP HCM',  1600000, '05:00', '06:30', 'HB03', 6, '2023-06-02', '1h 30m', 'Normal', 0),
+
+('FL00013', '25 kg', 'Thủ Đô Hà Nội', 'TP Huế', 1000000, '11:30', '13:00', 'HB02', 3, '2023-06-02', '1h 30m', 'Normal', 0),
+('FL00014', '15 kg', 'Thủ Đô Hà Nội', 'TP Huế', 1500000, '14:30', '17:00', 'HB02', 1, '2023-06-02', '2h 30m', 'Normal', 0),
+('FL00015', '20 kg',  'Thủ Đô Hà Nội','TP Huế',1200000, '09:00', '10:30', 'HB03', 3, '2023-06-02', '1h 30m', 'Normal', 0),
+('FL00016', '25 kg', 'Thủ Đô Hà Nội', 'TP Huế', 1100000, '11:30', '13:00', 'HB04', 2, '2023-6-02', '1h 30m', 'Normal', 0),
+('FL00017', '20 kg', 'Thủ Đô Hà Nội', 'TP Huế', 1150000, '11:30', '13:00', 'HB02', 1, '2023-6-02', '1h 30m', 'Normal', 0),
+('FL00018', '30 kg', 'Thủ Đô Hà Nội', 'TP Huế', 1200000, '11:30', '13:00', 'HB01', 4, '2023-6-02', '1h 30m', 'Normal', 0),
+('FL00019', '15 kg', 'Thủ Đô Hà Nội', 'TP Huế', 1600000, '11:30', '13:00', 'HB01', 6, '2023-6-02', '1h 30m', 'Normal', 0),
+('FL00020', '20 kg', 'TP Huế','Thủ Đô Hà Nội',  1650000, '09:00', '10:30', 'HB03', 3, '2023-06-02', '1h 30m', 'Normal', 0),
+('FL00021', '25 kg', 'TP Huế','Thủ Đô Hà Nội', 1900000, '11:30', '13:00', 'HB04', 2, '2023-6-02', '1h 30m', 'Normal', 0),
+('FL00022', '20 kg', 'TP Huế', 'Thủ Đô Hà Nội', 1000000, '11:30', '13:00', 'HB02', 1, '2023-6-02', '1h 30m', 'Normal', 0),
+('FL00023', '30 kg', 'TP Huế','Thủ Đô Hà Nội',  1100000, '11:30', '13:00', 'HB01', 4, '2023-6-02', '1h 30m', 'Normal', 0),
+('FL00024', '15 kg', 'TP Huế','Thủ Đô Hà Nội',  1500000, '11:30', '13:00', 'HB01', 6, '2023-6-02', '1h 30m', 'Normal', 0),
+('FL00025', '20 kg', 'TP Huế','Thủ Đô Hà Nội',  1700000, '09:00', '10:30', 'HB03', 3, '2023-06-02', '1h 30m', 'Normal', 0),
 
 ('FL00026', '25 kg', 'TP HCM', 'TP Đà Nẵng', 1000000, '11:30', '13:00', 'HB02', 3, '2023-06-02', '1h 30m', 'Normal', 0),
 ('FL00027', '15 kg', 'TP HCM', 'TP Đà Nẵng', 1200000, '14:30', '17:00', 'HB02', 1, '2023-06-02', '2h 30m', 'Normal', 0),
@@ -239,21 +237,22 @@ VALUES
 ('FL00130', '25 kg', 'TP Huế', 'TP Nha Trang', 1900000, '11:30', '13:00', 'HB04', 2, '2023-06-02', '1h 30m', 'Normal', 0),
 ('FL00131', '20 kg', 'TP Huế', 'TP Nha Trang', 1000000, '11:30', '13:00', 'HB02', 1, '2023-06-02', '1h 30m', 'Normal', 0),
 ('FL00132', '30 kg', 'TP Huế', 'TP Nha Trang', 1100000, '11:30', '13:00', 'HB01', 4, '2023-06-02', '1h 30m', 'Normal', 0),
-('FL00133', '15 kg', 'TP Huế', 'TP Nha Trang', 1500000, '11:30', '13:00', 'HB01', 6, '2023-06-02', '1h 30m','Normal', 0),
+('FL00133', '15 kg', 'TP Huế', 'TP Nha Trang', 1500000, '11:30', '13:00', 'HB01', 6, '2023-06-02', '1h 30m','Normal', 0);
 
-('FL00013', '25 kg', 'Thủ Đô Hà Nội', 'TP Huế', 1000000, '11:30', '13:00', 'HB02', 3, '2023-06-02', '1h 30m', 'Normal', 0),
-('FL00014', '15 kg', 'Thủ Đô Hà Nội', 'TP Huế', 1500000, '14:30', '17:00', 'HB02', 1, '2023-06-02', '2h 30m', 'Normal', 0),
-('FL00015', '20 kg',  'Thủ Đô Hà Nội','TP Huế',1200000, '09:00', '10:30', 'HB03', 3, '2023-06-02', '1h 30m', 'Normal', 0),
-('FL00016', '25 kg', 'Thủ Đô Hà Nội', 'TP Huế', 1100000, '11:30', '13:00', 'HB04', 2, '2023-6-02', '1h 30m', 'Normal', 0),
-('FL00017', '20 kg', 'Thủ Đô Hà Nội', 'TP Huế', 1150000, '11:30', '13:00', 'HB02', 1, '2023-6-02', '1h 30m', 'Normal', 0),
-('FL00018', '30 kg', 'Thủ Đô Hà Nội', 'TP Huế', 1200000, '11:30', '13:00', 'HB01', 4, '2023-6-02', '1h 30m', 'Normal', 0),
-('FL00019', '15 kg', 'Thủ Đô Hà Nội', 'TP Huế', 1600000, '11:30', '13:00', 'HB01', 6, '2023-6-02', '1h 30m', 'Normal', 0),
-('FL00020', '20 kg', 'TP Huế','Thủ Đô Hà Nội',  1650000, '09:00', '10:30', 'HB03', 3, '2023-06-02', '1h 30m', 'Normal', 0),
-('FL00021', '25 kg', 'TP Huế','Thủ Đô Hà Nội', 1900000, '11:30', '13:00', 'HB04', 2, '2023-6-02', '1h 30m', 'Normal', 0),
-('FL00022', '20 kg', 'TP Huế', 'Thủ Đô Hà Nội', 1000000, '11:30', '13:00', 'HB02', 1, '2023-6-02', '1h 30m', 'Normal', 0),
-('FL00023', '30 kg', 'TP Huế','Thủ Đô Hà Nội',  1100000, '11:30', '13:00', 'HB01', 4, '2023-6-02', '1h 30m', 'Normal', 0),
-('FL00024', '15 kg', 'TP Huế','Thủ Đô Hà Nội',  1500000, '11:30', '13:00', 'HB01', 6, '2023-6-02', '1h 30m', 'Normal', 0),
-('FL00025', '20 kg', 'TP Huế','Thủ Đô Hà Nội',  1700000, '09:00', '10:30', 'HB03', 3, '2023-06-02', '1h 30m', 'Normal', 0);
+
+-- BƯỚC 5: INSERT dat_cho
+-- Thêm đặt chỗ
+INSERT INTO dat_cho (trang_thai, ma_ghe, ma_chuyen_bay)
+SELECT 'available' AS trang_thai, g.ma_ghe, cb.ma_chuyen_bay
+FROM ghe g
+INNER JOIN may_bay mb ON mb.ma_may_bay = g.ma_may_bay
+INNER JOIN chuyen_bay cb ON cb.ma_may_bay = mb.ma_may_bay
+LEFT JOIN dat_cho dc ON dc.ma_ghe = g.ma_ghe AND dc.ma_chuyen_bay = cb.ma_chuyen_bay
+GROUP BY cb.ma_chuyen_bay, g.ma_ghe
+HAVING COUNT(dc.ma_ghe) < 41;
+-- select * from dat_cho limit 0, 5000;
+
+-- BƯỚC 6: INSERT quoc_tich, role, tai_khoan, tai_khoan_role, nguoi_dung
 
 -- INSERT QUOC TICH
 INSERT INTO quoc_tich (ten_quoc_tich)
@@ -328,17 +327,43 @@ VALUES
     ('user@example.com', 'user', '0905678123', 'Phạm Nhật Vượng', '1995-05-10', 'Liên Chiểu, Đà Nẵng', '205256786', 'Nam', 0, 3);
 
 
+-- SHOW VARIABLES LIKE 'max_allowed_packet';
+
+-- SHOW VARIABLES LIKE 'max_execution_time';
+
 -- select * from ve_may_bay v join hoa_don h on v.ma_hoa_don = h.ma_hoa_don where h.tt_thanh_toan = 0;
 
+-- TAO TRIGGER TU DONG THEM MOI DAT CHO
+-- DELIMITER //
+-- CREATE TRIGGER tr_dat_cho AFTER INSERT ON chuyen_bay
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT INTO dat_cho (ma_chuyen_bay, ma_ghe)
+--     SELECT NEW.ma_chuyen_bay, ghe.ma_ghe
+--     FROM ghe
+--     JOIN may_bay on ghe.ma_may_bay = may_bay.ma_may_bay
+--     JOIN chuyen_bay on may_bay.ma_may_bay = NEW.ma_may_bay;
+-- END //
 
--- select ve_may_bay.ma_ve, ve_may_bay.gia_ve, ve_may_bay.hang_ve, 
--- ve_may_bay.ma_dat_cho, ve_may_bay.ma_hanh_khach, 
--- ve_may_bay.ma_hoa_don, ve_may_bay.trang_thai_xoa from ve_may_bay 
--- join hanh_khach on hanh_khach.ma_hanh_khach = ve_may_bay.ma_hanh_khach 
--- join dat_cho on ve_may_bay.ma_dat_cho = dat_cho.ma_dat_cho 
--- join chuyen_bay on chuyen_bay.ma_chuyen_bay = dat_cho.ma_chuyen_bay 
--- where ve_may_bay.trang_thai_xoa like 0 
--- and ve_may_bay.ma_ve like '%T%' 
--- and hanh_khach.ten_hanh_khach like '%%' 
+-- select ve_may_bay.ma_ve, ve_may_bay.gia_ve, ve_may_bay.hang_ve,
+-- ve_may_bay.ma_dat_cho, ve_may_bay.ma_hanh_khach,
+-- ve_may_bay.ma_hoa_don, ve_may_bay.trang_thai_xoa from ve_may_bay
+-- join hanh_khach on hanh_khach.ma_hanh_khach = ve_may_bay.ma_hanh_khach
+-- join dat_cho on ve_may_bay.ma_dat_cho = dat_cho.ma_dat_cho
+-- join chuyen_bay on chuyen_bay.ma_chuyen_bay = dat_cho.ma_chuyen_bay
+-- where ve_may_bay.trang_thai_xoa like 0
+-- and ve_may_bay.ma_ve like '%T%'
+-- and hanh_khach.ten_hanh_khach like '%%'
 -- and chuyen_bay.diem_di like '%%'
 -- and chuyen_bay.diem_den like '%%';
+
+-- INSERT INTO san_bay (ma_san_bay, ten_san_bay, thanh_pho, quoc_gia)
+-- VALUES
+-- ('SGN', 'Sân bay Tân Sơn Nhất','TP HCM','Việt Nam'),
+-- ('DAD', 'Sân bay Đà Nẵng','TP Đà Nẵng','Việt Nam'),
+-- ('HAN', 'Sân bay Nội Bài','Thủ Đô Hà Nội','Việt Nam'),
+-- ('DLI', 'Sân bay Liên Khương','Da Lat','Việt Nam'),
+-- ('BKKA', 'Sân bay Bangkok','Thủ Đô Bangkok','Thái Lan'),
+-- ('SYD', 'Sân bay Sydney','Sydney','Australia'),
+-- ('MNL', 'Sân bay Ninoy Aquino','Manila','Philippines'),
+-- ('JKTA', 'Sân bay Jakarta','Jakarta','Indonesia');
