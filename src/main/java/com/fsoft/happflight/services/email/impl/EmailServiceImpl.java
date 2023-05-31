@@ -1,5 +1,6 @@
 package com.fsoft.happflight.services.email.impl;
 
+import com.fsoft.happflight.dto.email.CancelEmailDTO;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import com.fsoft.happflight.services.email.EmailService;
@@ -111,16 +112,16 @@ public class EmailServiceImpl implements EmailService {
 
     /**
      * @TODO gửi email sau khi hủy vé
-     * @param veMayBay
+     * @param cancelEmailDTO
      * @throws MessagingException
      */
     @Override
-    public void sendAfterCancelTicket(VeMayBay veMayBay) throws MessagingException {
+    public void sendAfterCancelTicket(CancelEmailDTO cancelEmailDTO) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         boolean multipart = true;
         MimeMessageHelper helper = new MimeMessageHelper(message , multipart , "utf-8");
         String htmlMsg = "<div style=\"background: url('https://static.vecteezy.com/system/resources/previews/001/208/458/original/airplane-png.png') white; background-size: 100% 100%; background-position:right; min-height: 800px; background-repeat: no-repeat;\">" +
-                "<p>Kính gửi quý khách <b>" + veMayBay.getHoaDon().getNguoiDung().getEmail() + "</b>,</p>\n" +
+                "<p>Kính gửi quý khách <b>" + cancelEmailDTO.getEmailNguoiDung() + "</b>,</p>\n" +
                 "<p>Happy Flight thông báo đã hủy vé của bạn.</p>\n" +
                 "<p>Xin vui lòng kiểm tra thông tin bên vé dưới. Mọi thắc mắc vui lòng liên hệ số điện thoại: 0917.579.123 (Mr. Duy - Nhân viên Happy Flight).</p>\n" +
                 "<table class=\"table\" style=\"border: 1px solid; padding: 10px 10px; border-collapse: collapse;\">\n" +
@@ -137,13 +138,13 @@ public class EmailServiceImpl implements EmailService {
                 "  </thead>\n" +
                 "  <tbody>\n" +
                 "  <tr style=\"background-color: aliceblue;\n\">\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + veMayBay.getMaVe() + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + veMayBay.getDatCho().getGhe().getLoaiGhe().getTenLoaiGhe() + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + veMayBay.getDatCho().getChuyenBay().getGiaVe().toString() + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + veMayBay.getHanhKhach().getTenHanhKhach() + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + veMayBay.getDatCho().getChuyenBay().getNgayKhoiHanh() + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + veMayBay.getDatCho().getChuyenBay().getDiemDi() + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + veMayBay.getDatCho().getChuyenBay().getDiemDen() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + cancelEmailDTO.getMaVe() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + cancelEmailDTO.getHangVe() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + cancelEmailDTO.getGiaVe() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + cancelEmailDTO.getTenHanhKhach() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + cancelEmailDTO.getNgayKhoiHanh() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + cancelEmailDTO.getDiemDi() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + cancelEmailDTO.getDiemDen() + "</td>\n" +
                 "  </tr>\n" +
                 "  </tbody>\n" +
                 "</table>" +
@@ -155,7 +156,7 @@ public class EmailServiceImpl implements EmailService {
                 "</div>";
         message.setContent(htmlMsg , "text/html; charset=UTF-8");
         helper.setFrom("happyflightservices@gmail.com");
-        helper.setTo(veMayBay.getHoaDon().getNguoiDung().getEmail());
+        helper.setTo(cancelEmailDTO.getEmailNguoiDung());
         helper.setSubject("THÔNG BÁO HỦY VÉ!");
         this.javaMailSender.send(message);
     }
