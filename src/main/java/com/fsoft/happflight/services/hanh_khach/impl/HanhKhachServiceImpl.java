@@ -22,11 +22,15 @@ public class HanhKhachServiceImpl implements IHanhKhachService {
     private ModelMapper modelMapper;
 
     @Override
-    public void saveHanhKhach(HanhKhach hanhKhach) {
-        hanhKhachRepository.save(hanhKhach);
-
+    public HanhKhach saveHanhKhach(HanhKhach hanhKhach) {
+       return hanhKhachRepository.save(hanhKhach);
     }
 
+    /**
+     * Save hanh khach.
+     * @creator DucNH66
+     * @param hanhKhachDTOs the hanh khach DT os
+     */
     @Override
     public void saveHanhKhach(List<HanhKhachDTO> hanhKhachDTOs) {
         hanhKhachDTOs.stream().forEach(item -> {
@@ -50,6 +54,18 @@ public class HanhKhachServiceImpl implements IHanhKhachService {
     public Page<HanhKhach> findWithPageAble(Pageable pageable) {
         return hanhKhachRepository.findAll(pageable);
     }
+
+    /*
+	 * @Param soLuongKhachHangThangNay
+	 * @creator TITT
+	 * @date-create 26-05-2023
+	 * @function (so luong khach hang thang nay)
+	 */
+	@Override
+	public int soLuongKhachHangThangNay() {
+		
+		return hanhKhachRepository.soLuongKhachHangThangNay();
+	}
 
 
 }

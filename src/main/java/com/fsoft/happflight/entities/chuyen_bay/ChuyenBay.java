@@ -8,6 +8,10 @@ import javax.persistence.*;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 @Entity
 public class ChuyenBay {
 
@@ -36,7 +40,7 @@ public class ChuyenBay {
     private String thoiGianBay;
 
     @Column(name = "gia_ve", columnDefinition = "nvarchar(50)")
-    private String giaVe;
+    private Long giaVe;
 
     @Column(name = "kl_hanh_ly", columnDefinition = "nvarchar(50)")
     private String KLHanhLy;
@@ -65,7 +69,7 @@ public class ChuyenBay {
     }
 
     public ChuyenBay(String maChuyenBay, String diemDi, String diemDen, String ngayKhoiHanh, LocalTime gioKhoiHanh,
-                     LocalTime gioHaCanh, String thoiGianBay, String giaVe, String kLHanhLy, String trangThaiVanHanh,
+                     LocalTime gioHaCanh, String thoiGianBay, Long giaVe, String kLHanhLy, String trangThaiVanHanh,
                      Integer trangThaiXoa, MayBay mayBay, HangBay hangBay) {
         super();
         this.maChuyenBay = maChuyenBay;
@@ -84,7 +88,7 @@ public class ChuyenBay {
     }
 
     public ChuyenBay(String maChuyenBay, String diemDi, String diemDen, String ngayKhoiHanh, LocalTime gioKhoiHanh,
-                     LocalTime gioHaCanh, String thoiGianBay, String giaVe, String kLHanhLy, String trangThaiVanHanh,
+                     LocalTime gioHaCanh, String thoiGianBay, Long giaVe, String kLHanhLy, String trangThaiVanHanh,
                      Integer trangThaiXoa, MayBay mayBay, HangBay hangBay, List<DatCho> datChos) {
         super();
         this.maChuyenBay = maChuyenBay;
@@ -159,11 +163,11 @@ public class ChuyenBay {
         this.thoiGianBay = thoiGianBay;
     }
 
-    public String getGiaVe() {
+    public Long getGiaVe() {
         return giaVe;
     }
 
-    public void setGiaVe(String giaVe) {
+    public void setGiaVe(Long giaVe) {
         this.giaVe = giaVe;
     }
 

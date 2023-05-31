@@ -1,162 +1,219 @@
 package com.fsoft.happflight.dto.chuyen_bay;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
+import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class ChuyenBayDTO {
-    private String maChuyenBay;
-    private String diemDi;
-    private String diemDen;
-    private String ngayKhoiHanh;
-    @DateTimeFormat(pattern = "HH:mm")
-    private LocalTime gioKhoiHanh;
-    @DateTimeFormat(pattern = "HH:mm")
-    private LocalTime gioHaCanh;
-    private String thoiGianBay;
-    private String giaVe;
-    private String kLHanhLy;
-    private String trangThaiVanHanh;
-    private Long maMayBay;
-    private String maHangBay;
-    private Integer trangThaiXoa = 0;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-    public ChuyenBayDTO(String maChuyenBay, String diemDi, String diemDen, String ngayKhoiHanh, LocalTime gioKhoiHanh, LocalTime gioHaCanh, String thoiGianBay, String giaVe, String kLHanhLy, String trangThaiVanHanh, Long maMayBay, String maHangBay, Integer trangThaiXoa) {
-        this.maChuyenBay = maChuyenBay;
-        this.diemDi = diemDi;
-        this.diemDen = diemDen;
-        this.ngayKhoiHanh = ngayKhoiHanh;
-        this.gioKhoiHanh = gioKhoiHanh;
-        this.gioHaCanh = gioHaCanh;
-        this.thoiGianBay = thoiGianBay;
-        this.giaVe = giaVe;
-        this.kLHanhLy = kLHanhLy;
-        this.trangThaiVanHanh = trangThaiVanHanh;
-        this.maMayBay = maMayBay;
-        this.maHangBay = maHangBay;
-        this.trangThaiXoa = trangThaiXoa;
-    }
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
-    public String getMaChuyenBay() {
-        return maChuyenBay;
-    }
+import com.fsoft.happflight.utils.CheckMaChuyenBay;
 
-    public void setMaChuyenBay(String maChuyenBay) {
-        this.maChuyenBay = maChuyenBay;
-    }
+public class ChuyenBayDTO implements Validator {
+	@CheckMaChuyenBay
+	@NotBlank(message = " không được để trống!")
+	private String maChuyenBay;
+	@NotBlank(message = " không được để trống!")
+	private String diemDi;
+	@NotBlank(message = " không được để trống!")
+	private String diemDen;
+	private String ngayKhoiHanh;
+	@NotNull(message = " không được để trống")
+	@DateTimeFormat(pattern = "HH:mm")
+	private LocalTime gioKhoiHanh;
+	@DateTimeFormat(pattern = "HH:mm")
+	private LocalTime gioHaCanh;
+	private String thoiGianBay;
+	private Long giaVe;
+	@NotBlank(message = " không được để trống!")
+	private String kLHanhLy;
+	@NotBlank(message = " không được để trống!")
+	private String trangThaiVanHanh;
+	@NotNull(message = " không được để trống")
+	private Long maMayBay;
+	@NotBlank(message = " không được để trống!")
+	private String maHangBay;
+	private Integer trangThaiXoa = 0;
 
-    public String getDiemDi() {
-        return diemDi;
-    }
+	public ChuyenBayDTO(String maChuyenBay, String diemDi, String diemDen, String ngayKhoiHanh, LocalTime gioKhoiHanh,
+			LocalTime gioHaCanh, String thoiGianBay, Long giaVe, String kLHanhLy, String trangThaiVanHanh,
+			Long maMayBay, String maHangBay, Integer trangThaiXoa) {
+		this.maChuyenBay = maChuyenBay;
+		this.diemDi = diemDi;
+		this.diemDen = diemDen;
+		this.ngayKhoiHanh = ngayKhoiHanh;
+		this.gioKhoiHanh = gioKhoiHanh;
+		this.gioHaCanh = gioHaCanh;
+		this.thoiGianBay = thoiGianBay;
+		this.giaVe = giaVe;
+		this.kLHanhLy = kLHanhLy;
+		this.trangThaiVanHanh = trangThaiVanHanh;
+		this.maMayBay = maMayBay;
+		this.maHangBay = maHangBay;
+		this.trangThaiXoa = trangThaiXoa;
+	}
 
-    public void setDiemDi(String diemDi) {
-        this.diemDi = diemDi;
-    }
+	public String getMaChuyenBay() {
+		return maChuyenBay;
+	}
 
-    public String getDiemDen() {
-        return diemDen;
-    }
+	public void setMaChuyenBay(String maChuyenBay) {
+		this.maChuyenBay = maChuyenBay;
+	}
 
-    public void setDiemDen(String diemDen) {
-        this.diemDen = diemDen;
-    }
+	public String getDiemDi() {
+		return diemDi;
+	}
 
-    public String getNgayKhoiHanh() {
-        return ngayKhoiHanh;
-    }
+	public void setDiemDi(String diemDi) {
+		this.diemDi = diemDi;
+	}
 
-    public void setNgayKhoiHanh(String ngayKhoiHanh) {
-        this.ngayKhoiHanh = ngayKhoiHanh;
-    }
+	public String getDiemDen() {
+		return diemDen;
+	}
 
-    public LocalTime getGioKhoiHanh() {
-        return gioKhoiHanh;
-    }
+	public void setDiemDen(String diemDen) {
+		this.diemDen = diemDen;
+	}
 
-    public void setGioKhoiHanh(LocalTime gioKhoiHanh) {
-        this.gioKhoiHanh = gioKhoiHanh;
-    }
+	public String getNgayKhoiHanh() {
+		return ngayKhoiHanh;
+	}
 
-    public LocalTime getGioHaCanh() {
-        return gioHaCanh;
-    }
+	public void setNgayKhoiHanh(String ngayKhoiHanh) {
+		this.ngayKhoiHanh = ngayKhoiHanh;
+	}
 
-    public void setGioHaCanh(LocalTime gioHaCanh) {
-        this.gioHaCanh = gioHaCanh;
-    }
+	public LocalTime getGioKhoiHanh() {
+		return gioKhoiHanh;
+	}
 
-    public String getThoiGianBay() {
-        return thoiGianBay;
-    }
+	public void setGioKhoiHanh(LocalTime gioKhoiHanh) {
+		this.gioKhoiHanh = gioKhoiHanh;
+	}
 
-    public void setThoiGianBay(String thoiGianBay) {
-        this.thoiGianBay = thoiGianBay;
-    }
+	public LocalTime getGioHaCanh() {
+		return gioHaCanh;
+	}
 
-    public String getGiaVe() {
-        return giaVe;
-    }
+	public void setGioHaCanh(LocalTime gioHaCanh) {
+		this.gioHaCanh = gioHaCanh;
+	}
 
-    public void setGiaVe(String giaVe) {
-        this.giaVe = giaVe;
-    }
+	public String getThoiGianBay() {
+		return thoiGianBay;
+	}
 
-    public String getkLHanhLy() {
-        return kLHanhLy;
-    }
+	public void setThoiGianBay(String thoiGianBay) {
+		this.thoiGianBay = thoiGianBay;
+	}
 
-    public void setkLHanhLy(String kLHanhLy) {
-        this.kLHanhLy = kLHanhLy;
-    }
+	public Long getGiaVe() {
+		return giaVe;
+	}
 
-    public String getTrangThaiVanHanh() {
-        return trangThaiVanHanh;
-    }
+	public void setGiaVe(Long giaVe) {
+		this.giaVe = giaVe;
+	}
 
-    public void setTrangThaiVanHanh(String trangThaiVanHanh) {
-        this.trangThaiVanHanh = trangThaiVanHanh;
-    }
+	public String getkLHanhLy() {
+		return kLHanhLy;
+	}
 
-    public Long getMaMayBay() {
-        return maMayBay;
-    }
+	public void setkLHanhLy(String kLHanhLy) {
+		this.kLHanhLy = kLHanhLy;
+	}
 
-    public void setMaMayBay(Long maMayBay) {
-        this.maMayBay = maMayBay;
-    }
+	public String getTrangThaiVanHanh() {
+		return trangThaiVanHanh;
+	}
 
-    public String getMaHangBay() {
-        return maHangBay;
-    }
+	public void setTrangThaiVanHanh(String trangThaiVanHanh) {
+		this.trangThaiVanHanh = trangThaiVanHanh;
+	}
 
-    public void setMaHangBay(String maHangBay) {
-        this.maHangBay = maHangBay;
-    }
+	public Long getMaMayBay() {
+		return maMayBay;
+	}
 
-    public Integer getTrangThaiXoa() {
-        return trangThaiXoa;
-    }
+	public void setMaMayBay(Long maMayBay) {
+		this.maMayBay = maMayBay;
+	}
 
-    public void setTrangThaiXoa(Integer trangThaiXoa) {
-        this.trangThaiXoa = trangThaiXoa;
-    }
+	public String getMaHangBay() {
+		return maHangBay;
+	}
 
-    @Override
-    public String toString() {
-        return "ChuyenBayDTO{" +
-                "maChuyenBay='" + maChuyenBay + '\'' +
-                ", diemDi='" + diemDi + '\'' +
-                ", diemDen='" + diemDen + '\'' +
-                ", ngayKhoiHanh='" + ngayKhoiHanh + '\'' +
-                ", gioKhoiHanh=" + gioKhoiHanh +
-                ", gioHaCanh=" + gioHaCanh +
-                ", thoiGianBay='" + thoiGianBay + '\'' +
-                ", giaVe='" + giaVe + '\'' +
-                ", kLHanhLy='" + kLHanhLy + '\'' +
-                ", trangThaiVanHanh='" + trangThaiVanHanh + '\'' +
-                ", maMayBay=" + maMayBay +
-                ", maHangBay='" + maHangBay + '\'' +
-                ", trangThaiXoa=" + trangThaiXoa +
-                '}';
-    }
+	public void setMaHangBay(String maHangBay) {
+		this.maHangBay = maHangBay;
+	}
+
+	public Integer getTrangThaiXoa() {
+		return trangThaiXoa;
+	}
+
+	public void setTrangThaiXoa(Integer trangThaiXoa) {
+		this.trangThaiXoa = trangThaiXoa;
+	}
+
+	@Override
+	public String toString() {
+		return "ChuyenBayDTO{" + "maChuyenBay='" + maChuyenBay + '\'' + ", diemDi='" + diemDi + '\'' + ", diemDen='"
+				+ diemDen + '\'' + ", ngayKhoiHanh='" + ngayKhoiHanh + '\'' + ", gioKhoiHanh=" + gioKhoiHanh
+				+ ", gioHaCanh=" + gioHaCanh + ", thoiGianBay='" + thoiGianBay + '\'' + ", giaVe='" + giaVe + '\''
+				+ ", kLHanhLy='" + kLHanhLy + '\'' + ", trangThaiVanHanh='" + trangThaiVanHanh + '\'' + ", maMayBay="
+				+ maMayBay + ", maHangBay='" + maHangBay + '\'' + ", trangThaiXoa=" + trangThaiXoa + '}';
+	}
+
+	@Override
+	public boolean supports(Class<?> clazz) {
+		return false;
+	}
+
+	@Override
+	public void validate(Object target, Errors errors) {
+		ChuyenBayDTO chuyenBayDTO = (ChuyenBayDTO) target;
+
+		if (!chuyenBayDTO.getMaChuyenBay().matches("^FL\\d{5}$")) {
+			errors.rejectValue("maChuyenBay", "", " nhập đúng định dạng FLxxxxx với x là số nguyên dương!");
+		}
+
+		if (chuyenBayDTO.getDiemDen().equals(chuyenBayDTO.getDiemDi())) {
+			errors.rejectValue("diemDen", "", " điểm đến phải khác điểm đi!");
+		}
+
+		if (chuyenBayDTO.getNgayKhoiHanh() == null || chuyenBayDTO.getNgayKhoiHanh() == "") {
+			errors.rejectValue("ngayKhoiHanh", "", " không được để trống!");
+		} else {
+			LocalDate currentDate = LocalDate.now();
+			LocalDate ngayKhoiHanh = LocalDate.parse(chuyenBayDTO.getNgayKhoiHanh());
+			LocalDate conditionDate = currentDate.plusDays(7);
+			if (ngayKhoiHanh.isBefore(conditionDate)) {
+				errors.rejectValue("ngayKhoiHanh", "", " phải cách ngày hiện tại ít nhất 7 ngày!");
+			}
+		}
+
+		if (chuyenBayDTO.getGioHaCanh() == null) {
+			errors.rejectValue("gioHaCanh", "", " không được để trống!");
+		} else {
+			LocalTime gioKhoiHanh = chuyenBayDTO.getGioKhoiHanh();
+			LocalTime gioHaCanh = chuyenBayDTO.getGioHaCanh();
+			LocalTime conditionTime = gioKhoiHanh.plusHours(1);
+			if (gioHaCanh.isBefore(conditionTime)) {
+				errors.rejectValue("gioHaCanh", "", " phải lớn hơn giờ khởi hành ít nhất 1h!");
+			}
+		}
+
+		if (chuyenBayDTO.getGiaVe() == null) {
+			errors.rejectValue("giaVe", "", " không được để trống!");
+
+		} else if (chuyenBayDTO.getGiaVe() < 0) {
+			errors.rejectValue("giaVe", "", " không được nhỏ hơn 0!");
+		}
+	}
+
 }

@@ -6,6 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 @Repository
 @Transactional
 public interface IGheRepository extends JpaRepository<Ghe, Long> {

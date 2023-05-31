@@ -4,6 +4,16 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+
+/**
+ * TaiKhoan
+ * Version: 2.0
+ * @DATE May 26, 2023
+ * Copyright
+ * Modification Logs:
+ * DATE                 AUTHOR          DESCRIPTION
+ * May 30, 2023         DuyNT58          update code
+ */
 @Entity
 public class TaiKhoan {
 
@@ -11,7 +21,7 @@ public class TaiKhoan {
     @Column(name = "ten_tai_khoan", columnDefinition = "nvarchar(50)")
     private String tenTaiKhoan;
 
-    @Column(name = "mat_khau", columnDefinition = "nvarchar(50)")
+    @Column(name = "mat_khau", columnDefinition = "nvarchar(255)")
     private String matKhau;
 
     @ManyToMany(fetch = FetchType.EAGER)

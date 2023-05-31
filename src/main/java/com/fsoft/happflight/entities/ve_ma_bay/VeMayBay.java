@@ -1,12 +1,21 @@
 package com.fsoft.happflight.entities.ve_ma_bay;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fsoft.happflight.entities.dat_cho.DatCho;
 import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
 
-import javax.persistence.*;
-
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 @Entity
 public class VeMayBay {
 
@@ -23,17 +32,16 @@ public class VeMayBay {
     @Column(name = "trang_thai_xoa")
     private Integer trangThaiXoa;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "ma_hanh_khach", referencedColumnName = "ma_hanh_khach")
     private HanhKhach hanhKhach;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "ma_dat_cho", referencedColumnName = "ma_dat_cho")
     private DatCho datCho;
 
     @JoinColumn(name = "ma_hoa_don", referencedColumnName = "ma_hoa_don")
     @ManyToOne
-    @JsonIgnore
     private HoaDon hoaDon;
 
     public VeMayBay() {

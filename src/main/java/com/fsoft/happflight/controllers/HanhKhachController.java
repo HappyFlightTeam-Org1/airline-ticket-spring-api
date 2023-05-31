@@ -21,6 +21,11 @@ public class HanhKhachController {
 	@Autowired
 	private IHanhKhachService hanhKhachService;
 
+	/**
+	 * @Author: DuyenTTM7
+	 * @Day: May 26, 2023 | @Time: 7:51:52 PM
+	 * @Return: ResponseEntity<List<HanhKhach>>
+	 */
 	@GetMapping("/list")
 	public ResponseEntity<List<HanhKhach>> listHanhKhach() {
 		List<HanhKhach> hanhKhachs = hanhKhachService.findAll();
@@ -28,6 +33,11 @@ public class HanhKhachController {
 
 	}
 
+	/**
+	 * @Author: DuyenTTM7
+	 * @Day: May 26, 2023 | @Time: 7:51:49 PM
+	 * @Return: Page<HanhKhach>
+	 */
 	@GetMapping("/list-with-page")
 	public Page<HanhKhach> getAllHanhKhach(@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size) {
@@ -35,8 +45,15 @@ public class HanhKhachController {
 		return hanhKhachService.findWithPageAble(pageable);
 	}
 
+
+	/**
+	 * @function Save Hanh Khach
+	 * @create DucNH66
+	 * @param hanhKhachDTOs the hanh khach DTos
+	 * @return the response entity
+	 */
 	@PostMapping("/save")
-	public ResponseEntity<String> saveHanhHanh(@RequestBody List<HanhKhachDTO> hanhKhachDTOs) {
+	public ResponseEntity<String> saveHanhKhach(@RequestBody List<HanhKhachDTO> hanhKhachDTOs) {
 		try {
 			hanhKhachService.saveHanhKhach(hanhKhachDTOs);
 			return ResponseEntity.ok("Lưu hành khách thành công");
@@ -46,22 +63,19 @@ public class HanhKhachController {
 
 	}
 
-//        @PostMapping("/search")
-//        public ResponseEntity<List<HanhKhach>> FindListHanhKhachByTenHanhKhach(@RequestBody SearchCriteria criteria) {
-//            List<HanhKhach> hanhKhachList = hanhKhachService.findByName(criteria.getTenHanhKhach());
-//            if (hanhKhachList.isEmpty()) {
-//                return new ResponseEntity<>(hanhKhachList, HttpStatus.NO_CONTENT);
-//            }
-//            return new ResponseEntity<>(hanhKhachList, HttpStatus.OK);
-//        }
 
+	/**
+	 * @Author: DuyenTTM7
+	 * @Day: May 26, 2023 | @Time: 7:51:41 PM
+	 * @Return: Page<HanhKhach>
+	 */
 	@GetMapping("/search")
 	public Page<HanhKhach> FindListHanhKhachByName(
 			@RequestParam(name = "tenHanhKhach") String tenHanhKhach,@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		Page<HanhKhach> hanhKhachList;
-		if(tenHanhKhach!=""){
+		if(!"".equals(tenHanhKhach)){
 		hanhKhachList = hanhKhachService.findByName(pageable,tenHanhKhach);}
 		else {
 			hanhKhachList = hanhKhachService.findWithPageAble(pageable);

@@ -1,20 +1,19 @@
 package com.fsoft.happflight.entities.hoa_don;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
+import org.hibernate.annotations.Fetch;
 
+import javax.persistence.*;
+import java.util.List;
+
+/**
+ * @author DuyNT58
+ * @UPDATE_DATE May 26, 2023
+ */
 @Entity
 public class HoaDon {
 
@@ -26,7 +25,7 @@ public class HoaDon {
     private String ngayTao;
 
     @Column(name = "tong_tien")
-    private Float tongTien;
+    private Long tongTien;
 
     @Column(name = "tt_thanh_toan")
     private Integer trangThaiThanhToan = 0;
@@ -39,6 +38,7 @@ public class HoaDon {
     private NguoiDung nguoiDung;
 
     @OneToMany(mappedBy = "hoaDon", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
     List<VeMayBay> veMayBays;
 
     public HoaDon() {
@@ -46,7 +46,7 @@ public class HoaDon {
         // TODO Auto-generated constructor stub
     }
 
-    public HoaDon(String maHoaDon, String ngayTao, Float tongTien, Integer trangThaiThanhToan, Integer trangThaiXoa, NguoiDung nguoiDung) {
+    public HoaDon(String maHoaDon, String ngayTao, Long tongTien, Integer trangThaiThanhToan, Integer trangThaiXoa, NguoiDung nguoiDung) {
         this.maHoaDon = maHoaDon;
         this.ngayTao = ngayTao;
         this.tongTien = tongTien;
@@ -71,11 +71,11 @@ public class HoaDon {
         this.ngayTao = ngayTao;
     }
 
-    public Float getTongTien() {
+    public Long getTongTien() {
         return tongTien;
     }
 
-    public void setTongTien(Float tongTien) {
+    public void setTongTien(Long tongTien) {
         this.tongTien = tongTien;
     }
 
