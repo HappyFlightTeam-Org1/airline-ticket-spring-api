@@ -31,10 +31,12 @@ public interface INguoiDungRepository extends JpaRepository<NguoiDung, String> {
 	 * @date-create 26-05-2023
 	 * @function (list nguoi dung page)
 	 */
-	@Query(value = "SELECT * FROM nguoi_dung WHERE ten_tai_khoan = 'user'",
-            countQuery = "SELECT COUNT(*) FROM nguoi_dung WHERE ten_tai_khoan = 'user'",
-            nativeQuery = true)
-    Page<NguoiDung> getAllNguoiDungsPage(Pageable pageable);
+	@Query(value = "SELECT * FROM nguoi_dung ng " +
+	        "JOIN tai_khoan tk ON ng.ten_tai_khoan = tk.ten_tai_khoan " +
+	        "JOIN tai_khoan_role tr ON tk.ten_tai_khoan = tr.ten_tai_khoan " +
+	        "WHERE tr.role_id = 2 ",nativeQuery = true)
+	Page<NguoiDung> getAllNguoiDungsPage(Pageable pageable);
+
 
 	/*
 	 * @Param findByHoVaTenContainingAndSoDienThoaiContainingAndEmailContaining
