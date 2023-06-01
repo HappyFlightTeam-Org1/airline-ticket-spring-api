@@ -42,7 +42,7 @@ public class NguoiDungServiceImpl implements INguoiDungService {
  */
 	@Override
 	public Page<NguoiDung> getAllNguoiDungsPage(Pageable pageable) {
-		
+		// TODO Auto-generated method stub
 		return iNguoiDungRepository.getAllNguoiDungsPage(pageable);
 	}
 
