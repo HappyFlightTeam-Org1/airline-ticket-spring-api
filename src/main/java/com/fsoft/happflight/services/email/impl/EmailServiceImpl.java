@@ -1,6 +1,7 @@
 package com.fsoft.happflight.services.email.impl;
 
 import com.fsoft.happflight.dto.email.CancelEmailDTO;
+import com.fsoft.happflight.dto.email.PaymentEmailDTO;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import com.fsoft.happflight.services.email.EmailService;
@@ -64,12 +65,12 @@ public class EmailServiceImpl implements EmailService {
      * @throws MessagingException
      */
     @Override
-    public void sendPaymentMail(HoaDon hoaDon) throws MessagingException {
+    public void sendPaymentMail(PaymentEmailDTO paymentEmailDTO) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         boolean multipart = true;
         MimeMessageHelper helper = new MimeMessageHelper(message , multipart , "utf-8");
         String htmlMsg = "<div style=\"background: url('https://static.vecteezy.com/system/resources/previews/001/208/458/original/airplane-png.png') white; background-size: 100% 100%; background-position:right; min-height: 800px; background-repeat: no-repeat;\">" +
-                "<p>Kính gửi <b>" + hoaDon.getNguoiDung().getEmail() + "</b>,</p>\n" +
+                "<p>Kính gửi <b>" + paymentEmailDTO.getEmailNguoiDung() + "</b>,</p>\n" +
                 "<p>Cảm ơn quý khách đã sử dụng dịch vụ của chúng tôi. HappyFlight gửi bạn hoá đơn đã thanh toán.</p>\n" +
                 "<p>Xin vui lòng kiểm tra thông tin bên dưới. Mọi thắc mắc vui lòng liên hệ số điện thoại: 0917.579.123 (Mr. Duy - Kế toán trưởng).</p>\n" +
                 "<table class=\"table\" style=\"border: 1px solid; padding: 10px 10px; border-collapse: collapse;\">\n" +
@@ -86,10 +87,10 @@ public class EmailServiceImpl implements EmailService {
                 "  </thead>\n" +
                 "  <tbody>\n" +
                 "  <tr style=\"background-color: aliceblue;\n\">\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + hoaDon.getMaHoaDon() + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + hoaDon.getTongTien() + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + hoaDon.getNgayTao() + "</td>\n" +
-                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + hoaDon.getNguoiDung().getHoVaTen() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + paymentEmailDTO.getMaHoaDon() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + paymentEmailDTO.getTongTien() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + paymentEmailDTO.getNgayThanhToan() + "</td>\n" +
+                "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + paymentEmailDTO.getTenNguoiDung() + "</td>\n" +
                 "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "Đã thanh toán" + "</td>\n" +
                 "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "560000" + "</td>\n" +
                 "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + "Viet Nam" + "</td>\n" +
@@ -104,7 +105,7 @@ public class EmailServiceImpl implements EmailService {
                 "</div>";
         message.setContent(htmlMsg , "text/html; charset=UTF-8");
         helper.setFrom("happyflightservices@gmail.com");
-        helper.setTo(hoaDon.getNguoiDung().getEmail());
+        helper.setTo(paymentEmailDTO.getEmailNguoiDung());
         helper.setSubject("THANH TOÁN THÀNH CÔNG!");
         this.javaMailSender.send(message);
     }
