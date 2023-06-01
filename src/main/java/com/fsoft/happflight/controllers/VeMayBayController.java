@@ -14,7 +14,6 @@ import com.fsoft.happflight.services.hoa_don.IHoaDonService;
 import com.fsoft.happflight.services.nguoi_dung.INguoiDungService;
 import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
 import com.fsoft.happflight.utils.consts.TrangThaiXoaConsts;
-import com.fsoft.happflight.services.email.EmailService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,13 +23,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * VeMayBayController
  * Version: 2.0
+ *
  * @DATE May 26, 2023
  * Copyright
  * Modification Logs:
@@ -63,12 +62,9 @@ public class VeMayBayController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
-    private EmailService emailService;
-
     /**
-     * @TODO hiển thị list sân bay để người dùng chọn trong form tìm kiếm vé
      * @return List<SanBay>
+     * @TODO hiển thị list sân bay để người dùng chọn trong form tìm kiếm vé
      */
     @GetMapping("/listSanBay")
     public ResponseEntity<?> listSanBay() {
@@ -76,7 +72,6 @@ public class VeMayBayController {
     }
 
     /**
-     * @TODO Tìm kiếm vé máy bay dự trên tham số truyền vào form
      * @param maVe
      * @param tenHanhKhach
      * @param diemDi
@@ -85,6 +80,7 @@ public class VeMayBayController {
      * @param page
      * @param size
      * @return Page<VeMayBay>
+     * @TODO Tìm kiếm vé máy bay dự trên tham số truyền vào form
      */
     @GetMapping("/page")
     public ResponseEntity<?> searchVeMayBay(@RequestParam(required = false) String maVe,
@@ -103,11 +99,11 @@ public class VeMayBayController {
 
 
     /**
-     * @TODO hiển thị danh sách vé máy bay dự vào mã hóa đơn chứa vé máy bay đó
      * @param page
      * @param size
      * @param maHoaDon
      * @return Page<VeMayBay>
+     * @TODO hiển thị danh sách vé máy bay dựa vào mã hóa đơn chứa vé máy bay đó
      */
     @GetMapping(value = "/list-page")
     public ResponseEntity<?> showListFromOrderCode(@RequestParam(defaultValue = "0") int page,
@@ -122,20 +118,23 @@ public class VeMayBayController {
     }
 
     /**
-     * @TODO Tìm kiếm vé từ databse để hiển thị thông tin in vé
      * @param maVe
      * @return VeMayBay
+     * @TODO Tìm kiếm vé từ databse để hiển thị thông tin in vé
      */
     @GetMapping("/InVe")
     public ResponseEntity<?> InVe(@RequestParam("maVe") String maVe) {
         VeMayBay veMayBay = veMayBayService.findById(maVe);
-        return new ResponseEntity<>(veMayBay, HttpStatus.OK);
+        if (null != veMayBay) {
+            return new ResponseEntity<>(veMayBay, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("EMPTY", HttpStatus.OK);
     }
 
     /**
-     * @TODO Lưu hóa đơn và vé máy bay vào database
      * @param veMayBayDTO
      * @return
+     * @TODO Lưu hóa đơn và vé máy bay vào database
      */
     @PostMapping("/prePayment")
     public ResponseEntity<?> createPaymentVNPay(@RequestBody VeMayBayDTO veMayBayDTO) {
@@ -150,9 +149,13 @@ public class VeMayBayController {
             }
             HoaDon hoaDon = modelMapper.map(veMayBayDTO.getHoaDonDTO(), HoaDon.class);
             hoaDon.setNguoiDung(nguoiDung);
+            //them moi hoa don
             HoaDon hoaDonHienTai = hoaDonService.create(hoaDon);
+            //lay danh sach ma dat cho chieu di
             List<Long> maDatChoDis = Arrays.asList(veMayBayDTO.getMaDatChoDis());
+            //lay danh sach ma dat cho chieu ve
             List<Long> maDatChoKhuHois = Arrays.asList(veMayBayDTO.getMaDatChoKhuHois());
+            //lay danh sach hanh khach
             List<HanhKhachDTO> hanhKhachDTOS = veMayBayDTO.getHanhKhachDTOs();
 
             for (int i = 0; i < hanhKhachDTOS.size(); i++) {
@@ -201,9 +204,9 @@ public class VeMayBayController {
     }
 
     /**
-     * @TODO Hiển thị danh sách vé máy bay từ mã hóa đơn nhập vào form tìm kiếm
      * @param maHoaDon
      * @return List<VeMayBay>
+     * @TODO Hiển thị danh sách vé máy bay từ mã hóa đơn nhập vào form tìm kiếm
      */
     @GetMapping(value = "/list/{maHoaDon}")
     public ResponseEntity<?> showListFromOrderCode(@PathVariable("maHoaDon") String maHoaDon) {
@@ -215,27 +218,31 @@ public class VeMayBayController {
     }
 
     /**
-     * @TODO Hủy vé máy bay đối với người dùng role admin
      * @param maVe
-     * @return 
+     * @return
+     * @TODO Hủy vé máy bay đối với người dùng role admin
      */
     @DeleteMapping("/delete/{maVe}")
     public ResponseEntity<?> deleteCustomer(@PathVariable("maVe") String maVe) {
-        //update trạng thái xóa của VeMayBay
-        VeMayBay veMayBay = veMayBayService.findById(maVe);
-        veMayBay.setTrangThaiXoa(1);
-        veMayBayService.create(veMayBay);
-        //update trạng thái của datcho thành available
-        DatCho datCho = veMayBay.getDatCho();
-        datCho.setTrangThai(TrangThaiXoaConsts.AVAILABLE);
-        datChoService.update(datCho);
+        VeMayBay veMayBay;
         try {
-            //gửi email thông báo hủy thành công
-            emailService.sendAfterCancelTicket(veMayBay);
-        } catch (MessagingException e) {
+            veMayBay = veMayBayService.findById(maVe);
+            if (null != veMayBay) {
+                //update trạng thái xóa của VeMayBay
+                veMayBay.setTrangThaiXoa(1);
+                veMayBayService.create(veMayBay);
+                //update trạng thái của datcho thành available
+                DatCho datCho = veMayBay.getDatCho();
+                datCho.setTrangThai(TrangThaiXoaConsts.AVAILABLE);
+                datChoService.update(datCho);
+            } else {
+                return new ResponseEntity<>("FAIL", HttpStatus.OK);
+            }
+        }catch (Exception e){
             e.printStackTrace();
+            return new ResponseEntity<>("FAIL", HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(veMayBay, HttpStatus.OK);
     }
 
 }

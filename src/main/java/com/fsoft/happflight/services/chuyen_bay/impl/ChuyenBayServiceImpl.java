@@ -12,8 +12,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
-import com.fsoft.happflight.entities.dat_cho.DatCho;
-import com.fsoft.happflight.entities.dat_cho.Ghe;
 import com.fsoft.happflight.repositories.chuyen_bay.IChuyenBayRepository;
 import com.fsoft.happflight.services.chuyen_bay.IChuyenBayService;
 import com.fsoft.happflight.services.dat_cho.IDatChoService;
@@ -78,8 +76,7 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	 */
 	// DucNH66 tìm kiếm sắp xếp phân trang chuyến bay cho Admin
 	@Override
-	public Page<ChuyenBay> searchChuyenBayAdmin(String diemDi, String diemDen, String ngayKhoiHanh,
-												Direction sortDirection, String sortBy, Pageable pageable) {
+	public Page<ChuyenBay> searchChuyenBayAdmin(String diemDi, String diemDen, Pageable pageable) {
 		Specification<ChuyenBay> spec = Specification.where(null);
 
 		if (diemDi != null && !diemDi.trim().isEmpty()) {
@@ -90,23 +87,12 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 			spec = spec.and((root, query, builder) -> builder.equal(root.get("diemDen"), diemDen));
 		}
 
-		if (ngayKhoiHanh != null && !ngayKhoiHanh.trim().isEmpty()) {
-			spec = spec.and((root, query, builder) -> builder.equal(root.get("ngayKhoiHanh"), ngayKhoiHanh));
-		}
-
-		Pageable pageableWithSort = pageable;
-		if (sortBy != null && !sortBy.trim().isEmpty()) {
-			Sort sort = Sort.by(sortDirection, sortBy);
-			pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-		}
-
-		Page<ChuyenBay> result;
 		if (spec.equals(Specification.where(null))) {
-			result = chuyenBayRepository.findAll(pageableWithSort);
+			return chuyenBayRepository.findAll(pageable);
 		} else {
-			result = chuyenBayRepository.findAll(spec, pageableWithSort);
+			return chuyenBayRepository.findAll(spec, pageable);
 		}
-		return result;
+
 	}
 
 	/**
@@ -125,7 +111,7 @@ public class ChuyenBayServiceImpl implements IChuyenBayService {
 	// DucNH66 tìm kiếm sắp xếp phân trang chuyến bay cho User
 	@Override
 	public Page<ChuyenBay> searchChuyenBay(String diemDi, String diemDen, String ngayKhoiHanh, Direction sortDirection,
-										   String sortBy, Pageable pageable) {
+			String sortBy, Pageable pageable) {
 		Specification<ChuyenBay> spec = Specification.where(null);
 
 		if (diemDi != null && !diemDi.isEmpty()) {

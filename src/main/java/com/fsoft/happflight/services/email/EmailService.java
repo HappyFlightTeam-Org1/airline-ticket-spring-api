@@ -1,5 +1,7 @@
 package com.fsoft.happflight.services.email;
 
+import com.fsoft.happflight.dto.email.CancelEmailDTO;
+import com.fsoft.happflight.dto.email.PaymentEmailDTO;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import com.fsoft.happflight.utils.email.EmailDetail;
@@ -32,17 +34,17 @@ public interface EmailService {
   
     /**
      * @TODO Gui email sau khi thanh toan thanh cong
-     * @param hoaDon
+     * @param paymentEmailDTO
      * @throws MessagingException
      */
-    void sendPaymentMail(HoaDon hoaDon) throws MessagingException;
+    void sendPaymentMail(PaymentEmailDTO paymentEmailDTO) throws MessagingException;
 
   
     /**
      * @TODO Gui email toi nguoi dung sau khi huy ve thanh cong
-     * @param veMayBay
+     * @param cancelEmailDTO
      * @throws MessagingException
      */
-    void sendAfterCancelTicket(VeMayBay veMayBay) throws MessagingException;
+    void sendAfterCancelTicket(CancelEmailDTO cancelEmailDTO) throws MessagingException;
 
 }

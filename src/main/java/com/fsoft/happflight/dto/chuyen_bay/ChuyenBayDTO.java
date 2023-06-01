@@ -178,8 +178,8 @@ public class ChuyenBayDTO implements Validator {
 	public void validate(Object target, Errors errors) {
 		ChuyenBayDTO chuyenBayDTO = (ChuyenBayDTO) target;
 
-		if (!chuyenBayDTO.getMaChuyenBay().matches("^CB\\d{5}$")) {
-			errors.rejectValue("maChuyenBay", "", " nhập đúng định dạng CBxxxxx với x là số nguyên dương!");
+		if (!chuyenBayDTO.getMaChuyenBay().matches("^FL\\d{5}$")) {
+			errors.rejectValue("maChuyenBay", "", " nhập đúng định dạng FLxxxxx với x là số nguyên dương!");
 		}
 
 		if (chuyenBayDTO.getDiemDen().equals(chuyenBayDTO.getDiemDi())) {
@@ -212,7 +212,7 @@ public class ChuyenBayDTO implements Validator {
 			errors.rejectValue("giaVe", "", " không được để trống!");
 
 		} else if (chuyenBayDTO.getGiaVe() < 0) {
-			errors.rejectValue("giaVe", "", " không được nhỏ hơn 0!");
+			errors.rejectValue("giaVe", "", " giá vé phải là số dương > 0!");
 		}
 	}
 

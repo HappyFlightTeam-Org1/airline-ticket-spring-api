@@ -1,6 +1,7 @@
 package com.fsoft.happflight.repositories.ve_may_bay;
 
 import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -92,6 +93,16 @@ public interface IVeMayBayRepository extends JpaRepository<VeMayBay, String>,Jpa
             Pageable pageable
     );
 
+
+    /**
+     * @author DuyNT58
+     * @TODO
+     * @UPDATE_DATE May 26, 2023
+     * @param maVe
+     * @return Optional<VeMayBay>
+     */
+    @Query(value = "select * from ve_may_bay where ma_ve =:maVe and trang_thai_xoa =0", nativeQuery = true)
+    Optional<VeMayBay> findById(@Param("maVe") String maVe);
 
 
 }

@@ -1,17 +1,13 @@
 package com.fsoft.happflight.entities.dat_cho;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fsoft.happflight.entities.chuyen_bay.ChuyenBay;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
+
+import java.util.List;
 
 /**
  * @author DuyNT58
@@ -36,9 +32,9 @@ public class DatCho {
     @ManyToOne(targetEntity = ChuyenBay.class)
     private ChuyenBay chuyenBay;
 
-    @OneToOne(mappedBy = "datCho")
-    @JsonIgnore
-    private VeMayBay veMayBay;
+    @OneToMany(mappedBy = "datCho")
+    @JsonBackReference
+    private List<VeMayBay> veMayBays;
 
     public DatCho() {
         super();
@@ -57,6 +53,14 @@ public class DatCho {
         this.trangThai = trangThai;
         this.ghe = ghe;
         this.chuyenBay = chuyenBay;
+    }
+
+    public DatCho(Long maDatCho, String trangThai, Ghe ghe, ChuyenBay chuyenBay, List<VeMayBay> veMayBays) {
+        this.maDatCho = maDatCho;
+        this.trangThai = trangThai;
+        this.ghe = ghe;
+        this.chuyenBay = chuyenBay;
+        this.veMayBays = veMayBays;
     }
 
     public Long getMaDatCho() {
@@ -89,6 +93,14 @@ public class DatCho {
 
     public void setChuyenBay(ChuyenBay chuyenBay) {
         this.chuyenBay = chuyenBay;
+    }
+
+    public List<VeMayBay> getVeMayBays() {
+        return veMayBays;
+    }
+
+    public void setVeMayBays(List<VeMayBay> veMayBays) {
+        this.veMayBays = veMayBays;
     }
 
     @Override
