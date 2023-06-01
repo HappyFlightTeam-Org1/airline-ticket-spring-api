@@ -90,4 +90,5 @@ public interface IVeMayBayService {
      */
     Page<VeMayBay> findByOrderCode(@Param("maHoaDon") String maHoaDon, Pageable pageable);
 
+    Page<IVeMayBayDTO> getPageByUser(String maVe, String tenHanhKhach, String diemDi, String diemDen, String emailNguoiDung, PageRequest pageable);
 }

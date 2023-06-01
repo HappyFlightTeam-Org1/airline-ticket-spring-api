@@ -74,50 +74,6 @@ public class VeMayBayServiceImpl implements IVeMayBayService {
     }
 
 
-//    /**
-//     * @TODO Tim kiem phan trang VeMayBay
-//     * @param maVe
-//     * @param tenHanhKhach
-//     * @param diemDi
-//     * @param diemDen
-//     * @param pageable
-//     * @return Page<VeMayBay
-//     */
-//    @Override
-//    public Page<VeMayBay> pageAndSearch(String maVe, String tenHanhKhach, String diemDi, String diemDen, Pageable pageable) {
-//
-//        Specification<VeMayBay> spec = Specification.where(null);
-//        if (maVe != null && !maVe.trim().isEmpty()) {
-//            spec = spec.and((root, query, builder) -> builder.like(root.get("maVe"), "%" + maVe + "%"));
-//        }
-//
-//        if (tenHanhKhach != null && !tenHanhKhach.trim().isEmpty()) {
-//            spec = spec.and(
-//                    (root, query, builder) -> builder.like(root.join("hanhKhach").get("tenHanhKhach"), "%" + tenHanhKhach + "%"));
-//        }
-//
-//        if (diemDi != null && !diemDi.trim().isEmpty()) {
-//            spec = spec.and((root, query, builder) -> builder.equal(root.join("datCho").join("chuyenBay").get("diemDi"),
-//                    diemDi));
-//        }
-//
-//        if (diemDen != null && !diemDen.trim().isEmpty()) {
-//            spec = spec.and((root, query, builder) -> builder
-//                    .equal(root.join("datCho").join("chuyenBay").get("diemDen"), diemDen));
-//        }
-//
-//        spec = spec.and((root, query, builder) -> builder.equal(root.join("hoaDon").get("trangThaiThanhToan"), 1));
-//        spec = spec.and((root, query, builder) -> builder.equal(root.get("trangThaiXoa"), 0));
-//        Page<VeMayBay> result;
-//        if (spec.equals(Specification.where(null))) {
-//            result = veMayBayRepository.findAll(pageable);
-//        } else {
-//            result = veMayBayRepository.findAll(spec, pageable);
-//        }
-//        return result;
-//    }
-
-
     /**
      * @param maVe
      * @param tenHanhKhach
@@ -160,6 +116,11 @@ public class VeMayBayServiceImpl implements IVeMayBayService {
     @Override
     public Page<VeMayBay> findByOrderCode(String maHoaDon, Pageable pageable) {
         return veMayBayRepository.findByOrderCode(maHoaDon, pageable);
+    }
+
+    @Override
+    public Page<IVeMayBayDTO> getPageByUser(String maVe, String tenHanhKhach, String diemDi, String diemDen, String emailNguoiDung, PageRequest pageable) {
+        return veMayBayRepository.getPageByUser("%" + maVe + "%", "%" + tenHanhKhach + "%", "%" + diemDi + "%", "%" + diemDen + "%", emailNguoiDung, pageable);
     }
 
 }
