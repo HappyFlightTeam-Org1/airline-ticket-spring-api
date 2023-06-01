@@ -47,4 +47,15 @@ public interface EmailService {
      */
     void sendAfterCancelTicket(CancelEmailDTO cancelEmailDTO) throws MessagingException;
 
+    /**
+     * Send nguoi_dung delete notification
+     * @param email email of deleted nguoi_dung
+     */
+    void sendDeleteEmail(String email);
+
+    /**
+     * Send nguoi_dung removed delete notification
+     * @param email email of removed delete nguoi_dung
+     */
+    void sendRemoveDeleteEmail(String email);
 }
