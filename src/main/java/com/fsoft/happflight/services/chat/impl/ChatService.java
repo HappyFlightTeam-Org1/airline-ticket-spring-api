@@ -18,11 +18,17 @@ public class ChatService implements IChatService {
         iChatRepository.save(message);
     }
 
+    /**
+     *
+     */
     @Override
     public List<Message> FindALL() {
        return iChatRepository.findAll();
     }
 
+    /**
+     *
+     */
     @Override
     public List<Message> FindByUser(String user) {
         return iChatRepository.findByUser(user);

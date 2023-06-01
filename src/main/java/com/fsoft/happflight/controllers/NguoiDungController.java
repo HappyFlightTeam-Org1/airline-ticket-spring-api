@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
+import com.fsoft.happflight.repositories.nguoi_dung.INguoiDungRepository;
 import com.fsoft.happflight.services.nguoi_dung.INguoiDungService;
 
 @RequestMapping(value = "/nguoi-dung")
@@ -45,9 +46,9 @@ public class NguoiDungController {
 	 */ 
 	@GetMapping("/list-page")
 	public Page<NguoiDung> getAllNguoiDungPage(@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "10") int size) {
+	        @RequestParam(defaultValue = "10") int size) {
 		Pageable pageable = PageRequest.of(page, size);
-		return iNguoiDungService.getAllNguoiDungsPage(pageable);
+	    return iNguoiDungService.getAllNguoiDungsPage(pageable);
 	}
 
 	/*

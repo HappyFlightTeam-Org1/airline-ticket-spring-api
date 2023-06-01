@@ -10,9 +10,17 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.NaturalId;
 
+import com.fsoft.happflight.utils.taikhoan_role_enum.TaiKhoanRole;
+
+
 /**
- * @author DuyNT58
- * @UPDATE_DATE May 26, 2023
+ * Role
+ * Version: 2.0
+ * @DATE May 26, 2023
+ * Copyright
+ * Modification Logs:
+ * DATE                 AUTHOR          DESCRIPTION
+ * May 30, 2023         DuyNT58          update code
  */
 @Entity
 public class Role {

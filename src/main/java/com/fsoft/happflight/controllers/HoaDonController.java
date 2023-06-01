@@ -6,7 +6,7 @@ import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import com.fsoft.happflight.services.dat_cho.IDatChoService;
 import com.fsoft.happflight.services.hoa_don.IHoaDonService;
 import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
-import com.fsoft.happflight.utils.email.EmailService;
+import com.fsoft.happflight.services.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +46,7 @@ public class HoaDonController {
     @PostMapping("/update/{id}")
     public ResponseEntity<?> updateAfterPayment(@PathVariable("id") String maHoaDon) {
         HoaDon hoaDon = hoaDonService.findById(maHoaDon);
-        if (hoaDon.getTrangThaiThanhToan() == 0) {
+        if (null != hoaDon && hoaDon.getTrangThaiThanhToan() == 0) {
             List<VeMayBay> veMayBays = veMayBayService.findByOrderCode(maHoaDon);
             DatCho datCho;
             //update trang thai của ghe trong chuyen bay
