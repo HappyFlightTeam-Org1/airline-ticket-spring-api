@@ -47,7 +47,9 @@ public class HoaDonController {
     public ResponseEntity<?> updateAfterPayment(@PathVariable("id") String maHoaDon) {
         HoaDon hoaDon = hoaDonService.findById(maHoaDon);
         if (null != hoaDon) {
-            if(hoaDon.getTrangThaiThanhToan() == 0){
+            if(hoaDon.getTrangThaiThanhToan() == 1){
+                return new ResponseEntity<>("PAID", HttpStatus.OK);
+            }else {
                 List<VeMayBay> veMayBays = veMayBayService.findByOrderCode(maHoaDon);
                 DatCho datCho;
                 //update trang thai của ghe trong chuyen bay
@@ -57,23 +59,12 @@ public class HoaDonController {
                     datChoService.update(datCho);
                 }
                 hoaDon.setTrangThaiThanhToan(1);
-                // GỬI MAIL SAU KHI THANH TOÁN THÀNH CÔNG
-                try {
-                    emailService.sendPaymentMail(hoaDon);
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                    return new ResponseEntity<>("GỬI MAIL THẤT BẠI", HttpStatus.OK);
-                }
                 if (hoaDonService.update(hoaDon) != null) {
-                    return new ResponseEntity<>("DONE", HttpStatus.OK);
-                } else {
-                    return new ResponseEntity<>("THANH TOÁN THẤT BẠI", HttpStatus.OK);
+                    return new ResponseEntity<>(hoaDon, HttpStatus.OK);
                 }
             }
-        } else {
-            return new ResponseEntity<>("FAIL", HttpStatus.OK);
         }
-        return new ResponseEntity<>("THANH TOÁN THẤT BẠI", HttpStatus.OK);
+        return new ResponseEntity<>("FAIL", HttpStatus.OK);
     }
 
 }
