@@ -1,5 +1,6 @@
 package com.fsoft.happflight.services.ve_may_bay;
 
+import com.fsoft.happflight.dto.ve_may_bay.IVeMayBayDTO;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBayThongKe;
 
@@ -64,7 +65,7 @@ public interface IVeMayBayService {
      * @param pageable
      * @return
      */
-    Page<VeMayBay> pageAndSearch(String maVe,String tenHanhKhach, String diemDi, String diemDen, Pageable pageable);
+    Page<IVeMayBayDTO> getPageByAdmin(String maVe, String tenHanhKhach, String diemDi, String diemDen, Pageable pageable);
 
     /**
      * @author DuyNT58

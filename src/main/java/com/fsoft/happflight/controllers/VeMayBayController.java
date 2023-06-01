@@ -1,11 +1,13 @@
 package com.fsoft.happflight.controllers;
 
 import com.fsoft.happflight.dto.hanh_khach.HanhKhachDTO;
+import com.fsoft.happflight.dto.ve_may_bay.IVeMayBayDTO;
 import com.fsoft.happflight.dto.ve_may_bay.VeMayBayDTO;
 import com.fsoft.happflight.entities.dat_cho.DatCho;
 import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
 import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
+import com.fsoft.happflight.entities.tai_khoan.Role;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import com.fsoft.happflight.services.chuyen_bay.ISanBayService;
 import com.fsoft.happflight.services.dat_cho.IDatChoService;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 /**
  * VeMayBayController
@@ -90,11 +93,39 @@ public class VeMayBayController {
                                             @RequestParam(required = false) String emailNguoiDung,
                                             @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "5") int size) {
+        if (maVe == null) {
+            maVe = "";
+        }
+        if (tenHanhKhach == null) {
+            tenHanhKhach = "";
+        }
+        if (diemDi == null) {
+            diemDi = "";
+        }
+        if (diemDen == null) {
+            diemDen = "";
+        }
         PageRequest pageable = PageRequest.of(page, size);
+//        System.out.println("page" + page);
+//        System.out.println("size" + size);
+//        System.out.println("maVe" + maVe);
+//        System.out.println("tenHanhKhach" + tenHanhKhach);
+//        System.out.println("diemDi" + diemDi);
+//        System.out.println("diemDen" + diemDen);
+        System.out.println("emailNguoiDung: " + emailNguoiDung);
         NguoiDung nguoiDung = nguoiDungService.findById(emailNguoiDung);
-        //get list ve may bay cho admin
-        Page<VeMayBay> veMayBays = veMayBayService.pageAndSearch(maVe, tenHanhKhach, diemDi, diemDen, pageable);
-        return new ResponseEntity<>(veMayBays, HttpStatus.OK);
+        Role role = new Role();
+        for (Role element : nguoiDung.getTaiKhoan().getRoles()) {
+             role = element;
+            break;
+        }
+        System.out.println(role.toString());
+        if (role.getId()==1){
+            //get list ve may bay cho admin
+            Page<IVeMayBayDTO> veMayBays = veMayBayService.getPageByAdmin(maVe, tenHanhKhach, diemDi, diemDen, pageable);
+            return new ResponseEntity<>(veMayBays, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
 
@@ -223,7 +254,7 @@ public class VeMayBayController {
      * @TODO Hủy vé máy bay đối với người dùng role admin
      */
     @DeleteMapping("/delete/{maVe}")
-    public ResponseEntity<?> deleteCustomer(@PathVariable("maVe") String maVe) {
+    public ResponseEntity<?> deleteTicket(@PathVariable("maVe") String maVe) {
         VeMayBay veMayBay;
         try {
             veMayBay = veMayBayService.findById(maVe);
@@ -238,7 +269,7 @@ public class VeMayBayController {
             } else {
                 return new ResponseEntity<>("FAIL", HttpStatus.OK);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("FAIL", HttpStatus.OK);
         }
