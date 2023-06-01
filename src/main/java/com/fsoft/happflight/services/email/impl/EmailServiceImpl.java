@@ -161,4 +161,23 @@ public class EmailServiceImpl implements EmailService {
         helper.setSubject("THÔNG BÁO HỦY VÉ!");
         this.javaMailSender.send(message);
     }
+
+    @Override
+    public void sendDeleteEmail(String email) {
+        EmailDetail emailDetail = new EmailDetail();
+        emailDetail.setRecipent(email);
+        emailDetail.setSubject("Email đã bị xóa");
+        emailDetail.setMessageBody("Email " + email + "đã bị xóa. Bạn không thể sử dụng tài khoản với email " +
+                "này cho đến khi được không phục lại");
+        sendEmail(emailDetail);
+    }
+
+    @Override
+    public void sendRemoveDeleteEmail(String email) {
+        EmailDetail emailDetail = new EmailDetail();
+        emailDetail.setRecipent(email);
+        emailDetail.setSubject("Email đã được gỡ bỏ xóa");
+        emailDetail.setMessageBody("Email " + email + "đã được khôi phục. Bạn có thể sử dụng lại bình thường");
+        sendEmail(emailDetail);
+    }
 }

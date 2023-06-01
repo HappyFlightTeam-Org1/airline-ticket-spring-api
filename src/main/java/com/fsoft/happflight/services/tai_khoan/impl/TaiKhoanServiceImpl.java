@@ -3,6 +3,7 @@ package com.fsoft.happflight.services.tai_khoan.impl;
 import com.fsoft.happflight.dto.nguoi_dung.DangKyDTO;
 import com.fsoft.happflight.dto.nguoi_dung.DangNhapDTO;
 import com.fsoft.happflight.entities.tai_khoan.TaiKhoan;
+import com.fsoft.happflight.repositories.nguoi_dung.INguoiDungRepository;
 import com.fsoft.happflight.repositories.tai_khoan.IRoleRepository;
 import com.fsoft.happflight.repositories.tai_khoan.ITaiKhoanRepository;
 import com.fsoft.happflight.services.tai_khoan.ITaiKhoanService;
@@ -15,10 +16,15 @@ public class TaiKhoanServiceImpl implements ITaiKhoanService {
     @Autowired
     private ITaiKhoanRepository taiKhoanRepository;
 
+    @Autowired
+    private INguoiDungRepository nguoiDungRepository;
+
     @Override
     public boolean validateLogin(DangNhapDTO dangNhapDTO) {
         TaiKhoan taiKhoan = taiKhoanRepository.getTaiKhoanByTenTaiKhoan(dangNhapDTO.getTenTaiKhoan());
-        return taiKhoan != null && BCrypt.checkpw(dangNhapDTO.getMatKhau(), taiKhoan.getMatKhau());
+        return taiKhoan != null
+                && BCrypt.checkpw(dangNhapDTO.getMatKhau(), taiKhoan.getMatKhau())
+                && nguoiDungRepository.getNguoiDungByTenTaiKhoan(dangNhapDTO.getTenTaiKhoan()) != null;
     }
 
     @Override

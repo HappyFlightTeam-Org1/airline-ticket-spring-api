@@ -7,7 +7,9 @@ import com.fsoft.happflight.services.nguoi_dung.impl.QuocTichServiceImpl;
 import com.fsoft.happflight.services.tai_khoan.impl.RoleServiceImpl;
 import com.fsoft.happflight.services.tai_khoan.impl.TaiKhoanServiceImpl;
 import com.fsoft.happflight.services.email.EmailService;
+import com.fsoft.happflight.utils.consts.RoleNameConsts;
 import com.fsoft.happflight.utils.jwt.JwtProvider;
+import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -185,5 +187,70 @@ public class NguoiDungAuthenController {
     @GetMapping("/danh-sach-quoc-tich")
     public ResponseEntity<?> getAllQuocTich() {
         return new ResponseEntity<>(quocTichService.getAll(), HttpStatus.OK);
+    }
+
+
+    @PostMapping("/delete-nguoi-dung")
+    public ResponseEntity<?> deleteNguoiDung(String email,
+                                             @CookieValue(value = "jwt", defaultValue = "") String jwtToken) {
+        HashMap<String, String> responseBody = new HashMap<>();
+
+        if (email == null) {
+            responseBody.put("email", "This field is required");
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        }
+
+        if (!JwtProvider.validateToken(jwtToken)) {
+            responseBody.put("message", "Invalid JWT token");
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        }
+
+        String username = JwtProvider.getUsernameFromToken(jwtToken);
+        if (!roleService.getRoleFromTaiKhoan(username).equals(RoleNameConsts.ROLE_ADMIN)) {
+            responseBody.put("message", "Unathorized credentials");
+            return new ResponseEntity<>(responseBody, HttpStatus.UNAUTHORIZED);
+        }
+
+        if (!nguoiDungService.validateEmail(email)) {
+            responseBody.put("message", "Invalid email");
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        }
+
+        nguoiDungService.deleteNguoiDung(email);
+        responseBody.put("message", "Delete successfully");
+//        emailService.sendDeleteEmail(email);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    @PostMapping("/remove-delete-nguoi-dung")
+    public ResponseEntity<?> removeDeleteNguoiDung(String email,
+                                                   @CookieValue(value = "jwt", defaultValue = "") String jwtToken) {
+        HashMap<String, String> responseBody = new HashMap<>();
+
+        if (email == null) {
+            responseBody.put("email", "This field is required");
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        }
+
+        if (!JwtProvider.validateToken(jwtToken)) {
+            responseBody.put("message", "Invalid JWT token");
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        }
+
+        String username = JwtProvider.getUsernameFromToken(jwtToken);
+        if (!roleService.getRoleFromTaiKhoan(username).equals(RoleNameConsts.ROLE_ADMIN)) {
+            responseBody.put("message", "Unathorized credentials");
+            return new ResponseEntity<>(responseBody, HttpStatus.UNAUTHORIZED);
+        }
+
+        if (!nguoiDungService.validateEmail(email)) {
+            responseBody.put("message", "Invalid email");
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        }
+
+        nguoiDungService.removeDeleteNguoiDung(email);
+        responseBody.put("message", "Remove delete successfully");
+//        emailService.sendRemoveDeleteEmail(email);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 }

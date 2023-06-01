@@ -1,5 +1,6 @@
 package com.fsoft.happflight.repositories.tai_khoan;
 
+import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
 import com.fsoft.happflight.entities.tai_khoan.TaiKhoan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
