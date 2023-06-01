@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -45,4 +46,7 @@ public interface INguoiDungRepository extends JpaRepository<NguoiDung, String> {
 	 * @function (search nguoi dung page)
 	 */
 	Page<NguoiDung>findByHoVaTenContainingAndSoDienThoaiContainingAndEmailContaining(Pageable pageable, String hoVaTen, String soDienThoai,String email);
+
+	@Query(value = "SELECT * FROM nguoi_dung WHERE ten_tai_khoan = :tenTaiKhoan AND trang_thai_xoa = 0", nativeQuery = true)
+	NguoiDung getNguoiDungByTenTaiKhoan(@Param("tenTaiKhoan") String tenTaiKhoan);
 }

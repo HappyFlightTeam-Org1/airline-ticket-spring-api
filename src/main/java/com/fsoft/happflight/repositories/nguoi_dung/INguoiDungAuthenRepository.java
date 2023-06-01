@@ -60,4 +60,24 @@ public interface INguoiDungAuthenRepository extends JpaRepository<NguoiDung, Str
                        @Param("gioi_tinh") String gioiTinh,
                        @Param("ma_quoc_tich") int quocTich,
                        @Param("ten_tai_khoan") String tenTaiKhoan);
+
+    /**
+     * Set nguoi_dung deleted state to 1 (deleted) with match email
+     * @param email email cua nguoi_dung
+     */
+    @Modifying
+    @Query(value = "UPDATE nguoi_dung " +
+            "SET trang_thai_xoa = 1 " +
+            "WHERE email = :email", nativeQuery = true)
+    void deleteNguoiDung(@Param("email") String email);
+
+    /**
+     * Set nguoi_dung deleted state to 0 (not deleted) with match email
+     * @param email email cua nguoi_dung
+     */
+    @Modifying
+    @Query(value = "UPDATE nguoi_dung " +
+            "SET trang_thai_xoa = 0 " +
+            "WHERE email = :email", nativeQuery = true)
+    void removeDeleteNguoiDung(@Param("email") String email);
 }

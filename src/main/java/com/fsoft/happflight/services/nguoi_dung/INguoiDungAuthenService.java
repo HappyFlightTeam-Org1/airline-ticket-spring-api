@@ -42,4 +42,16 @@ public interface INguoiDungAuthenService {
      * @return NguoiDung with this username
      */
     NguoiDung getWithUsername(String username);
+
+    /**
+     * Set nguoi_dung deleted state to 1 (deleted) with match email
+     * @param email email cua nguoi_dung
+     */
+    void deleteNguoiDung(String email);
+
+    /**
+     * Set nguoi_dung deleted state to 0 (not deleted) with match email
+     * @param email email cua nguoi_dung
+     */
+    void removeDeleteNguoiDung(String email);
 }
