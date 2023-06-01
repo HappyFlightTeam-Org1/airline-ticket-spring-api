@@ -4,6 +4,7 @@ import com.fsoft.happflight.dto.ve_may_bay.IVeMayBayDTO;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBayThongKe;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -134,5 +135,42 @@ public interface IVeMayBayRepository extends JpaRepository<VeMayBay, String>, Jp
             @Param("diemDi") String diemDi,
             @Param("diemDen") String diemDen,
             Pageable pageable);
+
+    @Query(value = "select v.ma_ve as maVe, v.gia_ve as giaVe, v.hang_ve as hangVe, " +
+            "h.ten_hanh_khach as tenHanhKhach, c.diem_di as diemDi, c.diem_den as diemDen, c.ngay_khoi_hanh as ngayKhoiHanh " +
+            "from ve_may_bay as v " +
+            "join hanh_khach as h on h.ma_hanh_khach = v.ma_hanh_khach " +
+            "join dat_cho as d on v.ma_dat_cho = d.ma_dat_cho " +
+            "join chuyen_bay as c on c.ma_chuyen_bay = d.ma_chuyen_bay " +
+            "join hoa_don as hd on hd.ma_hoa_don = v.ma_hoa_don " +
+            "join nguoi_dung as n on n.email = hd.email " +
+            "where v.trang_thai_xoa like 0 " +
+            "and v.ma_ve like :maVe " +
+            "and h.ten_hanh_khach like :tenHanhKhach " +
+            "and c.diem_di like :diemDi " +
+            "and c.diem_den like :diemDen " +
+            "and n.email =:emailNguoiDung "
+            , nativeQuery = true,
+            countQuery = "select count(*) " +
+            "from ve_may_bay as v " +
+            "join hanh_khach as h on h.ma_hanh_khach = v.ma_hanh_khach " +
+            "join dat_cho as d on v.ma_dat_cho = d.ma_dat_cho " +
+            "join chuyen_bay as c on c.ma_chuyen_bay = d.ma_chuyen_bay " +
+            "join hoa_don as hd on hd.ma_hoa_don = v.ma_hoa_don " +
+            "join nguoi_dung as n on n.email = hd.email " +
+            "where v.trang_thai_xoa like 0 " +
+            "and v.ma_ve like :maVe " +
+            "and h.ten_hanh_khach like :tenHanhKhach " +
+            "and c.diem_di like :diemDi " +
+            "and c.diem_den like :diemDen " +
+            "and n.email =:emailNguoiDung")
+    Page<IVeMayBayDTO> getPageByUser(
+            @Param("maVe") String maVe,
+            @Param("tenHanhKhach") String tenHanhKhach,
+            @Param("diemDi") String diemDi,
+            @Param("diemDen") String diemDen,
+            @Param("emailNguoiDung") String emailNguoiDung,
+            Pageable pageable);
+//    Page<IVeMayBayDTO> getPageByUser(String s, String s1, String s2, String s3, String s4, PageRequest pageable);
 }
 

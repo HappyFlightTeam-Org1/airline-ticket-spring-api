@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 /**
  * VeMayBayController
@@ -93,6 +92,15 @@ public class VeMayBayController {
                                             @RequestParam(required = false) String emailNguoiDung,
                                             @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "5") int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        System.out.println("emailNguoiDung: " + emailNguoiDung);
+        NguoiDung nguoiDung = nguoiDungService.findById(emailNguoiDung);
+        Role role = new Role();
+        for (Role element : nguoiDung.getTaiKhoan().getRoles()) {
+            role = element;
+            break;
+        }
+        Page<IVeMayBayDTO> veMayBays;
         if (maVe == null) {
             maVe = "";
         }
@@ -105,27 +113,13 @@ public class VeMayBayController {
         if (diemDen == null) {
             diemDen = "";
         }
-        PageRequest pageable = PageRequest.of(page, size);
-//        System.out.println("page" + page);
-//        System.out.println("size" + size);
-//        System.out.println("maVe" + maVe);
-//        System.out.println("tenHanhKhach" + tenHanhKhach);
-//        System.out.println("diemDi" + diemDi);
-//        System.out.println("diemDen" + diemDen);
-        System.out.println("emailNguoiDung: " + emailNguoiDung);
-        NguoiDung nguoiDung = nguoiDungService.findById(emailNguoiDung);
-        Role role = new Role();
-        for (Role element : nguoiDung.getTaiKhoan().getRoles()) {
-             role = element;
-            break;
-        }
-        System.out.println(role.toString());
-        if (role.getId()==1){
-            //get list ve may bay cho admin
-            Page<IVeMayBayDTO> veMayBays = veMayBayService.getPageByAdmin(maVe, tenHanhKhach, diemDi, diemDen, pageable);
+        if (role.getId() == 1) {
+            veMayBays = veMayBayService.getPageByAdmin(maVe, tenHanhKhach, diemDi, diemDen, pageable);
+            return new ResponseEntity<>(veMayBays, HttpStatus.OK);
+        } else {
+            veMayBays = veMayBayService.getPageByUser(maVe, tenHanhKhach, diemDi, diemDen, emailNguoiDung, pageable);
             return new ResponseEntity<>(veMayBays, HttpStatus.OK);
         }
-        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
 
