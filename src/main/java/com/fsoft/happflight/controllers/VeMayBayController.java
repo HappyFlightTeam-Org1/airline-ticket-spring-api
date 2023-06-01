@@ -1,11 +1,13 @@
 package com.fsoft.happflight.controllers;
 
 import com.fsoft.happflight.dto.hanh_khach.HanhKhachDTO;
+import com.fsoft.happflight.dto.ve_may_bay.IVeMayBayDTO;
 import com.fsoft.happflight.dto.ve_may_bay.VeMayBayDTO;
 import com.fsoft.happflight.entities.dat_cho.DatCho;
 import com.fsoft.happflight.entities.hanh_khach.HanhKhach;
 import com.fsoft.happflight.entities.hoa_don.HoaDon;
 import com.fsoft.happflight.entities.nguoi_dung.NguoiDung;
+import com.fsoft.happflight.entities.tai_khoan.Role;
 import com.fsoft.happflight.entities.ve_ma_bay.VeMayBay;
 import com.fsoft.happflight.services.chuyen_bay.ISanBayService;
 import com.fsoft.happflight.services.dat_cho.IDatChoService;
@@ -14,7 +16,6 @@ import com.fsoft.happflight.services.hoa_don.IHoaDonService;
 import com.fsoft.happflight.services.nguoi_dung.INguoiDungService;
 import com.fsoft.happflight.services.ve_may_bay.IVeMayBayService;
 import com.fsoft.happflight.utils.consts.TrangThaiXoaConsts;
-import com.fsoft.happflight.services.email.EmailService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,13 +25,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 /**
  * VeMayBayController
  * Version: 2.0
+ *
  * @DATE May 26, 2023
  * Copyright
  * Modification Logs:
@@ -63,12 +65,9 @@ public class VeMayBayController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
-    private EmailService emailService;
-
     /**
-     * @TODO hiển thị list sân bay để người dùng chọn trong form tìm kiếm vé
      * @return List<SanBay>
+     * @TODO hiển thị list sân bay để người dùng chọn trong form tìm kiếm vé
      */
     @GetMapping("/listSanBay")
     public ResponseEntity<?> listSanBay() {
@@ -76,7 +75,6 @@ public class VeMayBayController {
     }
 
     /**
-     * @TODO Tìm kiếm vé máy bay dự trên tham số truyền vào form
      * @param maVe
      * @param tenHanhKhach
      * @param diemDi
@@ -85,6 +83,7 @@ public class VeMayBayController {
      * @param page
      * @param size
      * @return Page<VeMayBay>
+     * @TODO Tìm kiếm vé máy bay dự trên tham số truyền vào form
      */
     @GetMapping("/page")
     public ResponseEntity<?> searchVeMayBay(@RequestParam(required = false) String maVe,
@@ -94,20 +93,48 @@ public class VeMayBayController {
                                             @RequestParam(required = false) String emailNguoiDung,
                                             @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "5") int size) {
+        if (maVe == null) {
+            maVe = "";
+        }
+        if (tenHanhKhach == null) {
+            tenHanhKhach = "";
+        }
+        if (diemDi == null) {
+            diemDi = "";
+        }
+        if (diemDen == null) {
+            diemDen = "";
+        }
         PageRequest pageable = PageRequest.of(page, size);
+//        System.out.println("page" + page);
+//        System.out.println("size" + size);
+//        System.out.println("maVe" + maVe);
+//        System.out.println("tenHanhKhach" + tenHanhKhach);
+//        System.out.println("diemDi" + diemDi);
+//        System.out.println("diemDen" + diemDen);
+        System.out.println("emailNguoiDung: " + emailNguoiDung);
         NguoiDung nguoiDung = nguoiDungService.findById(emailNguoiDung);
-        //get list ve may bay cho admin
-        Page<VeMayBay> veMayBays = veMayBayService.pageAndSearch(maVe, tenHanhKhach, diemDi, diemDen, pageable);
-        return new ResponseEntity<>(veMayBays, HttpStatus.OK);
+        Role role = new Role();
+        for (Role element : nguoiDung.getTaiKhoan().getRoles()) {
+             role = element;
+            break;
+        }
+        System.out.println(role.toString());
+        if (role.getId()==1){
+            //get list ve may bay cho admin
+            Page<IVeMayBayDTO> veMayBays = veMayBayService.getPageByAdmin(maVe, tenHanhKhach, diemDi, diemDen, pageable);
+            return new ResponseEntity<>(veMayBays, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
 
     /**
-     * @TODO hiển thị danh sách vé máy bay dựa vào mã hóa đơn chứa vé máy bay đó
      * @param page
      * @param size
      * @param maHoaDon
      * @return Page<VeMayBay>
+     * @TODO hiển thị danh sách vé máy bay dựa vào mã hóa đơn chứa vé máy bay đó
      */
     @GetMapping(value = "/list-page")
     public ResponseEntity<?> showListFromOrderCode(@RequestParam(defaultValue = "0") int page,
@@ -122,20 +149,23 @@ public class VeMayBayController {
     }
 
     /**
-     * @TODO Tìm kiếm vé từ databse để hiển thị thông tin in vé
      * @param maVe
      * @return VeMayBay
+     * @TODO Tìm kiếm vé từ databse để hiển thị thông tin in vé
      */
     @GetMapping("/InVe")
     public ResponseEntity<?> InVe(@RequestParam("maVe") String maVe) {
         VeMayBay veMayBay = veMayBayService.findById(maVe);
-        return new ResponseEntity<>(veMayBay, HttpStatus.OK);
+        if (null != veMayBay) {
+            return new ResponseEntity<>(veMayBay, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("EMPTY", HttpStatus.OK);
     }
 
     /**
-     * @TODO Lưu hóa đơn và vé máy bay vào database
      * @param veMayBayDTO
      * @return
+     * @TODO Lưu hóa đơn và vé máy bay vào database
      */
     @PostMapping("/prePayment")
     public ResponseEntity<?> createPaymentVNPay(@RequestBody VeMayBayDTO veMayBayDTO) {
@@ -205,9 +235,9 @@ public class VeMayBayController {
     }
 
     /**
-     * @TODO Hiển thị danh sách vé máy bay từ mã hóa đơn nhập vào form tìm kiếm
      * @param maHoaDon
      * @return List<VeMayBay>
+     * @TODO Hiển thị danh sách vé máy bay từ mã hóa đơn nhập vào form tìm kiếm
      */
     @GetMapping(value = "/list/{maHoaDon}")
     public ResponseEntity<?> showListFromOrderCode(@PathVariable("maHoaDon") String maHoaDon) {
@@ -219,31 +249,31 @@ public class VeMayBayController {
     }
 
     /**
-     * @TODO Hủy vé máy bay đối với người dùng role admin
      * @param maVe
-     * @return 
+     * @return
+     * @TODO Hủy vé máy bay đối với người dùng role admin
      */
     @DeleteMapping("/delete/{maVe}")
-    public ResponseEntity<?> deleteCustomer(@PathVariable("maVe") String maVe) {
-        //update trạng thái xóa của VeMayBay
-        VeMayBay veMayBay = veMayBayService.findById(maVe);
-        veMayBay.setTrangThaiXoa(1);
-        veMayBayService.create(veMayBay);
-        //update trạng thái của datcho thành available
-        DatCho datCho = veMayBay.getDatCho();
-        datCho.setTrangThai(TrangThaiXoaConsts.AVAILABLE);
-        datChoService.update(datCho);
-        //xoa logic hanh khach
-        HanhKhach hanhKhach = veMayBay.getHanhKhach();
-        hanhKhach.setTrangThaiXoa(1);
-        hanhKhachService.saveHanhKhach(hanhKhach);
+    public ResponseEntity<?> deleteTicket(@PathVariable("maVe") String maVe) {
+        VeMayBay veMayBay;
         try {
-            //gửi email thông báo hủy thành công
-            emailService.sendAfterCancelTicket(veMayBay);
-        } catch (MessagingException e) {
+            veMayBay = veMayBayService.findById(maVe);
+            if (null != veMayBay) {
+                //update trạng thái xóa của VeMayBay
+                veMayBay.setTrangThaiXoa(1);
+                veMayBayService.create(veMayBay);
+                //update trạng thái của datcho thành available
+                DatCho datCho = veMayBay.getDatCho();
+                datCho.setTrangThai(TrangThaiXoaConsts.AVAILABLE);
+                datChoService.update(datCho);
+            } else {
+                return new ResponseEntity<>("FAIL", HttpStatus.OK);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
+            return new ResponseEntity<>("FAIL", HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(veMayBay, HttpStatus.OK);
     }
 
 }
