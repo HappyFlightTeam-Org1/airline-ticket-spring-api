@@ -7,6 +7,7 @@ import com.fsoft.happflight.repositories.nguoi_dung.INguoiDungRepository;
 import com.fsoft.happflight.repositories.tai_khoan.IRoleRepository;
 import com.fsoft.happflight.repositories.tai_khoan.ITaiKhoanRepository;
 import com.fsoft.happflight.services.tai_khoan.ITaiKhoanService;
+import com.fsoft.happflight.utils.consts.RoleNameConsts;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,17 @@ public class TaiKhoanServiceImpl implements ITaiKhoanService {
     @Autowired
     private INguoiDungRepository nguoiDungRepository;
 
+    @Autowired
+    private RoleServiceImpl roleService;
+
     @Override
     public boolean validateLogin(DangNhapDTO dangNhapDTO) {
         TaiKhoan taiKhoan = taiKhoanRepository.getTaiKhoanByTenTaiKhoan(dangNhapDTO.getTenTaiKhoan());
-        return taiKhoan != null
+        return (roleService.getRoleFromTaiKhoan(dangNhapDTO.getTenTaiKhoan()).equals(RoleNameConsts.ROLE_ADMIN))
+                && BCrypt.checkpw(dangNhapDTO.getMatKhau(), taiKhoan.getMatKhau()) ||
+                (taiKhoan != null
                 && BCrypt.checkpw(dangNhapDTO.getMatKhau(), taiKhoan.getMatKhau())
-                && nguoiDungRepository.getNguoiDungByTenTaiKhoan(dangNhapDTO.getTenTaiKhoan()) != null;
+                && nguoiDungRepository.getNguoiDungByTenTaiKhoan(dangNhapDTO.getTenTaiKhoan()) != null);
     }
 
     @Override
