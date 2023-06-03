@@ -11,8 +11,8 @@ public interface INguoiDungAuthenService {
     /**
      * Validate email
      * @param email String of email
-     * @return true if email is not exist in database<br>
-     *         false if email is exist in database
+     * @return false if email is not exist in database<br>
+     *         true if email is exist in database
      */
     boolean validateEmail(String email);
 
@@ -54,4 +54,6 @@ public interface INguoiDungAuthenService {
      * @param email email cua nguoi_dung
      */
     void removeDeleteNguoiDung(String email);
+
+    NguoiDung getWithEmail(String email);
 }

@@ -75,6 +75,11 @@ public class NguoiDungAuthenServiceImpl implements INguoiDungAuthenService {
     }
 
     @Override
+    public NguoiDung getWithEmail(String email) {
+        return nguoiDungRepository.getNguoiDungByEmail(email);
+    }
+
+    @Override
     public void deleteNguoiDung(String email) {
         nguoiDungRepository.deleteNguoiDung(email);
     }

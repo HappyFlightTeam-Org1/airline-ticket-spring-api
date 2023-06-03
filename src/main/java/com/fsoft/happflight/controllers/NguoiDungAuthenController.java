@@ -190,6 +190,12 @@ public class NguoiDungAuthenController {
     }
 
 
+    /**
+     * Perform logical delete on nguoi_dung
+     * @param email nguoi_dung email
+     * @param jwtToken login token
+     * @return
+     */
     @PostMapping("/delete-nguoi-dung")
     public ResponseEntity<?> deleteNguoiDung(String email,
                                              @CookieValue(value = "jwt", defaultValue = "") String jwtToken) {
@@ -251,6 +257,36 @@ public class NguoiDungAuthenController {
         nguoiDungService.removeDeleteNguoiDung(email);
         responseBody.put("message", "Remove delete successfully");
 //        emailService.sendRemoveDeleteEmail(email);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    @Transactional
+    @PostMapping("/google-login")
+    public ResponseEntity<?> googleLogin(GoogleLoginDTO googleLoginDTO) {
+        HashMap<String, String> responseBody = new HashMap<>();
+
+        if (!nguoiDungService.validateEmail(googleLoginDTO.getEmail())) {
+            DangKyDTO dangKyDTO = new DangKyDTO(
+                    googleLoginDTO.getEmail(),
+                    googleLoginDTO.getEmail(),
+                    "",
+                    googleLoginDTO.getGoogleId(),
+                    "",
+                    googleLoginDTO.getName(),
+                    "",
+                    "",
+                    "",
+                    48
+            );
+            taiKhoanService.saveNewTaiKhoan(dangKyDTO);
+            roleService.saveTaiKhoanWithUserRole(dangKyDTO.getTenTaiKhoan());
+            nguoiDungService.saveNguoiDung(dangKyDTO);
+        }
+        responseBody.put("email", googleLoginDTO.getEmail());
+        NguoiDung nguoiDung = nguoiDungService.getWithEmail(googleLoginDTO.getEmail());
+        responseBody.put("jwt", JwtProvider.generateToken(nguoiDung.getTaiKhoan().getTenTaiKhoan()));
+        responseBody.put("role", roleService.getRoleFromTaiKhoan(nguoiDung.getTaiKhoan().getTenTaiKhoan()));
+
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 }
