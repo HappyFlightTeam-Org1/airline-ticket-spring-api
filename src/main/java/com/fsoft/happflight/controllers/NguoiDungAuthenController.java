@@ -78,6 +78,7 @@ public class NguoiDungAuthenController {
             taiKhoanService.saveNewTaiKhoan(dangKyDTO);
             roleService.saveTaiKhoanWithUserRole(dangKyDTO.getTenTaiKhoan());
             nguoiDungService.saveNguoiDung(dangKyDTO);
+            emailService.sendRegisterSuccessfulEmail(dangKyDTO.getDiaChiEmail());
             responseBody.put("message", "Đăng ký thành công");
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         }
@@ -287,6 +288,24 @@ public class NguoiDungAuthenController {
         responseBody.put("jwt", JwtProvider.generateToken(nguoiDung.getTaiKhoan().getTenTaiKhoan()));
         responseBody.put("role", roleService.getRoleFromTaiKhoan(nguoiDung.getTaiKhoan().getTenTaiKhoan()));
 
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    @PostMapping("/validate-email")
+    public ResponseEntity<?> validateEmail(String email) {
+        HashMap<String, String> responseBody = new HashMap<>();
+
+        if (email == null) {
+            responseBody.put("email", "This field is required");
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        }
+
+        if (nguoiDungService.validateEmail(email)) {
+            responseBody.put("message", "This email is exist");
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        }
+
+        responseBody.put("message", "This email is not exist");
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 }
