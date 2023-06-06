@@ -180,4 +180,13 @@ public class EmailServiceImpl implements EmailService {
         emailDetail.setMessageBody("Email " + email + "đã được khôi phục. Bạn có thể sử dụng lại bình thường");
         sendEmail(emailDetail);
     }
+
+    @Override
+    public void sendRegisterSuccessfulEmail(String email) {
+        EmailDetail emailDetail = new EmailDetail();
+        emailDetail.setRecipent(email);
+        emailDetail.setSubject("Đăng ký thành công");
+        emailDetail.setMessageBody("Chúc mừng bạn đã đăng ký thành công. Giờ bạn có thể sử dụng dịch vụ vé máy bay");
+        sendEmail(emailDetail);
+    }
 }

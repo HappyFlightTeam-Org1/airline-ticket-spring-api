@@ -58,4 +58,6 @@ public interface EmailService {
      * @param email email of removed delete nguoi_dung
      */
     void sendRemoveDeleteEmail(String email);
+
+    void sendRegisterSuccessfulEmail(String email);
 }
