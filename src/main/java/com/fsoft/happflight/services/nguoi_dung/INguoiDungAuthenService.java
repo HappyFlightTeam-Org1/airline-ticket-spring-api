@@ -55,5 +55,17 @@ public interface INguoiDungAuthenService {
      */
     void removeDeleteNguoiDung(String email);
 
+    /**
+     * @param email email of nguoi_dung
+     * @return NguoiDung with match email
+     */
     NguoiDung getWithEmail(String email);
+
+    /**
+     *
+     * @param hoChieu hoChieu of nguoi_dung
+     * @return true if a NguoiDung with this hoChieu is found<br>
+     *         false if no NguoiDung is found
+     */
+    boolean validateHoChieu(String hoChieu);
 }

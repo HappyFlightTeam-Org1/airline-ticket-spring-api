@@ -80,4 +80,8 @@ public interface INguoiDungAuthenRepository extends JpaRepository<NguoiDung, Str
             "SET trang_thai_xoa = 0 " +
             "WHERE email = :email", nativeQuery = true)
     void removeDeleteNguoiDung(@Param("email") String email);
+
+    @Query(value = "SELECT * FROM nguoi_dung " +
+            "WHERE ho_chieu = :ho_chieu", nativeQuery = true)
+    NguoiDung getByHoChieu(@Param("ho_chieu") String hoChieu);
 }
