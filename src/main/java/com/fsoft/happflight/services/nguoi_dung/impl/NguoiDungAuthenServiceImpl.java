@@ -88,4 +88,9 @@ public class NguoiDungAuthenServiceImpl implements INguoiDungAuthenService {
     public void removeDeleteNguoiDung(String email) {
         nguoiDungRepository.removeDeleteNguoiDung(email);
     }
+
+    @Override
+    public boolean validateHoChieu(String hoChieu) {
+        return nguoiDungRepository.getByHoChieu(hoChieu) != null;
+    }
 }

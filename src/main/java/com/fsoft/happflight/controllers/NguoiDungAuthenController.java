@@ -308,4 +308,40 @@ public class NguoiDungAuthenController {
         responseBody.put("message", "This email is not exist");
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
+
+    @PostMapping("/validate-ten-tai-khoan")
+    public ResponseEntity<?> validateTenTaiKhoan(String tenTaiKhoan) {
+        HashMap<String, String> responseBody = new HashMap<>();
+
+        if (tenTaiKhoan == null) {
+            responseBody.put("tenTaiKhoan", "This field is required");
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        }
+
+        if (taiKhoanService.validateTenTaiKhoan(tenTaiKhoan)) {
+            responseBody.put("message", "This ten tai khoan is exist");
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        }
+
+        responseBody.put("message", "This ten tai khoan is not exist");
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    @PostMapping("/validate-ho-chieu")
+    public ResponseEntity<?> validateHoChieu(String hoChieu) {
+        HashMap<String, String> responseBody = new HashMap<>();
+
+        if (hoChieu == null) {
+            responseBody.put("hoChieu", "This field is required");
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        }
+
+        if (nguoiDungService.validateHoChieu(hoChieu)) {
+            responseBody.put("message", "This ho chieu is exist");
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        }
+
+        responseBody.put("message", "This ho chieu is not exist");
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
 }
